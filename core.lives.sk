@@ -1,0 +1,339 @@
+options:
+	goldloss: 250
+
+function LevelUp(p: player):
+	set {_u} to uuid of {_p}
+	if {xp::%{_u}%} is greater than {xpreq::%{_u}%}:
+		set {xp::%{_u}%} to ({xp::%{_u}%} - {xpreq::%{_u}%})
+	else:
+		clear {xp::%{_u}%}
+	set {xpreq::%{_u}%} to (250 * {level::%{_u}%})
+	if {level::%{_u}%} is less than 100
+		add 1 to {level::%{_u}%}
+	add {xpreq::%{_u}%}/2 to {gold::%{_u}%}
+	set {_p}'s tablist footer to "  &a%{players.online}% &7players online  %nl% %nl%  &6%{gold::%{_u}%}% Gold &7| &c%{lives::%{_u}%}% Lives  %nl%  &dDivine Level %{level::%{_u}%}%  &d(&5%{xp::%{_u}%}% &d/ &5%{xpreq::%{_u}%}%&d)  %nl%"
+	send title "&d&lDIVINE LEVEL %{level::%{_u}%}%" with subtitle "&6+1000 Gold" to {_p} for 5 seconds
+	play sound "entity.player.levelup" with volume 1 to {_p}
+	set {_p}'s display name to "&d%{level::%{_u}%}%✦ &7%{_p}%"
+	if {clan::%{_p}'s uuid%} is set:
+		set {_p}'s tab list name to "&d%{level::%{_u}%}%✦ &7%{_p}% &e[%{clan::%{_u}%}%]"
+	else:
+		set {_p}'s tab list name to "&d%{level::%{_u}%}%✦ &7%{_p}%"
+	if {level::%{_u}%} = 5:
+		send "&d&l--------------------------------------------" to {_p}
+		send " " to {_p}
+		send "&5&lLEVEL UP! &dDivine Level %({level::%{_u}%} - 1)%->%{level::%{_u}%}%" to {_p}
+		send "&6+ 1000 Gold" to {_p}
+		send "&a+ Access to &2&lThe Forge" to {_p}
+		send "&a+ Access to &b&lFast Travel" to {_p}
+		send " " to {_p}
+		send "&d&l--------------------------------------------" to {_p}
+		set {mainquest::%{_u}%} to "&fFind and talk to &a&lArges"
+		send "&6New Objective: %{mainquest::%{_u}%}%" to {_p}
+		add {_p} to bar players of {bar::forge}
+		remove {_p} from bar players of {bar::orb}
+		remove {_p} from bar players of {bar::hercules}
+		remove {_p} from bar players of {bar::lvl5}
+		play sound "entity.player.levelup" at volume 1 to {_p}
+	if {level::%{_u}%} = 25:
+		send "&d&l--------------------------------------------" to {_p}
+		send " " to {_p}
+		send "&5&lLEVEL UP! &dDivine Level %({level::%{_u}%} - 1)%->%{level::%{_u}%}%" to {_p}
+		send "&6+ 1000 Gold" to {_p}
+		send "&a+ &6New quest: &fTalk to &e&lHercules &fAgain" to {_p}
+		send " " to {_p}
+		send "&d&l--------------------------------------------" to {_p}
+		set {mainquest::%{_u}%} to "&fTalk to &e&lHercules &fAgain"
+		send "&6New Objective: %{mainquest::%{_u}%}%" to {_p}
+		play sound "entity.player.levelup" at volume 1 to {_p}
+	else:
+		send "&d&l--------------------------------------------" to {_p}
+		send " " to {_p}
+		send "&5&lLEVEL UP! &dDivine Level %({level::%{_u}%} - 1)%->%{level::%{_u}%}%" to {_p}
+		send "&6+ 1000 Gold" to {_p}
+		send " " to {_p}
+		send "&d&l--------------------------------------------" to {_p}
+
+function AddExp(p: player, am: num, gd: num):
+	set {_u} to uuid of {_p}
+	add {_am} to {xp::%{_u}%}
+	add {_gd} to {gold::%{_u}%}
+	set {xpreq::%{_u}%} to (250 * {level::%{_u}%})
+	set {_p}'s tablist footer to "  &a%{players.online}% &7players online  %nl% %nl%  &6%{gold::%{_u}%}% Gold &7| &c%{lives::%{_u}%}% Lives  %nl%  &dDivine Level %{level::%{_u}%}%  &d(&5%{xp::%{_u}%}% &d/ &5%{xpreq::%{_u}%}%&d)  %nl%"
+	send action bar "&d+%{_Am}% &dEXP &5(&5%{xp::%{_u}%}%&5/&5%{xpreq::%{_u}%}%&5) &6+%{_gd}% Gold" to  {_p}
+	if {xp::%{_u}%} is greater than or equal to {xpreq::%{_u}%}:
+		LevelUp({_p})
+
+on respawn:
+	set slot 8 of player's inventory to nether star named "&6&lLost Gods Menu" with lore "&6Item Ability: Menu &e&lRIGHT CLICK" and "&7Opens the Lost Gods Menu," and "&7which gives you acsess to" and "&7quick-commands, options," and "&7and more!" and " " and "&6&lLEGENDARY"
+
+on death:
+	if victim is a blaze:
+		location of attacker is within bound with id "underworld"
+		loop blocks in radius 20 around the victim:
+			if loop-block is "fire" parsed as itemtype:
+				set loop-block to air
+				draw 10 of flame at loop-block
+		set {_r} to random integer between 1 and 3
+		set {_r} to ({_r} * (1 + {luck::%attacker's uuid%} / 100))
+		drop {_r} of {dropblaze} at location of victim
+		chance of 10%:
+			loop all players in radius 5 blocks of victim:
+				send "&5&lVERY RARE DROP! &7(&5Enchanted Book&7)" to loop-player
+				play sound "entity.player.levelup" with pitch 2 to loop-player
+			drop {dropblaze1} at location of victim
+		chance of 5%:
+			loop all players in radius 5 blocks of victim:
+				send "&6&lINCREDIBLY RARE DROP! &7(&6Enchanted Book&7)" to loop-player
+				play sound "entity.player.levelup" with pitch 2 to loop-player
+			drop {dropblaze2} at location of victim
+		set {blazedied} to true
+		AddExp(attacker, 1500, 4500)
+	else if victim is a magma cube:
+		location of attacker is within bound with id "underworld"
+		set {_r} to random integer between 1 and 6
+		set {_r} to ({_r} * (1 + {luck::%attacker's uuid%} / 100))
+		drop {_r} of {dropmagma} at location of victim
+		AddExp(attacker, 100, 250)
+	else if victim is a wither skeleton:
+		location of attacker is within bound with id "underworld"
+		set {_r} to random integer between 1 and 6
+		set {_r} to ({_r} * (1 + {luck::%attacker's uuid%} / 100))
+		drop {_r} of {dropwither} at location of victim
+		AddExp(attacker, 250, 500)
+	else if victim is a enderman:
+		location of attacker is within bound with id "underworld"
+		set {_r} to random integer between 1 and 6
+		set {_r} to ({_r} * (1 + {luck::%attacker's uuid%} / 100))
+		drop {_r} of {dropenderman} at location of victim
+		AddExp(attacker, 250, 500)
+	else if victim is a warden:
+		if location of attacker is within bound with id "underworld":
+			set {_r} to random integer between 1 and 3
+			set {_r} to ({_r} * (1 + {luck::%attacker's uuid%} / 100))
+			drop {_r} of {dropwarden} at location of victim
+			chance of 10%:
+				loop all players in radius 5 blocks of victim:
+					send "&5&lVERY RARE DROP! &7(&5Enchanted Book&7)" to loop-player
+					play sound "entity.player.levelup" with pitch 2 to loop-player
+				drop {dropwarden1} at location of victim
+			chance of 1%:
+				loop all players in radius 5 blocks of victim:
+					send "&D&lCRAZY RARE DROP! &7(&dCast of Darkness&7)" to loop-player
+					play sound "entity.player.levelup" with pitch 3 to loop-player
+				drop {dropwarden2} at location of victim
+			set {wardendied} to true
+			AddExp(attacker, 2000, 5000)
+		else:
+			AddExp(attacker, 1000, 2500)
+	else if victim is player:
+		AddExp(attacker, 25, 0)
+		stop
+	else if victim is not armor stand:
+		AddExp(attacker, 10, 25)
+		chance of 1%:
+			if victim is not a zombified piglin or a pillager:
+				drop 1 raw copper of mending named "&aCelestial Dust" with lore "&8&oA rare drop from monsters," and "&8&othis dust is said to" and "&8&ocontain godly energy." and " " and "&a&lUNCOMMON" with all flags hidden at victim
+				send "&9&lRARE DROP! &7(&aCelestial Dust&7)" to attacker
+
+on death of player:
+	remove nether star named "&6&lLost Gods Menu" with lore "&6Item Ability: Menu &e&lRIGHT CLICK" and "&7Opens the Lost Gods Menu," and "&7which gives you acsess to" and "&7quick-commands, options," and "&7and more!" and " " and "&6&lLEGENDARY" from the drops
+	set death message to ""
+	add 1 to {kills::%attacker's uuid%}
+	add 1 to {deaths::%victim's uuid%}
+	subtract 500 from {gold::%victim's uuid%}
+	if {gold::%victim's uuid%} is less than 0:
+		set {gold::%victim's uuid%} to 0
+	subtract 1 from {lives::%victim's uuid%}
+	if {lives::%victim's uuid%} is less than 1:
+		send title "&c&lNO MORE LIVES REMAINING..." with subtitle "&8[❁] [❁] [❁] [❁] [❁]" to victim for 5 seconds with fadein 1 seconds and fade out 1 second
+		wait 3 seconds
+		add 3 to {lives::%victim's uuid%}
+		ban victim due to "&cYou were banned for 1 hour from the &6&lLOSTGODS SMP&c!%nl% %nl%&7Reason:&f Lost 5 lives %nl% %nl%&7When you are unbanned, you will have 3 lives returned." for 1 hour
+		kick victim due to "&cYou were banned for 1 hour from the &6&lLOSTGODS SMP&c!%nl% %nl%&7Reason:&f Lost 5 lives %nl% %nl%&7When you are unbanned, you will have 3 lives returned."
+	if {lives::%victim's uuid%} = 1:
+		send title "&c&l1 LIFE REMAINING..." with subtitle "&c[❁] &7[❁] [❁] [❁] [❁]" to victim for 5 seconds with fadein 1 seconds and fade out 1 second
+	if {lives::%victim's uuid%} = 2:
+		send title "&c&l2 LIVES REMAINING..." with subtitle "&c[❁] [❁] &7[❁] [❁] [❁]" to victim for 5 seconds with fadein 1 seconds and fade out 1 second
+	if {lives::%victim's uuid%} = 3:
+		send title "&c&l3 LIVES REMAINING..." with subtitle "&c[❁] [❁] [❁] &7[❁] [❁]" to victim for 5 seconds with fadein 1 seconds and fade out 1 second
+	if {lives::%victim's uuid%} = 4:
+		send title "&c&l4 LIVES REMAINING..." with subtitle "&c[❁] [❁] [❁] [❁]&7 [❁]" to victim for 5 seconds with fadein 1 seconds and fade out 1 second
+	drop 1 apple of mending named "&cLife of %victim%" with lore "&cItem Ability: Soul Eater &e&lRIGHT CLICK" and "&7Grants you &c+1 Life&7." and "&8Consumes on use" and " " and "&c&lTRANSCENDENT" with all flags hidden at victim's location
+	if attacker is set:
+		if victim is set:
+			if attacker is player:
+				if name of attacker's tool is set:
+					send "&c&l☠ &7%victim% was &c&lkilled &7by %attacker% using &b[%name of attacker's tool%]" to all players where [input is not victim or attacker]
+					send "&c&lYOU DIED! &7You were &c&lkilled &7by %attacker% using &b[%name of attacker's tool%] &6-{@goldloss} Gold &c-1 Life" to victim
+					send "&c&lKILL! &7You &c&lkilled &7%victim% using &b[%name of attacker's tool%] &d+25 EXP" to attacker
+					stop
+				else:
+					send "&c&l☠ &7%victim% was &c&lkilled &7by %attacker%" to all players where [input is not victim or attacker]
+					send "&c&lYOU DIED! &7You were &c&lkilled &7by %attacker% &6-{@goldloss} Gold &c-1 Life" to victim
+					send "&c&lKILL! &7You &c&lkilled &7%victim% &d+25 EXP" to attacker
+					stop
+			if attacker is a creeper:
+				send "&c&l☠ &7%victim% was &c&lexploded &7by %attacker%" to all players where [input is not victim or attacker]
+				send "&c&lYOU DIED! &7You were &c&lexploded &7by %attacker% &6-{@goldloss} Gold &c-1 Life" to victim
+				send "&c&lKILL! &7You were &c&lexploded by &7%victim%" to attacker
+				stop
+			if location of attacker is within bound with id "underworld":
+				if attacker is a warden:
+					send "&c&l☠ &7%victim% was &ckilled &7by <##007173>&lErebus" to all players where [input is not victim or attacker]
+					send "&c&lYOU DIED! &7You were &c&lkilled &7by <##007173>&lErebus &6-{@goldloss} Gold &c-1 Life" to victim
+					stop
+				if attacker is a blaze:
+					send "&c&l☠ &7%victim% was &ckilled &7by <##BAB534>&lEurynomos" to all players where [input is not victim or attacker]
+					send "&c&lYOU DIED! &7You were &c&lkilled &7by <##BAB534>&lEurynomos &6-{@goldloss} Gold &c-1 Life" to victim
+					stop
+				if attacker is a enderman:
+					send "&c&l☠ &7%victim% was &ckilled &7by <##999999>&lWanderer of the Dark" to all players where [input is not victim or attacker]
+					send "&c&lYOU DIED! &7You were &c&lkilled &7by <##999999>&lWanderer of the Dark &6-{@goldloss} Gold &c-1 Life" to victim
+					stop
+				if attacker is a wither skeleton:
+					send "&c&l☠ &7%victim% was &ckilled &7by <##1A1A1A>&lGuardian of the Abyss" to all players where [input is not victim or attacker]
+					send "&c&lYOU DIED! &7You were &c&lkilled &7by <##1A1A1A>&lGuardian of the Abyss &6-{@goldloss} Gold &c-1 Life" to victim
+					stop
+				if attacker is a magma cube:
+					send "&c&l☠ &7%victim% was &ckilled &7by <##320000>&lLost Soul" to all players where [input is not victim or attacker]
+					send "&c&lYOU DIED! &7You were &c&lkilled &7by <##320000>&lLost Soul &6-{@goldloss} Gold &c-1 Life" to victim
+					stop
+			send "&c&l☠ &7%victim% was &c&lkilled&7 by a %attacker%" to all players where [input is not victim or attacker]
+			send "&c&lYOU DIED! &7You were &c&lkilled &7by %attacker% &6-{@goldloss} Gold &c-1 Life" to victim
+			stop
+
+	else if damage was caused by potion:
+		send "&c&l☠ &7%victim% was &c&lkilled by magic" to all players where [input is not victim or attacker]
+		send "&c&lYOU DIED! &7You were &c&lkilled by magic &6-{@goldloss} Gold &c-1 Life" to victim
+	else if damage was caused by fall:
+		send "&c&l☠ &7%victim% &c&lbroke their legs" to all players where [input is not victim or attacker]
+		send "&c&lYOU DIED! &7You &c&lbroke your legs &6-{@goldloss} Gold &c-1 Life" to victim
+	else if damage was caused by lava:
+		send "&c&l☠ &7%victim% &c&lburned to death" to all players where [input is not victim or attacker]
+		send "&c&lYOU DIED! &7You &c&lburned to death &6-{@goldloss} Gold &c-1 Life" to victim
+	else if damage was caused by burning:
+		send "&c&l☠ &7%victim% &c&lwent up in flames" to all players where [input is not victim or attacker]
+		send "&c&lYOU DIED! &7You &c&lwent up in flames &6-{@goldloss} Gold &c-1 Life" to victim
+	else if damage was caused by drown:
+		send "&c&l☠ &7%victim% &c&ldrowned" to all players where [input is not victim or attacker]
+		send "&c&lYOU DIED! &7You &c&ldrowned &6-{@goldloss} Gold &c-1 Life" to victim
+	else if damage was caused by starvation:
+		send "&c&l☠ &7%victim% &c&lstarved to death" to all players where [input is not victim or attacker]
+		send "&c&lYOU DIED! &7You &c&lstarved to death &6-{@goldloss} Gold &c-1 Life" to victim
+	else if damage was caused by lightning:
+		send "&c&l☠ &7%victim% was &c&lstruck by lightning" to all players where [input is not victim or attacker]
+		send "&c&lYOU DIED! &7You were &c&lstruck by lightning &6-{@goldloss} Gold &c-1 Life" to victim
+	else if damage was caused by block explosion:
+		send "&c&l☠ &7%victim% &c&lblew up" to all players where [input is not victim or attacker]
+		send "&c&lYOU DIED! &7You &c&lblew up &6-{@goldloss} Gold &c-1 Life" to victim
+	else if damage was caused by contact:
+		send "&c&l☠ &7%victim% was &c&lspiked to death" to all players where [input is not victim or attacker]
+		send "&c&lYOU DIED! &7You were &c&lspiked to death &6-{@goldloss} Gold &c-1 Life" to victim
+	else if damage was caused by suffocation:
+		send "&c&l☠ &7%victim% was &c&lsuffocated" to all players where [input is not victim or attacker]
+		send "&c&lYOU DIED! &7You &c&lsuffocated &6-{@goldloss} Gold &c-1 Life" to victim
+	else if damage was caused by melting:
+		send "&c&l☠ &7%victim% was &c&lmelted to death" to all players where [input is not victim or attacker]
+		send "&c&lYOU DIED! &7You &c&lmelted to death &6-{@goldloss} Gold &c-1 Life" to victim
+	else if damage was caused by suicide:
+		send "&c&l☠ &7%victim% discovered how to tie a noose" to all players where [input is not victim or attacker]
+		send "&c&lYOU DIED! &7You &c&lkilled yourself &6-{@goldloss} Gold &c-1 Life" to victim
+	else if damage was caused by void:
+		send "&c&l☠ &7%victim% &c&lfell into the abyss" to all players where [input is not victim or attacker]
+		send "&c&lYOU DIED! &7You &c&lfell into the abyss &6-{@goldloss} Gold &c-1 Life" to victim
+	else if damage was caused by poison:
+		send "&c&l☠ &7%victim% was &c&lpoisoned to death" to all players where [input is not victim or attacker]
+		send "&c&lYOU DIED! &7You were &c&lpoisoned to death &6-{@goldloss} Gold &c-1 Life" to victim
+	else if damage was caused by wither:
+		send "&c&l☠ &7%victim% was &c&lwithered away&7..." to all players where [input is not victim or attacker]
+		send "&c&lYOU DIED! &7You were &c&lwithered away &6-{@goldloss} Gold &c-1 Life" to victim
+	else if damage was caused by falling block:
+		send "&c&l☠ &7%victim% was &c&lcrushed" to all players where [input is not victim or attacker]
+		send "&c&lYOU DIED! &7You were &c&lcrushed &6-{@goldloss} Gold &c-1 Life" to victim
+	else if damage was caused by hitting wall while flying:
+		send "&c&l☠ &7%victim% &c&lcollided with a wall" to all players where [input is not victim or attacker]
+		send "&c&lYOU DIED! &7You &c&lcollided with a wall &6-{@goldloss} Gold &c-1 Life" to victim
+	else if damage was caused by cramming:
+		send "&c&l☠ &7%victim% was &c&lcrammed to death" to all players where [input is not victim or attacker]
+		send "&c&lYOU DIED! &7You were &c&lcrammed to death &6-{@goldloss} Gold &c-1 Life" to victim
+	else:
+		send "&c&l☠ &7%victim% &c&ldied by a greater force" to all players where [input is not victim or attacker]
+		send "&c&lYOU DIED! &7You &c&ldied by a greater force &6-{@goldloss} Gold &c-1 Life" to victim
+
+command /givebox:
+	permission: op
+	trigger:
+		give player 1 jukebox of mending named "&6Pandora's Box" with lore "&6Item Ability: Alohomora &e&lRIGHT CLICK" and "&7Gives you a random potion effect" and "&7or a special item. Try your luck!" and "&8Consumes on use" and " " and "&6&lLEGENDARY" with all flags hidden
+
+on consume:
+	if name of player's tool contains "Life":
+		cancel event
+
+on right click:
+	if name of player's tool contains "&cLife":
+		if {lives::%player's uuid%} is greater than 4:
+			send "&cYou already have 5 lives!"
+		else:
+			add 1 to {lives::%player's uuid%}
+			send "&a&lSUCCSESS! &7You received &c+1 Life&7!"
+			play sound "block.beacon.power_select" with volume 1 to player
+			remove 1 of player's tool from player
+	if name of player's tool contains "&6Pandora's Box":
+		play sound "block.note_block.pling" with volume 1 and pitch 4 to player
+		cancel event
+		remove 1 of player's tool from player
+		chance of 15%:
+			apply potion of speed of tier 2 to the player for 5 minutes
+			send "&7Your &6Pandora's Box&7 gave you &fSpeed II&7 for 5 minutes!" to player
+			stop
+		chance of 15%:
+			apply potion of jump boost of tier 2 to the player for 5 minutes
+			send "&7Your &6Pandora's Box&7 gave you &fJump Boost II&7 for 5 minutes!" to player
+			stop
+		chance of 15%:
+			apply potion of strength of tier 2 to the player for 5 minutes
+			send "&7Your &6Pandora's Box&7 gave you &fStrength II&7 for 5 minutes!" to player
+			stop
+		chance of 15%:
+			apply potion of poison of tier 2 to the player for 5 minutes
+			send "&7Your &6Pandora's Box&7 gave you &fPoison II&7 for 5 minutes!" to player
+			stop
+		chance of 15%:
+			apply potion of slowness of tier 2 to the player for 5 minutes
+			send "&7Your &6Pandora's Box&7 gave you &fSlowness II&7 for 5 minutes!" to player
+			stop
+		chance of 15%:
+			apply potion of weakness of tier 2 to the player for 5 minutes
+			send "&7Your &6Pandora's Box&7 gave you &fWeakness II&7 for 5 minutes!" to player
+			stop
+		chance of 50%:
+			give player 16 raw copper of mending named "&aCelestial Dust" with lore "&8&oA rare drop from monsters," and "&8&othis dust is said to" and "&8&ocontain godly energy." and " " and "&a&lUNCOMMON" with all flags hidden
+			send "&7Your &6Pandora's Box&7 gave you 16x &aCelestial Dust&7!" to player
+			stop
+		chance of 50%:
+			give player 1 shulker box
+			send "&7Your &6Pandora's Box&7 gave you a &fShulker Box&7!" to player
+			stop
+		give player 1 apple of mending named "&cLife of %player%" with lore "&cItem Ability: Soul Eater &e&lRIGHT CLICK" and "&7Grants you &c+1 Life&7." and "&8Consumes on use" and " " and "&c&lTRANSCENDENT" with all flags hidden
+		send "&7Your &6Pandora's Box&7 gave you a &cLife Apple&7!" to player
+
+command /menu:lives:
+	trigger:
+		set {_livesgui} to a new chest inventory with 6 row with name "Your Lives &k&r"
+		set slot (all integers between 0 and 53) of {_livesgui} to black stained glass pane named " "
+		set slot 4 of {_livesgui} to golden apple of mending named "&c&lYour Lives" with lore "&7View your remaining lives." with all flags hidden
+		set slot (all integers between 20 and 24) of {_livesgui} to red stained glass pane named "&cEmpty Life Slot" with lore "&7Kill players to obtain more lives!"
+		if {lives::%player's uuid%} is greater than 0:
+			set slot 20 of {_livesgui} to end crystal named "&aFirst Life"
+		if {lives::%player's uuid%} is greater than 1:
+			set slot 21 of {_livesgui} to end crystal named "&aSecond Life"
+		if {lives::%player's uuid%} is greater than 2:
+			set slot 22 of {_livesgui} to end crystal named "&aThird Life"
+		if {lives::%player's uuid%} is greater than 3:
+			set slot 23 of {_livesgui} to end crystal named "&aFourth Life"
+		if {lives::%player's uuid%} is greater than 4:
+			set slot 24 of {_livesgui} to end crystal named "&aFifth Life"
+		set slot 46 of {_livesgui} to barrier named "&c&lClose Menu" with all flags hidden
+		set slot 45 of {_livesgui} to arrow named "&e&lGo Back" with all flags hidden
+		open {_livesgui} to player

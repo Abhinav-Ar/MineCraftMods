@@ -1,0 +1,39 @@
+command /waypoint <num>:
+    permission: op
+    aliases: /way <num>
+    trigger:
+        if arg-1 = 1:
+            send "&aTeleporting you to &b%{waypoint1name::%player's uuid%}%&a in 5 seconds!" to player
+            set {_location} to location of player
+            loop 10 times:
+                    set {_check} to location of player
+                    if {_check} isn't {_location}:
+                            send "&cTeleport cancelled. Do not move!" to player
+                            stop
+                    wait 10 ticks
+            teleport player to {waypoint1::%player's uuid%}
+            send "&aYou were teleported to &b%{waypoint1name::%player's uuid%}%&a!" to player
+        else if arg-1 = 2:
+            send "&aTeleporting you to &b%{waypoint2name::%player's uuid%}%&a in 5 seconds!" to player
+            set {_location} to location of player
+            loop 10 times:
+                    set {_check} to location of player
+                    if {_check} isn't {_location}:
+                            send "&cTeleport cancelled. Do not move!" to player
+                            stop
+                    wait 10 ticks
+            teleport player to {waypoint2::%player's uuid%}
+            send "&aYou were teleported to &b%{waypoint2name::%player's uuid%}%&a!" to player
+        else if arg-1 = 3:
+            send "&aTeleporting you to &b%{waypoint3name::%player's uuid%}%&a in 5 seconds!" to player
+            set {_location} to location of player
+            loop 10 times:
+                    set {_check} to location of player
+                    if {_check} isn't {_location}:
+                            send "&cTeleport cancelled. Do not move!" to player
+                            stop
+                    wait 10 ticks
+            teleport player to {waypoint3::%player's uuid%}
+            send "&aYou were teleported to &b%{waypoint3name::%player's uuid%}%&a!" to player
+        else:
+            send"&cChoose a valid waypoint" to player

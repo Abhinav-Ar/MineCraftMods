@@ -1,0 +1,547 @@
+on player world change:
+	world is "world_the_end"
+	wait 1 tick
+	teleport player to {spawn}
+	execute console command "ban %player% 10day Entering the end"
+
+on right click holding end crystal:
+	cancel event
+	send "&cEnd Crystals are disabled!" to player
+
+
+on riptide:
+	if name of event-player's tool is "my toy":
+		play sound "entity.goat.screaming.milk" with volume 5 and pitch 1.6 to event-player
+	if name of event-player's tool is "abigail":
+		play sound "entity.goat.screaming.milk" with volume 5 and pitch 1.6 to event-player
+		chance of 20%:
+			send action bar "&fOH MY GOD ADEN RIGHT THERE - &babigail" to event-player
+			stop
+		chance of 20%:
+			send action bar "&fadennnnnnnnnnnnnn fuck me pleaseeeeeeeee - &babigail" to event-player
+			stop
+		chance of 20%:
+			send action bar "&fAHHHHHHHHHHH HARDER - &babigail" to event-player
+			stop
+		chance of 20%:
+			send action bar "&ffuck me in that tight hole aden - &babigail" to event-player
+			stop
+		chance of 20%:
+			send action bar "&faDEN RIGHT THEREEEE - &babigail" to event-player
+			stop
+		send action bar "&fAHHHHHH JAMES YESSSSSSSSSSSSSSSSS - &babigail" to event-player
+	if name of event-player's tool is "Yae Miko":
+		play sound "entity.goat.screaming.milk" with volume 5 and pitch 1.6 to event-player
+		send action bar "&fjavier pull my tail harder - &dyae miko" to event-player
+	if name of event-player's tool is "Ayaka":
+		play sound "entity.goat.screaming.milk" with volume 5 and pitch 1.6 to event-player
+		chance of 20%:
+			send action bar "&foh yes james fuck me in the ass harder - &bayaka" to event-player
+			stop
+		chance of 20%:
+			send action bar "&fOH MY GOD JAMES RIGHT THERE - &bayaka" to event-player
+			stop
+		chance of 20%:
+			send action bar "&fjaaaammmmmmmmeeeeeesssssssss fuck me pleaseeeeeeeee - &bayaka" to event-player
+			stop
+		chance of 20%:
+			send action bar "&fAHHHHHHHHHHH HARDER - &bayaka" to event-player
+			stop
+		chance of 20%:
+			send action bar "&ffuck me in that tight hole james - &bayaka" to event-player
+			stop
+		chance of 20%:
+			send action bar "&fjAMESSSS RIGHT THEREEEE - &bayaka" to event-player
+			stop
+		send action bar "&fAHHHHHH JAMES YESSSSSSSSSSSSSSSSS - &bayaka" to event-player
+	if name of event-player's tool is "james":
+		wait 0.4 second
+		push player backwards at speed 4
+		push player downwards at speed 4
+
+command /resetmines:
+	permission: op
+	trigger:
+		loop all players:
+			if loop-player is within bound with id "underworld":
+				send " " to loop-player
+				send "&a&lMINE RESET! &fThe Underworld mines have colapsed!" to loop-player
+				send " " to loop-player
+				if loop-player is within bound with id "mines":
+					teleport loop-player to {mine}
+		set {resettimer} to 0
+		execute console command "//world world"
+		execute console command "//pos1 -428,-62,149"
+		execute console command "//pos2 -330,-57,241"
+		execute console command "//set 88%%blackstone,10%%polished_blackstone,1.5%%raw_iron_block,0.5%%iron_block"
+on anvil prepare:
+	if slot 0 of event-inventory is a trident named "abigail":
+		damage the player by 5 hearts
+		send "&fdaddy please dont rename me -  &dabigail" to player
+		play sound "entity.goat.screaming.milk" with volume 5 and pitch 1.6 to event-player
+	if slot 0 of event-inventory is a trident named "Ayaka":
+		damage the player by 5 hearts
+		send "&fdaddy james please dont rename me ---- p-please -&aayaka" to player
+		play sound "entity.goat.screaming.milk" with volume 5 and pitch 1.6 to event-player
+every 5 minutes:
+	add 1 to {resettimer}
+	if {resettimer} is 2:
+		loop all players:
+			if loop-player is within bound with id "underworld":
+				send "&c&lWARNING! &fThe mines will colapse in 5 minutes!" to loop-player
+	if {resettimer} is greater than 2:
+		loop all players:
+			if loop-player is within bound with id "underworld":
+				send " " to loop-player
+				send "&a&lMINE RESET! &fThe Underworld mines have colapsed!" to loop-player
+				send " " to loop-player
+				if loop-player is within bound with id "mines":
+					teleport loop-player to {mine}
+		set {resettimer} to 0
+		execute console command "//world world"
+		execute console command "//pos1 -428,-62,149"
+		execute console command "//pos2 -330,-57,241"
+		execute console command "//set 88%%blackstone,10%%polished_blackstone,1.5%%raw_iron_block,0.5%%iron_block"
+	if {msg} is not set:
+		set {msg} to 2
+		broadcast " "
+		broadcast "&b&lTIP: &fOnce you loose all your lives, you are banned for &c1 hour&f! After you are unbanned, you gain &c+3 Lives&f."
+		broadcast " "
+	else if {msg} is 1:
+		set {msg} to 2
+		broadcast " "
+		broadcast "&b&lTIP: &fFound a bug or glitch? Report it in the discord!"
+		broadcast " "
+	else if {msg} is 2:
+		set {msg} to 3
+		broadcast " "
+		broadcast "&b&lTIP: &fYou drop an Life Apple when you die. Right clicking that apple gives you back your life&f."
+		broadcast " "
+	else if {msg} is 3:
+		set {msg} to 4
+		broadcast " "
+		broadcast "&b&lTIP: &fJoin our &b/discord&f!"
+		broadcast " "
+	else if {msg} is 4:
+		set {msg} to 5
+		broadcast " "
+		broadcast "&b&lTIP: &fYou gain &5EXP&f by killing players or mobs, completing quests, and upgrading your abilities.&f"
+		broadcast " "
+	else if {msg} is 5:
+		set {msg} to 6
+		broadcast " "
+		broadcast "&b&lTIP: &fGriefing is &c&lNOT ALLOWED&f! Read &b/rules &ffor more!"
+		broadcast " "
+	else if {msg} is 6:
+		set {msg} to 7
+		broadcast " "
+		broadcast "&b&lTIP: &fCraft &9Teleport Waypoint&f using 4 Obsidian and 1 Ender Pearl!"
+		broadcast " "
+	else if {msg} is 7:
+		set {msg} to 8
+		broadcast " "
+		broadcast "&b&lTIP: &fFound a hacker? Report in the &b/discord&f!"
+		broadcast " "
+	else if {msg} is 8:
+		set {msg} to 9
+		broadcast " "
+		broadcast "&b&lTIP: &fGain &aCelestial Dust&f from killing hostile mobs!"
+		broadcast " "
+	else if {msg} is 9:
+		set {msg} to 10
+		broadcast " "
+		broadcast "&b&lTIP: &fReach &dDivine Level 25&f to visit the Underworld!"
+		broadcast " "
+	else if {msg} is 10:
+		set {msg} to 1
+		broadcast " "
+		broadcast "&b&lTIP: &fThe end is &c&lDISABLED&f!"
+		broadcast " "
+
+command /resetplayer [<player>]:
+	permission: op
+	trigger:
+		set {joined::%arg-1's uuid%} to 0
+
+on first join:
+	set the player's gamemode to survival
+	set join message to "&7[&a&l+&7] &d%{level::%player's uuid%}%✦ &7%player% &8(##%size of all offline players%)"
+	clear player's inventory
+	execute console command "advancement revoke %player% everything"
+	set slot 8 of player's inventory to nether star named "&6&lLost Gods Menu" with lore "&6Item Ability: Menu &e&lRIGHT CLICK" and "&7Opens the Lost Gods Menu," and "&7which gives you acsess to" and "&7quick-commands, options," and "&7and more!" and " " and "&6&lLEGENDARY"
+	set {lives::%player's uuid%} to 5
+
+	set {power1::%player's uuid%} to "None"
+	set {gold::%player's uuid%} to 1000 #easy currency,
+	set {kills::%player's uuid%} to 0
+	set {deaths::%player's uuid%} to 0
+	delete {reqexp::%player's uuid%}
+	delete {exp::%player's uuid%}
+	set {level::%player's uuid%} to 1
+	set {xp::%player's uuid%} to 0
+	set {xpreq::%player's uuid%} to 250
+
+	set {zeussuper::%player's uuid%} to 1
+	set {zeusultimate::%player's uuid%} to 1
+	set {zeusultra::%player's uuid%} to 1
+	set {herasuper::%player's uuid%} to 1
+	set {heraultimate::%player's uuid%} to 1
+	set {heraultra::%player's uuid%} to 1
+	set {demetersuper::%player's uuid%} to 1
+	set {demeterultimate::%player's uuid%} to 1
+	set {demeterultra::%player's uuid%} to 1
+	set {poseidonsuper::%player's uuid%} to 1
+	set {poseidonultimate::%player's uuid%} to 1
+	set {poseidonultra::%player's uuid%} to 1
+	set {aressuper::%player's uuid%} to 1
+	set {aresultimate::%player's uuid%} to 1
+	set {aresultra::%player's uuid%} to 1
+	set {athenasuper::%player's uuid%} to 1
+	set {athenaultimate::%player's uuid%} to 1
+	set {athenaultra::%player's uuid%} to 1
+	set {apollosuper::%player's uuid%} to 1
+	set {apolloultimate::%player's uuid%} to 1
+	set {apolloultra::%player's uuid%} to 1
+	set {artemissuper::%player's uuid%} to 1
+	set {artemisultimate::%player's uuid%} to 1
+	set {artemisultra::%player's uuid%} to 1
+	set {hephaestussuper::%player's uuid%} to 1
+	set {hephaestusultimate::%player's uuid%} to 1
+	set {hephaestusultra::%player's uuid%} to 1
+	set {hermessuper::%player's uuid%} to 1
+	set {hermesultimate::%player's uuid%} to 1
+	set {hermesultra::%player's uuid%} to 1
+	set {dionysussuper::%player's uuid%} to 1
+	set {dionysusultimate::%player's uuid%} to 1
+	set {dionysusultra::%player's uuid%} to 1
+	set {aphroditesuper::%player's uuid%} to 1
+	set {aphroditeultimate::%player's uuid%} to 1
+	set {aphroditeultra::%player's uuid%} to 1
+	set {joined::%player's uuid%} to 10
+	set {powernumber::%player's uuid%} to 1
+	wait 1 tick
+	teleport player to {starting}
+
+
+	set {doubledmg} to 0
+	#put tutorial here
+	set {mainquest::%player's uuid%} to "&fTalk to &e&lHercules"
+
+
+on join:
+	set join message to "&7[&a&l+&7] &d%{level::%player's uuid%}%✦ &7%player%"
+	set {supercooldown::%player%} to 1
+	set {ultracooldown::%player%} to 1
+	set {ultimatecooldown::%player%} to 1
+
+	set {hermescharges::%player%} to 2
+	set {supercharges::%player%} to 5
+	send "&6&l--------------------------------------------"
+	send " "
+	send "&fWelcome &a%player% &fto the &6&lLOST GODS SMP&c&l ALPHA&f!"
+	send " "
+	send "&6> &f<link:https://www.lostgods.xyz/news/version-0-2-0>&d&lUPDATE v0.2.0 - The Underworld &e&lREAD HERE"
+	send "&6> &fTalk to &e&lHercules&f to begin the underworld questline! (&dDivine Level 25)"
+	send "&6> &fCreate a ticket in discord to report bugs."
+	send "&6> &fJoin our discord at <link:https:dsc.gg/lostgods>&bdsc.gg/lostgods"
+	send " "
+	send "&6&l--------------------------------------------"
+	set {players.online} to number of all players
+	loop all players:
+		set loop-player's tablist footer to "  &a%{players.online}% &7players online  %nl% %nl%  &6%{gold::%loop-player's uuid%}% Gold &7| &c%{lives::%loop-player's uuid%}% Lives  %nl%  &dDivine Level %{level::%loop-player's uuid%}%  &d(&5%{xp::%loop-player's uuid%}% &d/ &5%{xpreq::%loop-player's uuid%}%&d)  %nl%"
+	loop {bar::*}:
+		remove {_p} from bar players of loop-value
+	wait 10 ticks
+	if {mainquest::%player's uuid%} = "&fReach &dDivine Level 5":
+		add player to bar players of {bar::lvl5}
+	else if {mainquest::%player's uuid%} = "&fFind and talk to &a&lArges":
+		add player to bar players of {bar::forge}
+	else if {mainquest::%player's uuid%} = "&fForge a &lStarter Weapon":
+		add player to bar players of {bar::starter}
+	else if {mainquest::%player's uuid%} = "&fReach &dDivine Level 25":
+		add player to bar players of {bar::lvl25}
+	else if {mainquest::%player's uuid%} = "&&fChoose your second &lPower Orb":
+		add player to bar players of {bar::orb2}
+	else if {mainquest::%player's uuid%} = "&fReach &dDivine Level 50":
+		add player to bar players of {bar::lvl50}
+
+	set player's tablist header to "%nl%  &6&lLOSTGODS SMP  %nl%  &6play.lostgods.xyz  %nl%"
+	set the player's display name to "&d%{level::%player's uuid%}%✦ &7%name of player%"
+	if {clan::%player's uuid%} is set:
+		set the player's tab list name to "&d%{level::%player's uuid%}%✦ &7%player's name% &e[%{clan::%player's uuid%}%]"
+	else:
+		set the player's tab list name to "&d%{level::%player's uuid%}%✦ &7%player's name%"
+	if {power2::%player's uuid%} is not set:
+		set {powernumber::%player's uuid%} to 1
+	set {activatedbeauty::%player%} to 0
+	set {activatedbloodlust::%player%} to 0
+	reveal the player from all players
+	delete {shadows::%player's uuid%}
+	wait 10 seconds
+	if {compensated2::%player's uuid%} is not set:
+		set {compensated2::%player's uuid%} to 1
+		set {_1} to {hermessuper::%player's uuid%}
+		set {_2} to {hermesultimate::%player's uuid%}
+		set {hermessuper::%player's uuid%} to {_2}
+		set {hermesultimate::%player's uuid%} to {_1}
+
+on place of player head or player wall head:
+	cancel event
+
+
+
+on disconnect:
+	set leave message to "&7[&c&l-&7] &d%{level::%player's uuid%}%✦ &7%player%"
+	set {players.online} to (number of all players - 1)
+	loop all players:
+		set loop-player's tablist footer to "  &a%{players.online}% &7players online  %nl% %nl%  &6%{gold::%loop-player's uuid%}% Gold &7| &c%{lives::%loop-player's uuid%}% Lives  %nl%  &dDivine Level %{level::%loop-player's uuid%}%  &d(&5%{xp::%loop-player's uuid%}% &d/ &5%{xpreq::%loop-player's uuid%}%&d)  %nl%"
+
+
+
+
+
+on swap hand items:
+	event-player's tool is a nether star named "&6&lLost Gods Menu" with lore "&6Item Ability: Menu &e&lRIGHT CLICK" and "&7Opens the Lost Gods Menu," and "&7which gives you acsess to" and "&7quick-commands, options," and "&7and more!" and " " and "&6&lLEGENDARY"
+	send "hi" to player
+	cancel event
+
+on damage:
+	if lore of attacker's tool contains "&dMaterial Power: Controller of the Dead":
+		if victim is in bound with id "underworld":
+			add (damage / 2) to damage
+			play sound "block.sculk.break" with volume 2 to attacker
+	if lore of attacker's tool contains "&aMaterial Power: Golden Power":
+		if victim is a monster:
+			add (damage / 2) to damage
+			play sound "entity.warden.attack_impact" with volume 0.2 and pitch 0.7 to attacker
+		if victim is player:
+			cancel event
+			play sound "entity.item.break" with volume 1 and pitch 0.5 to attacker
+
+
+on chat:
+	#cancel event
+	#broadcast "&d%{level::%player's uuid%}%✦ &7%player%: &f%message%"
+	set chat format to "&f[player]: &f[message]"
+
+on food bar change:
+	if {power1::%player's uuid%} is not set:
+		cancel event
+
+#		█▀▄▀█ █▀▀ █▄░█ █░█
+#		█░▀░█ ██▄ █░▀█ █▄█
+
+on click:
+	if name of event-item is "&6&lLost Gods Menu":
+		cancel event
+		make player execute command "/menu"
+
+command /menu:
+	trigger:
+		set {_gui} to a new chest inventory with 5 row with name "Lost Gods Menu &k&r"
+		set slot (all integers between 0 and 44) of {_gui} to black stained glass pane named " "
+		set slot 13 of {_gui} to the player's skull named "&a&lYour Stats" with lore "&dDivine Level: &d%{level::%player's uuid%}% &d(&5%{xp::%player's uuid%}% &d/ &5%{xpreq::%player's uuid%}%&d)" and "&eYour Power: &f%{power1::%player's uuid%}%" and "&6Gold: %{gold::%player's uuid%}%" and "&cLives: %{lives::%player's uuid%}%" and "&a✤ Luck: %{luck::%player's uuid%}%"
+		set slot 20 of {_gui} to diamond sword of mending named "&9&lYour Powers" with lore "&7View, upgrade, and unlock" and "&7your powers and abilities!" and " " and "&eClick to view" with all flags hidden
+		set slot 21 of {_gui} to golden apple of mending named "&c&lYour Lives" with lore "&7View your lives." and " " and "&eClick to view" with all flags hidden
+		set slot 22 of {_gui} to end crystal of mending named "&6&lClans" with lore "&7View, manage and" and "&7upgrade your clan!" and " " and "&cCOMING SOON" with all flags hidden
+		set slot 23 of {_gui} to emerald of mending named "&a&lQuests" with lore "&7Embark on adventures to" and "&7get incredible rewards." and " " and "&eClick to view" with all flags hidden
+		set slot 24 of {_gui} to filled map named "&b&lFast Travel"  with lore "&7Quickly travel to your" and "&7set waypoints!" and " " and "&eClick to view" with all flags hidden
+		set slot 39 of {_gui} to purple dye of mending named "&d&lJoin the Discord" with lore "&7Takes you to our discord!" and " " and "&eClick to join" with all flags hidden
+		set slot 40 of {_gui} to barrier named "&c&lClose Menu" with all flags hidden
+		set slot 41 of {_gui} to book of mending named "&6&lLost Gods Wiki"  with lore "&7Takes you to the official" and "&7guide of the server." and " " and "&eClick to view" with all flags hidden
+		if location of player is within bound with id "mines":
+			set slot 0 of {_gui} to ladder named "&6&lExit Mines" with lore "&7Exit the Underworld mines" and " " and "&eClick to exit!"
+		open {_gui} to player
+
+on drop:
+	if name of event-item is "&6&lLost Gods Menu":
+		cancel event
+	if name of event-item is "&6Riptide":
+		cancel event
+		set {_cooldown} to IsOnCooldown(player, 30 second)
+		if {_cooldown} = true:
+			send action bar "&6Used &6&lShaker of the Earth 🗡" to player
+			play sound "entity.generic.explode" with volume 0.5 and pitch 0.5 to player
+			loop blocks in radius 4 around the player:
+				if rounded y-coordinate of loop-block is equal to rounded y-coordinate of player:
+					draw 1 of explosion at loop-block
+				loop entities in radius 4 around the player:
+					if loop-entity is not player:
+						damage loop-entity by 4 hearts
+	if name of event-item is "&cSword of Darkness":
+		cancel event
+		set {_cooldown} to IsOnCooldown(player, 10 second)
+		if {_cooldown} = true:
+			send action bar "&6Used &c&lSwift Exit 🗡" to player
+			loop entities in radius 4 around the player:
+				loop-entity is not player:
+					apply potion of darkness to the loop-entity for 5 seconds
+			set {_loc} to location of target block
+			add 2 to y-coord of {_loc}
+			set yaw of {_loc} to player's yaw
+			set pitch of {_loc} to player's pitch
+			loop blocks from the block at the player to the target block:
+				draw 1 of dust using dustOption(black, 10) at loop-block
+			teleport player to {_loc}
+			play sound "entity.illusioner.mirror_move" to player
+on inventory click:
+	if event-itemtype is nether star named "&6&lLost Gods Menu" with lore "&6Item Ability: Menu &e&lRIGHT CLICK" and "&7Opens the Lost Gods Menu," and "&7which gives you acsess to" and "&7quick-commands, options," and "&7and more!" and " " and "&6&lLEGENDARY":
+		if click type is left mouse button:
+			cancel event
+			make player execute command "menu"
+		if click type is right mouse button with shift:
+			cancel event
+		if click type is left mouse button with shift:
+			cancel event
+	if name of event-inventory contains "&k&r":
+		cancel event
+		play sound "block.note_block.hat" with volume 1 to player
+		if name of event-item is "&c&lClose Menu":
+			close the inventory for the player
+		if name of event-item is "&e&lGo Back":
+			make player execute command "menu"
+	if name of event-inventory contains "Luis's Shop &k&r":
+		if index of event-slot = 13:
+			if {gold::%player's uuid%} is greater than 999:
+				give player 1 recovery compass named "&fRecovery Compass" with lore "&fItem Ability: Death Location" and "&7Points to where you last" and "&7died. Used to be owned by" and "&7Luis." and " " and "&f&lCOMMON"
+				send "&aYou purchased a &fRecovery Compass&a for &61000 Gold&a!" to player
+				play sound "block.note_block.pling" with volume 1 and pitch 4 to player
+				subtract 1000 from {gold::%player's uuid%}
+			else:
+				send "&cYou do not have enough gold!"
+				play sound "block.note_block.pling" with volume 1 and pitch 0.5 to player
+	if name of event-inventory is "Lost Gods Menu &k&r":
+		if index of event-slot = 0:
+			location of player is within bound with id "mines"
+			teleport player to {mine}
+			send "&6You teleported out of the mines!" to player
+		if index of event-slot = 20:
+			make player execute command "menu:powers"
+		if index of event-slot = 21:
+			make player execute command "menu:lives"
+		if index of event-slot = 22:
+			send "&b&lQuick-Select&f is comming soon!" to player
+		if index of event-slot = 23:
+			make player execute command "menu:quests"
+		if index of event-slot = 24:
+			make player execute command "menu:travel"
+		if index of event-slot = 39:
+			send "<link:http://discord.lostgods.xyz>&fJoin our discord to recive updates and more! &bdiscord.lostgods.xyz"
+		if index of event-slot = 41:
+			send "<link:http://wiki.lostgods.xyz>&fLearn more about the server at our wiki! &bwiki.lostgods.xyz"
+	if name of event-inventory is "Fast Travel &k&r":
+		if index of event-slot = 20:
+			event-item is sign
+			if click type is right mouse button:
+				WaypointSettings(1, {waypoint1name::%player's uuid%}, {waypoint1::%player's uuid%}, player)
+			else:
+				send "&aTeleporting you to &b%{waypoint1name::%player's uuid%}%&a in 5 seconds!" to player
+				set {_location} to location of player
+				loop 10 times:
+					set {_check} to location of player
+					if {_check} isn't {_location}:
+						send "&cTeleport cancelled. Do not move!" to player
+						stop
+					wait 10 ticks
+				teleport player to {waypoint1::%player's uuid%}
+				send "&aYou were teleported to &b%{waypoint1name::%player's uuid%}%&a!" to player
+		if index of event-slot = 21:
+			event-item is sign
+			if click type is right mouse button:
+				WaypointSettings(2, {waypoint2name::%player's uuid%}, {waypoint2::%player's uuid%}, player)
+			else:
+				send "&aTeleporting you to &b%{waypoint2name::%player's uuid%}%&a in 5 seconds!" to player
+				set {_location} to location of player
+				loop 10 times:
+					set {_check} to location of player
+					if {_check} isn't {_location}:
+						send "&cTeleport cancelled. Do not move!" to player
+						stop
+					wait 10 ticks
+				teleport player to {waypoint2::%player's uuid%}
+				send "&aYou were teleported to &b%{waypoint2name::%player's uuid%}%&a!" to player
+		if index of event-slot = 22:
+			event-item is sign
+			if click type is right mouse button:
+				WaypointSettings(3, {waypoint3name::%player's uuid%}, {waypoint3::%player's uuid%}, player)
+			else:
+				send "&aTeleporting you to &b%{waypoint3name::%player's uuid%}% &a in 5 seconds!" to player
+				set {_location} to location of player
+				loop 10 times:
+					set {_check} to location of player
+					if {_check} isn't {_location}:
+						send "&cTeleport cancelled. Do not move!" to player
+						stop
+					wait 10 ticks
+				teleport player to {waypoint3::%player's uuid%}
+				send "&aYou were teleported to &b%{waypoint3name::%player's uuid%}%&a!" to player
+		if index of event-slot = 29:
+			make player execute command "tpamenu"
+		if index of event-slot = 30:
+			make player execute command "spawn"
+		if index of event-slot = 31:
+			make player execute command "shopping"
+		if index of event-slot = 32:
+			make player execute command "wild"
+		if index of event-slot = 33:
+			make player execute command "underworld"
+	if name of event-inventory contains "Waypoint 1 Settings":
+		if index of event-slot = 22:
+			set {temp::%player%} to block above player
+			set block above player to oak sign
+			open sign gui of block above player to player
+		if index of event-slot = 23:
+			delete {waypoint1::%player's uuid%}
+			delete {waypoint1name::%player's uuid%}
+			subtract 1 from {waypoints::%player's uuid%}
+			close inventory for the player
+			send "&a&lSUCCESS! &7You deleted your first waypoint."
+	if name of event-inventory contains "Waypoint 2 Settings":
+		if index of event-slot = 22:
+			set {temp::%player%} to block above player
+			set block above player to jungle sign
+			open sign gui of block above player to player
+		if index of event-slot = 23:
+			delete {waypoint2::%player's uuid%}
+			delete {waypoint2name::%player's uuid%}
+			subtract 1 from {waypoints::%player's uuid%}
+			close inventory for the player
+			send "&a&lSUCCESS! &7You deleted your second waypoint."
+	if name of event-inventory contains "Waypoint 3 Settings":
+		if index of event-slot = 22:
+			set {temp::%player%} to block above player
+			set block above player to birch sign
+			open sign gui of block above player to player
+		if index of event-slot = 23:
+			delete {waypoint3::%player's uuid%}
+			delete {waypoint3name::%player's uuid%}
+			subtract 1 from {waypoints::%player's uuid%}
+			close inventory for the player
+			send "&a&lSUCCESS! &7You deleted your third waypoint."
+	if name of event-inventory is "Send a teleport request &k&r":
+		cancel event
+		if {gold::%player's uuid%} is greater than 249:
+			loop all players:
+				if name of event-item is "&f%loop-value%":
+					set {_p} to loop-value
+					set {_u} to uuid of loop-value
+					if {_p} is online:
+						if {_p} is not player:
+							if {request::player::%{_u}%} is set:
+								send "&cThis player already has a active teleportation request, please wait!" to player
+								stop
+							subtract 250 from {gold::%player's uuid%}
+							send "&7%player% &ahas requested to teleport to you! Do &b/accept &ato accept!" to {_p}
+							send "&aYou have requested to teleport to &f%{_p}%&a! &6-250 Gold" to player
+							set {request::player::%{_u}%} to player
+							wait 30 seconds
+							if {request::player::%{_u}%} is set:
+								delete {request::player::%{_u}%}
+								add 250 to {gold::%player's uuid%}
+						else:
+							send "&cYou can't teleport to yourself!" to player
+					else:
+						send "&cThe player is no longer online!" to player
+
+		else:
+			send "&cYou do not have enough gold!" to player

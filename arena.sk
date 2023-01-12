@@ -1,0 +1,176 @@
+
+
+command /npc:arenamaster
+	trigger:
+    set {_gui} to a new chest inventory with 4 row with name "Gamble Stuff Away Children &k&r"
+    set slot (all integers between 0 and 35) of {_gui} to black stained glass pane named " "
+    set slot 12 of {_gui} to diamond named "&bThrow your money away"
+		set slot 14 of {_gui} to golden sword named "&bFight to the &l&cDEATH&c&l HEHE" with lore "&c&lMAKE SURE TO CLEAR YOUR INVENTORY INCLUDING ARMOR!"
+		set slot 31 of {_gui} to barrier named "&c&lClose Menu" with all flags hidden
+    open {_gui} to player
+
+on inventory click:
+	if event-itemtype is diamond named "&bThrow your money away":
+		teleport {_p} to {arena2}
+	if event-itemtype is golden sword named "&bFight to the &l&cDEATH&c&l HEHE":
+		if {numOfFighters} is not set:
+			set {numOfFighters} to 1
+			set {fighter1} to player
+			send "&cMAKE SURE TO CLEAR YOUR INVENTORY INCLUDING ARMOR!" to player
+
+			set {player1Super} to {supertier::player}
+			set {supertier::player} to 5
+
+			set {player1Ult} to {ultimatetier::player}
+			set {ultimatetier::player} to 5
+
+			set {player1Ultra} to {ultratier::player}
+			set {ultratier::player} to 5
+			clear player
+			give player 1 of diamond sword
+			give player 1 of diamond axe
+			give player 1 of diamond helmet
+			give player 1 of diamond chestplate
+			give player 1 of diamond leggings
+			give player 1 of diamond boots
+		else if {numOfFighters} = 2:
+			send "&cThere is already 2 fighters! "
+			cancel event
+		else:
+			set {numOfFighters} to 2
+			teleport {_p} to {arena3}
+			set {fighter2} to player
+			send "&cMAKE SURE TO CLEAR YOUR INVENTORY INCLUDING ARMOR!" to player
+
+			set {player2Super} to {supertier::player}
+			set {supertier::player} to 5
+
+			set {player2Ult} to {ultimatetier::player}
+			set {ultimatetier::player} to 5
+
+			set {player2Ultra} to {ultratier::player}
+			set {ultratier::player} to 5
+			set {allowedToBet} to 1
+			clear player
+			give player 1 of diamond sword
+			give player 1 of diamond axe
+			give player 1 of diamond helmet
+			give player 1 of diamond chestplate
+			give player 1 of diamond leggings
+			give player 1 of diamond boots
+
+
+command /startMatch
+ trigger:
+ 		if player is within bound with id "arena":
+			if {numOfFighters} = 2:
+				loop all players:
+					if loop-player is within bound with id "arena":
+						send "&c&lSTART" to loop-player
+				set {allowedToBet} to 2
+			else:
+				send "&cThere are not enough fighters in the arena yet! " to player
+		else:
+			send "&cYou are not in the arena! " to player
+
+
+command /bet [<betNum>] [<player>]
+	usage: /bet <betNum> <player>
+	trigger:
+		if arg-1 is greater than {gold::%player's uuid%}:
+			send "&cThis bet is too rich for your bank account! " to player
+		else if player is within bound with id "arena":
+			if {allowedToBet} = 1:
+				if {fighter1} is arg-2:
+					add player to {fighter1s::*}
+					add arg-1 to {fighter1s::*}
+				else if {fighter2} is arg-2:
+					add player to {fighter2s::*}
+					add arg-1 to {fighter2s::*}
+				else:
+					send "&cThe player you have selected is not fighting" to player
+
+			else if {allowedToBet} = 0:
+				send "&cThe battle has not started yet" to player
+			else:
+				send "&cThe battle has already started" to player
+		else:
+			send "&cYou are not in the arena! " to player
+
+on death:
+	if player is within bound with id "arena":
+		loop all players:
+					if loop-player is within bound with id "arena":
+						send "&c&lFINISHED" to loop-player
+		set {allowedToBet} to 0
+		if {fighter1} is player:
+			loop {fighter1s::*}:
+				if loop-item is an integer:
+					subtract loop-item from {gold::%currentBetter's uuid%}
+				else:
+					set {currentBetter} to loop-item
+			loop {fighter2s::*}:
+				if {fighter2} is loop-item:
+					set {nextIsFighterBet} to 1
+				else if loop-item is an integer:
+					if {nextIsFighterBet} = 1:
+						add loop-item*2 to {gold::%currentBetter's uuid%}
+						set {nextIsFighterBet} to 0
+					else:
+						add loop-item*1.5 to {gold::%currentBetter's uuid%}
+				else:
+					set {currentBetter} to loop-item
+		else if {fighter2} is player:
+			loop {fighter2s::*}:
+				if loop-item is an integer:
+					subtract loop-item from {gold::%currentBetter's uuid%}
+				else:
+					set {currentBetter} to loop-item
+			loop {fighter1s::*}:
+				if {fighter1} is loop-item:
+					set {nextIsFighterBet} to 1
+				else if loop-item is an integer:
+					if {nextIsFighterBet} = 1:
+						add loop-item*2 to {gold::%currentBetter's uuid%}
+						set {nextIsFighterBet} to 0
+					else:
+						add loop-item*1.5 to {gold::%currentBetter's uuid%}
+				else:
+					set {currentBetter} to loop-item
+	loop {fighter1s::*}:
+		if loop-item is {fighter1}:
+			set {supertier::player} to {player1Super}
+			set {ultimatetier::player} to {player1Ult}
+			set {ultratier::player} to {player1Ultra}
+		if loop-item is {fighter2}:
+			set {supertier::player} to {player2Super}
+			set {ultimatetier::player} to {player2Ult}
+			set {ultratier::player} to {player2Ultra}
+	loop {fighter2s::*}:
+		if loop-item is {fighter1}:
+			set {supertier::player} to {player1Super}
+			set {ultimatetier::player} to {player1Ult}
+			set {ultratier::player} to {player1Ultra}
+		if loop-item is {fighter2}:
+			set {supertier::player} to {player1Super}
+			set {ultimatetier::player} to {player1Ult}
+			set {ultratier::player} to {player1Ultra}
+
+command /set arena
+	permission: op
+	trigger:
+		set {arena} to player’s location
+
+command /set arenaspec
+	permission: op
+	trigger:
+		set {arena2} to player’s location
+
+command /set arenafight
+	permission: op
+	trigger:
+		set {arena3} to player’s location
+
+command /arena
+	trigger:
+		teleport player to {arena}

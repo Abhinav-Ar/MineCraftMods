@@ -1,0 +1,207 @@
+
+command /menu:quests:
+	trigger:
+		set {_livesgui} to a new chest inventory with 6 row with name "Quests &k&r"
+		set slot (all integers between 0 and 53) of {_livesgui} to black stained glass pane named " "
+		set slot 4 of {_livesgui} to emerald of mending named "&a&lQuests" with lore "&7Embark on adventures to" and "&7get incredible rewards." with all flags hidden
+		set {_dq} to 1
+		set {_dqs} to 21
+		loop 4 times:
+			set slot {_dqs} of {_livesgui} to paper named "&e&l%{quest%{_dq}%name}%" with lore "&8Daily %{quest%{_dq}%type}%" and " " and "&7Objective:" and "&e%{quest%{_dq}%desc}%" and " " and "&7Progress:" and "&6(&e%{questprogress%{_dq}%::%player's uuid%}%&6 / &e%{quest%{_dq}%number}%&6)" and " " and "&7Rewards:" and "&5+500 EXP" and "&6+2500 Gold" and " " and "%{queststatus%{_dq}%::%player's uuid%}%"
+			add 1 to {_dq}
+			add 1 to {_dqs}
+		set {_wq} to 1
+		set {_wqs} to 30
+		loop 4 times:
+			set slot {_wqs} of {_livesgui} to empty map named "&6&l%{wquest%{_wq}%name}%" with lore "&8Weekly %{wquest%{_wq}%type}%" and " " and "&7Objective:" and "&6%{wquest%{_wq}%desc}%" and " " and "&7Progress:" and "&6(&e%{wquestprogress%{_wq}%::%player's uuid%}%&6 / &e%{wquest%{_wq}%number}%&6)" and " " and "&7Rewards:" and "&5+1000 EXP" and "&6+5000 Gold" and "&6+1 Pandora's Box" and " " and "%{wqueststatus%{_wq}%::%player's uuid%}%"
+			add 1 to {_wq}
+			add 1 to {_wqs}
+
+		set slot 46 of {_livesgui} to barrier named "&c&lClose Menu" with all flags hidden
+		set slot 45 of {_livesgui} to arrow named "&e&lGo Back" with all flags hidden
+		set slot 20 of {_livesgui} to book of mending named "&eDaily Quests Information" with lore "&7Daily Quests reset &7every" and "&7day at &b1:00AM PST&7." with all flags hidden
+		set slot 29 of {_livesgui} to book of mending named "&6Weekly Quests Information" with lore "&7Weekly Quests reset &7every" and "&7Sunday at &b1:00AM PST&7." with all flags hidden
+		open {_livesgui} to player
+
+on load:
+	while true is true:
+		if {lastTime} is not set:
+			set {lastTime} to now
+			set {_execute} to true
+		else if {lastTime} was more than 1 day ago:
+			set {_execute} to true
+			set {lastTime} to now
+		if {_execute} is true:
+			add 1 to {weeklyquestreset}
+			if {weeklyquestreset} = 7:
+				execute console command "weeklyquestsgen"
+				broadcast " "
+				broadcast "&6&LWEEKLY QUESTS RESET! &fThere are new weekly quests and new rewards!"
+				broadcast " "
+				set {weeklyquestreset} to 0
+			execute console command "dailyquestgen"
+			broadcast " "
+			broadcast "&e&LDAILY QUESTS RESET! &fThere are new daily quests and new rewards!"
+			broadcast " "
+			delete {_execute}
+		wait 1 minute
+
+command /weeklyquestset:
+	trigger:
+		set {weeklyquestreset} to 0
+
+command /questset:
+	permission: op
+	trigger:
+		set {dailyquests::*} to "Crack the bones|Slayer Quest|Kill 20 skeletons|kill|20|skeleton" and "Only time will tell|Slayer Quest|Kill 1 player|Kill|1|player" and "Harvester of Crops|Gather Quest|Gather 10 wheat|break|10|wheat" and "Be like the Golems|Gather Quest|Pick 25 poppies|break|25|poppy" and "Excavator|Gather Quest|Mine 100 stone|break|100|stone" and "Diamond Miner|Gather Quest|Mine 1 Diamond|break|1|diamond ore" and "Vegan's Revenge|Slayer Quest|Kill 10 cows|kill|10|cow" and "I don't like sand|Gather Quest|Mine 100 sand|break|100|sand" and "Not just the men|Slayer Quest|Slaughter the women and children too|kill|3|villager" and "Arachne's Spawn|Slayer Quest|Kill 20 spiders|kill|20|spider" and "Revenge|Slayer Quest|Slay 10 creepers|kill|20|creeper" and "Zombie Slayers|Slayer Quest|Slay 30 pigmen|kill|30|zombified piglin" and "The lost builders|Slayer Quest|Slay 10 enderman|kill|10|enderman" and "Zombie Slayers|Slayer Quest|Slay 30 pigmen|kill|30|zombified piglin" and "Mary's lamb is dead|Slayer Quest|Slay a sheep|kill|1|sheep" and "Lag Removers|Gather Quest|Mine 1 spawner|break|1|spawner" and "Glass Breakers|Gather Quest|Break 10 glass|break|10|glass"
+		set {weeklyquests::*} to "Give me the souls|Slayer Quest|Kill 250 monsters|kill|250|monster" and "Player Slayer|Slayer Quest|Kill 3 players|kill|3|player" and "Excavator V2|Gather Quest|Mine 500 stone|break|500|stone" and "The ancient findings|Gather Quest|Mine 4 Ancient Debris|break|4|ancient debris" and "Vegan's Revenge V2|Slayer Quest|Kill 50 cows|kill|50|cow" and "Droplets of the Warden|Gather Quest|Gather 20 sculk|break|20|sculk" and "Cavern Miner|Gather Quest|Mine 25 glowstone|break|25|glowstone" and "Farmer guy|Gather Quest|Gather 50 Carrots|break|50|carrots" and "Technoblade|Gather Quest|Mine 50 potatoes|break|50|potatoes"
+
+
+
+command /weeklyquestgen:
+	permission: op
+	trigger:
+		set {_wq} to 1
+		loop 4 times:
+			delete {wquest%{_wq}%block}
+			delete {wquest%{_wq}%mob}
+			delete {wquest%{_wq}%item}
+			delete {wquest%{_wq}%accending}
+			set {wquest%{_wq}%::*} to random element out of {weeklyquests::*} split by "|"
+			set {wquest%{_wq}%name} to first element out of {wquest%{_wq}%::*}
+			set {wquest%{_wq}%type} to 2nd element out of {wquest%{_wq}%::*}
+			set {wquest%{_wq}%desc} to 3rd element out of {wquest%{_wq}%::*}
+			set {wquest%{_wq}%action} to 4th element out of {wquest%{_wq}%::*}
+			set {wquest%{_wq}%number} to 5th element out of {wquest%{_wq}%::*}
+			set {wquest%{_wq}%focus} to 6th element out of {wquest%{_wq}%::*}
+			if {wquest%{_wq}%action} is "break":
+				set {wquest%{_wq}%block} to 6th element out of {wquest%{_wq}%::*}
+			if {wquest%{_wq}%action} is "kill":
+				set {wquest%{_wq}%mob} to 6th element out of {wquest%{_wq}%::*}
+			add 1 to {_wq}
+
+		clear {doneCmdweekly::*}
+		loop all players:
+			set {wqueststatus1::%loop-player's uuid%} to "&6&lIN PROGRESS"
+			set {wquestprogress1::%loop-player's uuid%} to 0
+			set {wqueststatus2::%loop-player's uuid%} to "&6&lIN PROGRESS"
+			set {wquestprogress2::%loop-player's uuid%} to 0
+			set {wqueststatus3::%loop-player's uuid%} to "&6&lIN PROGRESS"
+			set {wquestprogress3::%loop-player's uuid%} to 0
+			set {wqueststatus4::%loop-player's uuid%} to "&6&lIN PROGRESS"
+			set {wquestprogress4::%loop-player's uuid%} to 0
+			set {doneCmd::%loop-player%} to true
+
+command /fixdailyquests:
+	trigger:
+		set {wquest4block} to "wheat"
+		set {wquest3block} to "wheat"
+command /dailyquestgen:
+	permission: op
+	trigger:
+		set {_dq} to 1
+		loop 4 times:
+			delete {quest%{_dq}%block}
+			delete {quest%{_dq}%mob}
+			set {quest%{_dq}%::*} to random element out of {dailyquests::*} split by "|"
+			set {quest%{_dq}%name} to first element out of {quest%{_dq}%::*}
+			set {quest%{_dq}%type} to 2nd element out of {quest%{_dq}%::*}
+			set {quest%{_dq}%desc} to 3rd element out of {quest%{_dq}%::*}
+			set {quest%{_dq}%action} to 4th element out of {quest%{_dq}%::*}
+			set {quest%{_dq}%number} to 5th element out of {quest%{_dq}%::*}
+			set {quest%{_dq}%focus} to 6th element out of {quest%{_dq}%::*}
+			if {quest%{_dq}%action} is "break":
+				set {quest%{_dq}%block} to 6th element out of {quest%{_dq}%::*}
+			if {quest%{_dq}%action} is "kill":
+				set {quest%{_dq}%mob} to 6th element out of {quest%{_dq}%::*}
+			add 1 to {_dq}
+		clear {doneCmd::*}
+		loop all players:
+			set {queststatus1::%loop-player's uuid%} to "&e&lIN PROGRESS"
+			set {questprogress1::%loop-player's uuid%} to 0
+			set {queststatus2::%loop-player's uuid%} to "&e&lIN PROGRESS"
+			set {questprogress2::%loop-player's uuid%} to 0
+			set {queststatus3::%loop-player's uuid%} to "&e&lIN PROGRESS"
+			set {questprogress3::%loop-player's uuid%} to 0
+			set {queststatus4::%loop-player's uuid%} to "&e&lIN PROGRESS"
+			set {questprogress4::%loop-player's uuid%} to 0
+			set {doneCmd::%loop-player%} to true
+
+on join:
+	if {doneCmd::%player%} is not set:
+		set {queststatus1::%player's uuid%} to "&e&lIN PROGRESS"
+		set {questprogress1::%player's uuid%} to 0
+		set {queststatus2::%player's uuid%} to "&e&lIN PROGRESS"
+		set {questprogress2::%player's uuid%} to 0
+		set {queststatus3::%player's uuid%} to "&e&lIN PROGRESS"
+		set {questprogress3::%player's uuid%} to 0
+		set {queststatus4::%player's uuid%} to "&e&lIN PROGRESS"
+		set {questprogress4::%player's uuid%} to 0
+		set {doneCmd::%player%} to true
+
+		set {wqueststatus1::%player's uuid%} to "&6&lIN PROGRESS"
+		set {wquestprogress1::%player's uuid%} to 0
+		set {wqueststatus2::%player's uuid%} to "&6&lIN PROGRESS"
+		set {wquestprogress2::%player's uuid%} to 0
+		set {wqueststatus3::%player's uuid%} to "&6&lIN PROGRESS"
+		set {wquestprogress3::%player's uuid%} to 0
+		set {wqueststatus4::%player's uuid%} to "&6&lIN PROGRESS"
+		set {wquestprogress4::%player's uuid%} to 0
+		set {doneCmdweekly::%player%} to true
+
+
+
+
+
+on break:
+	set {_wdq} to 1
+	loop 4 times:
+		if event-block is ({quest%{_wdq}%block} parsed as itemtype):
+			if {queststatus%{_wdq}%::%player's uuid%} is not "&a&lCOMPLETED":
+				add 1 to {questprogress%{_wdq}%::%player's uuid%}
+				if {questprogress%{_wdq}%::%player's uuid%} >= ({quest%{_wdq}%number} parsed as number):
+					play sound "entity.player.levelup" with volume 1 to player
+					send title "&e&lDAILY QUEST COMPLETED!" with subtitle "&e%{quest%{_wdq}%desc}% &6(&e%{questprogress%{_wdq}%::%player's uuid%}%&6/&e%{quest%{_wdq}%number}%&6) &5+500 EXP &6+2500 Gold" to player for 3 seconds with fade out 0.5 second
+					set {queststatus%{_wdq}%::%player's uuid%} to "&a&lCOMPLETED"
+					AddExp(player, 500, 2500)
+				else:
+					send "&e&l%{quest%{_wdq}%name}% &6(&e%{questprogress%{_wdq}%::%player's uuid%}%&6/&e%{quest%{_wdq}%number}%&6)" to player
+		if event-block is ({wquest%{_wdq}%block} parsed as itemtype):
+			if {wqueststatus%{_wdq}%::%player's uuid%} is not "&a&lCOMPLETED":
+				add 1 to {wquestprogress%{_wdq}%::%player's uuid%}
+				if {wquestprogress%{_wdq}%::%player's uuid%} >= ({wquest%{_wdq}%number} parsed as number):
+					play sound "entity.player.levelup" with volume 1 to player
+					send title "&6&lWEEKLY QUEST COMPLETED!" with subtitle "&6%{wquest%{_wdq}%desc}% &6(&e%{wquestprogress%{_wdq}%::%player's uuid%}%&6/&e%{wquest%{_wdq}%number}%&6) &5+1000 EXP &6+5000 Gold &6+1 Pandora's Box" to player for 3 seconds with fade out 0.5 second
+					set {wqueststatus%{_wdq}%::%player's uuid%} to "&a&lCOMPLETED"
+					AddExp(player, 1000, 5000)
+					give player 1 jukebox of mending named "&6Pandora's Box" with lore "&6Item Ability: Alohomora &e&lRIGHT CLICK" and "&7Gives you a random potion effect" and "&7or a special item. Try your luck!" and "&8Consumes on use" and " " and "&6&lLEGENDARY" with all flags hidden
+				else:
+					send action bar "&6&l%{wquest%{_wdq}%name}% &6(&e%{wquestprogress%{_wdq}%::%player's uuid%}%&6/&e%{wquest%{_wdq}%number}%&6)" to player
+		add 1 to {_wdq}
+
+
+on death:
+	set {_wdq} to 1
+	loop 4 times:
+		if victim is ({quest%{_wdq}%mob} parsed as entitytype):
+			if {queststatus%{_wdq}%::%attacker's uuid%} is not "&a&lCOMPLETED":
+				add 1 to {questprogress%{_wdq}%::%attacker's uuid%}
+				if {questprogress%{_wdq}%::%attacker's uuid%} >= ({quest%{_wdq}%number} parsed as number):
+					play sound "entity.player.levelup" with volume 1 to attacker
+					send title "&e&lDAILY QUEST COMPLETED!" with subtitle "&e%{quest%{_wdq}%desc}% &6(&e%{questprogress%{_wdq}%::%attacker's uuid%}%&6/&e%{quest%{_wdq}%number}%&6) &5+500 EXP &6+2500 Gold" to attacker for 3 seconds with fade out 0.5 second
+					set {queststatus%{_wdq}%::%attacker's uuid%} to "&a&lCOMPLETED"
+					AddExp(attacker, 500, 2500)
+				else:
+					send "&e&l%{quest%{_wdq}%name}% &6(&e%{questprogress%{_wdq}%::%attacker's uuid%}%&6/&e%{quest%{_wdq}%number}%&6)" to attacker
+		if victim is ({wquest%{_wdq}%mob} parsed as entitytype):
+			if {wqueststatus%{_wdq}%::%attacker's uuid%} is not "&a&lCOMPLETED":
+				add 1 to {wquestprogress%{_wdq}%::%attacker's uuid%}
+				if {wquestprogress%{_wdq}%::%attacker's uuid%} >= ({wquest%{_wdq}%number} parsed as number):
+					play sound "entity.player.levelup" with volume 1 to attacker
+					send title "&6&lWEEKLY QUEST COMPLETED!" with subtitle "&6%{wquest%{_wdq}%desc}% &6(&e%{wquestprogress%{_wdq}%::%attacker's uuid%}%&6/&e%{wquest%{_wdq}%number}%&6) &5+1000 EXP &6+5000 Gold &6+1 Pandora's Box" to attacker for 3 seconds with fade out 0.5 second
+					set {wqueststatus%{_wdq}%::%attacker's uuid%} to "&a&lCOMPLETED"
+					AddExp(attacker, 1000, 5000)
+					give attacker 1 jukebox of mending named "&6Pandora's Box" with lore "&6Item Ability: Alohomora &e&lRIGHT CLICK" and "&7Gives you a random potion effect" and "&7or a special item. Try your luck!" and "&8Consumes on use" and " " and "&6&lLEGENDARY" with all flags hidden
+				else:
+					send action bar "&6&l%{wquest%{_wdq}%name}% &6(&e%{wquestprogress%{_wdq}%::%attacker's uuid%}%&6/&e%{wquest%{_wdq}%number}%&6)" to attacker
+		add 1 to {_wdq}

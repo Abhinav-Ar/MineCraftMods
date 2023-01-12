@@ -1,0 +1,210 @@
+command /resetwaypoints:
+	permission: op
+	trigger:
+		delete {waypoints::%player's uuid%}
+		delete {waypoint3::%player's uuid%}
+		delete {waypoint3name::%player's uuid%}
+		delete {waypoint2::%player's uuid%}
+		delete {waypoint2name::%player's uuid%}
+		delete {waypoint1::%player's uuid%}
+		delete {waypoint1name::%player's uuid%}
+
+on load:
+	register new shapeless recipe for paper of mending named "&9Waypoint" with lore "&9Item Ability: Waypoint &e&lRIGHT CLICK" and "&7Consumes this item and" and "&7sets your location as a" and "&7waypoint. &8(Max 3)" and "&8Consumes on use" and " " and "&9&LRARE" with all flags hidden using ender pearl, obsidian, obsidian, obsidian, obsidian with id "waypoint"
+#tutorial here
+on right click:
+	if name of event-item is  "&9Waypoint":
+		if player is not in bound with id "underworld":
+			if {waypoints::%player's uuid%} is greater than 2:
+				send "&cYou already have 3 waypoints set!"
+				cancel event
+			else:
+				remove 1 of player's tool from player
+				play sound "block.beacon.power_select" with volume 1 to player
+				if {waypoints::%player's uuid%} is not set:
+					set {waypoint1::%player's uuid%} to player's location
+					send "&a&lSUCCESS! &7You set your first waypoint slot to %{waypoint1::%player's uuid%}%&7!" to player
+					set {waypoint1name::%player's uuid%} to "Waypoint 1"
+					add 1 to {waypoints::%player's uuid%}
+					stop
+				if {waypoints::%player's uuid%} = 0:
+					set {waypoint1::%player's uuid%} to player's location
+					send "&a&lSUCCESS! &7You set your first waypoint slot to %{waypoint1::%player's uuid%}%&7!" to player
+					set {waypoint1name::%player's uuid%} to "Waypoint 1"
+					add 1 to {waypoints::%player's uuid%}
+					stop
+				if {waypoints::%player's uuid%} = 1:
+					if {waypoint1::%player's uuid%} is not set:
+						set {waypoint1::%player's uuid%} to player's location
+						send "&a&lSUCCESS! &7You set your first waypoint slot to %{waypoint1::%player's uuid%}%&7!" to player
+						set {waypoint1name::%player's uuid%} to "Waypoint 1"
+						add 1 to {waypoints::%player's uuid%}
+						stop
+					if {waypoint2::%player's uuid%} is not set:
+						set {waypoint2::%player's uuid%} to player's location
+						send "&a&lSUCCESS! &7You set your second waypoint slot to %{waypoint2::%player's uuid%}%&7!" to player
+						set {waypoint2name::%player's uuid%} to "Waypoint 2"
+						add 1 to {waypoints::%player's uuid%}
+						stop
+				if {waypoints::%player's uuid%} = 2:
+					if {waypoint1::%player's uuid%} is not set:
+						set {waypoint1::%player's uuid%} to player's location
+						send "&a&lSUCCESS! &7You set your first waypoint slot to %{waypoint1::%player's uuid%}%&7!" to player
+						set {waypoint1name::%player's uuid%} to "Waypoint 1"
+						add 1 to {waypoints::%player's uuid%}
+						stop
+					if {waypoint2::%player's uuid%} is not set:
+						set {waypoint2::%player's uuid%} to player's location
+						send "&a&lSUCCESS! &7You set your second waypoint slot to %{waypoint2::%player's uuid%}%&7!" to player
+						set {waypoint2name::%player's uuid%} to "Waypoint 2"
+						add 1 to {waypoints::%player's uuid%}
+						stop
+					if {waypoint3::%player's uuid%} is not set:
+						set {waypoint3::%player's uuid%} to player's location
+						send "&a&lSUCCESS! &7You set your third waypoint slot to %{waypoint3::%player's uuid%}%&7!" to player
+						set {waypoint3name::%player's uuid%} to "Waypoint 3"
+						add 1 to {waypoints::%player's uuid%}
+						stop
+					set {waypoint3::%player's uuid%} to player's location
+					send "&a&lSUCCESS! &7You set your third waypoint slot to %{waypoint3::%player's uuid%}%&7!" to player
+					set {waypoint3name::%player's uuid%} to "Waypoint 3"
+					add 1 to {waypoints::%player's uuid%}
+					stop
+		else:
+			send "&cYou can't set a waypoint here!" to player
+
+
+
+
+
+on sign change:
+	if {temp::%player%} is set:
+		if event-item is oak sign:
+			set {waypoint1name::%player's uuid%} to line 1
+			WaypointSettings(1, {waypoint1name::%player's uuid%}, {waypoint1::%player's uuid%}, player)
+			set block above player to {temp::%player%} parsed as item
+			delete {temp::%player%}
+		if event-item is jungle sign:
+			set {waypoint2name::%player's uuid%} to line 1
+			WaypointSettings(2, {waypoint2name::%player's uuid%}, {waypoint2::%player's uuid%}, player)
+			set block above player to {temp::%player%} parsed as item
+			delete {temp::%player%}
+		if event-item is birch sign:
+			set {waypoint3name::%player's uuid%} to line 1
+			WaypointSettings(3, {waypoint3name::%player's uuid%}, {waypoint3::%player's uuid%}, player)
+			set block above player to {temp::%player%} parsed as item
+			delete {temp::%player%}
+		if event-item is mangrove sign:
+			WaypointSettings(4, {waypoint4name::%player's uuid%}, {waypoint4::%player's uuid%}, player)
+			set {waypoint4name::%player's uuid%} to line 1
+			set block above player to {temp::%player%} parsed as item
+			delete {temp::%player%}
+		if event-item is warped sign:
+			WaypointSettings(5, {waypoint5name::%player's uuid%}, {waypoint5::%player's uuid%}, player)
+			set {waypoint5name::%player's uuid%} to line 1
+			set block above player to {temp::%player%} parsed as item
+			delete {temp::%player%}
+
+
+command /accept:
+	aliases: /a, /tpaccept
+	cooldown: 7 seconds
+	trigger:
+		set {_u} to uuid of player
+		if {request::player::%{_u}%} is set:
+			set {_p} to {request::player::%{_u}%}
+			if {_p} is online:
+				if player is not in bound with id "underworld":
+					send "&f%{_p}%&a will teleport to you in 5 seconds!" to player
+					play sound "block.note_block.pling" to {_p}
+					send subtitle "&aTeleporting you to &f%player%&a in 5 seconds" to {_p} with fadein 0 second and fade out 0 second
+					wait 1 second
+					set {_locationx} to x-coord of {_p}
+					set {_locationz} to z-coord of {_p}
+					set {_h} to health of {_p}
+					set {_hp} to health of player
+					loop 3 times:
+						set {_checkx} to x-coord of {_p}
+						set {_checkz} to z-coord of {_p}
+						send subtitle "&aTeleporting you to &f%player%&a in %5 - loop-number% seconds" to {_p} with fadein 0 second and fade out 0 second
+						play sound "block.note_block.pling" to {_p}
+						if {_h} isn't health of {_p}:
+							send "&cTeleport cancelled. You took damage!" to {_p}
+							send "&cTeleport cancelled. %{_p}% took damage!" to player
+							stop
+						if "%{_checkx}% %{_checkz}%" isn't "%{_locationx}% %{_locationz}%":
+							send "&cTeleport cancelled. Do not move!" to {_p}
+							send "&cTeleport cancelled. %{_p}% moved!" to player
+							stop
+						wait 20 ticks
+					send subtitle "&aTeleporting you to &f%player%&a in 1 second" to {_p} for 1 second with fadein 0 second and fade out 1 second
+					apply potion of blindness of tier 1 to {_p} for 3 seconds
+					apply potion of nausea of tier 1 to {_p} for 3 seconds
+					play sound "entity.ender_dragon.flap" with volume 1 and pitch 0.5 to {_p}
+					wait 1 second
+					teleport {_p} to location of player
+					send "&aYou have been teleported to &f%player%&a!" to {_p}
+					send "&f%{_p}% &7has been teleported to you!" to player
+					delete {request::player::%{_u}%}
+					wait 1 seconds
+					play sound "entity.ender_dragon.flap" with volume 1 and pitch 0.5 to {_p}
+				else:
+					send "&cYou cannot accept teleport requests in the underworld!" to player
+			else:
+				send "&cThis player is no longer online!" to player
+		else:
+			send "&cYou have no teleportation requests to accept!" to player
+
+command /tpamenu:
+	trigger:
+		open chest inventory with 5 rows named "Send a teleport request &k&r" to player
+		set slot (all integers between 0 and 44) of player's current inventory to black stained glass pane named " " with all flags hidden
+		set slot (all integers between 9 and 35) of player's current inventory to air
+		set slot 40 of player's current inventory to barrier named "&c&lClose Menu" with all flags hidden
+		set slot 39 of player's current inventory to arrow named "&e&lGo Back" with all flags hidden
+		set {_slot} to 9
+
+		loop all players:
+			if loop-value is not player:
+				set slot {_slot} of current inventory of player to loop-value's skull named "&f%loop-value%" with lore "&7Requests expire in" and "&730 seconds" and " " and "&7Cost" and "&6250 Gold" and " " and "&eClick to request!"
+				add 1 to {_slot}
+		if current inventory of player doesn't have player head:
+			set slot 22 of current inventory of player to barrier named "&cThere is no one else online!"
+#powers thing is in powers.sk
+
+function WaypointSettings(one: num, name: text, loc: location, p: player):
+	set {_settings} to a new chest inventory with 5 row with name "Waypoint %{_one}% Settings &k&r"
+	set slot (all integers between 0 and 44) of {_settings} to black stained glass pane named " "
+	set slot 13 of {_settings} to paper named "&b%{_name}%"
+
+	set slot 21 of {_settings} to book named "&9Info" with lore "&bWaypoint Name: &f%{_name}%" and "&bWaypoint Number: &f%{_one}%" and "&bLocation: &f%{_loc}%"
+	set slot 22 of {_settings} to name tag named "&aRename Waypoint" with lore "&eClick to rename!"
+	set slot 23 of {_settings} to red dye named "&cDelete Waypoint" with lore "&4Warning: This action" and "&ccannot be reversed!" and " " and "&eClick to delete!"
+
+	set slot 40 of {_settings} to barrier named "&c&lClose Menu" with all flags hidden
+	set slot 39 of {_settings} to arrow named "&e&lGo Back" with all flags hidden
+	open {_settings} to {_p}
+
+
+
+command /menu:travel:
+	trigger:
+		set {_livesgui} to a new chest inventory with 6 row with name "Fast Travel &k&r"
+		set slot (all integers between 0 and 53) of {_livesgui} to black stained glass pane named " "
+		set slot 4 of {_livesgui} to filled map named "&b&lFast Travel"  with lore "&7Quickly travel to your" and "&7set waypoints!" with all flags hidden
+		set slot (all integers between 20 and 22) of {_livesgui} to yellow glass pane named "&cEmpty Waypoint Slot" with lore "&7To craft waypoints, use" and "&74 obsidian and an Ender" and "&7Pearl in a crafting table."
+		set slot (all integers between 23 and 24) of {_livesgui} to red glass pane named "&cLocked Waypoint Slot" with lore "&7More waypoints are coming" and "&7soon!"
+		set slot 29 of {_livesgui} to player head named "&aTeleport to player" with lore "&7Request to teleport to" and "&7any online player!" and " " and "&eClick to view"
+		set slot 30 of {_livesgui} to lantern named "&6Spawn" with lore "&7Return to &6Olympus!" and " " and "&eClick to teleport!"
+		set slot 31 of {_livesgui} to diamond named "&9Shopping District" with lore "&7Buy or sell stuff!" and " " and "&eClick to teleport!"
+		set slot 32 of {_livesgui} to dark oak sapling named "&2The Wild" with lore "&71000 x 1000 blocks" and "&7from spawn." and "&8Cooldown: 1 hour" and " " and "&eClick to teleport!"
+		set slot 33 of {_livesgui} to soul lantern named "&bThe Underworld" with lore "&7Eternal Darkness" and " " and "&eClick to teleport!"
+		if {waypoint1::%player's uuid%} is set:
+			set slot 20 of {_livesgui} to oak sign named "&b%{waypoint1name::%player's uuid%}%" with lore "&7Waypoint 1" and " " and "&eRight click for settings!" and "&eLeft Click to teleport!"
+		if {waypoint2::%player's uuid%} is set:
+			set slot 21 of {_livesgui} to acacia sign named "&b%{waypoint2name::%player's uuid%}%" with lore "&7Waypoint 2" and " " and "&eRight click for settings!" and "&eLeft Click to teleport!"
+		if {waypoint3::%player's uuid%} is set:
+			set slot 22 of {_livesgui} to birch sign named "&b%{waypoint3name::%player's uuid%}%" with lore "&7Waypoint 3" and " " and "&eRight click for settings!" and "&eLeft Click to teleport!"
+		set slot 46 of {_livesgui} to barrier named "&c&lClose Menu" with all flags hidden
+		set slot 45 of {_livesgui} to arrow named "&e&lGo Back" with all flags hidden
+		open {_livesgui} to player

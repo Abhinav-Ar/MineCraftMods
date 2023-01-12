@@ -1,0 +1,288 @@
+
+options:
+    P: &c[CLANS]&f
+    Version: "1.3.1"
+
+
+#
+# Hey there.
+# If you feel like you know what you're doing, by all means go ahead and edit it.
+# But if something breaks, it will be irreversible.
+#
+
+on script load:
+    if {clan::names::*} is not set:
+        add "" to {clan::names::*}
+
+every 5 minutes:
+    loop all players:
+        if {clan::%loop-player's uuid%} is set:
+            add 1 to {clan::points::%{clan::%loop-player's uuid%}%}
+            send "+1 clan points." to loop-player
+
+command /clan [<text>] [<text>] [<text>]:
+    aliases: c, clans
+    trigger:
+        if arg-1 is "create":
+            if {clan::%player's uuid%} is not set:
+                if arg-2 is set:
+                    if arg-3 is set:
+                        send "&c&lERROR! &4| &cClan names can only be one word."
+                        stop
+
+                    if length of arg-2 is greater than 7:
+                        send "&c&lERROR! &4| &cClan name cannot exceed 7 characters."
+                        stop
+                    if arg-2 contains "-" or "_" or "." or ";" or ":" or "@" or "," or "/" or "!":
+                        send "&c&lERROR! &4| &cIllegal character in your clan name."
+                        stop
+                    else if {clan::names::*} does not contain arg-2:
+                        set {clan::%executor's uuid%} to arg-2
+                        add arg-2 to {clan::names::*}
+                        set {clan::owner::%arg-2%} to "%executor%"
+                        add "%executor%" to {clan::admins::%arg-2%::*}
+                        set {clan::points::%arg-2%} to 0
+                        add "%executor%" to {clan::memberlist::%arg-2%::*}
+                        add 1 to {clan::members::%arg-2%}
+                        send "&a&lSUCCESS! &2| &2Clan &6%{clan::%executor's uuid%}%&2 created."
+                    else:
+                        send "This clan name is taken."
+                else:
+                    send "Enter a clan name."
+            else:
+                send "You're already in a clan."
+        else if arg-1 is "info":
+            if arg-2 is not set:
+                if {clan::%player's uuid%} is set:
+                    send "Clan &6%{clan::%executor's uuid%}%&f information."
+                    send "&7> &cOwner: &f%{clan::owner::%{clan::%player's uuid%}%}%"
+                    send "&7> &cAdmins: &f%{clan::admins::%{clan::%player's uuid%}%::*}%"
+                    send ""
+                    send "&7> &cMembers: &f%{clan::members::%{clan::%player's uuid%}%}%"
+                    send "&7> &cMember List: &f%{clan::memberlist::%{clan::%player's uuid%}%::*}%"
+                    send "&7> &cPoints: &f%{clan::points::%{clan::%player's uuid%}%}%"
+                else:
+                    send "You're not in a clan."
+            else:
+                set {_player} to (arg-2 parsed as player)
+                set {_uuid} to {_player}'s uuid
+                if {clan::%{_uuid}%} is set:
+                    send "Player&6 %{_player}%&f's clan information."
+                    send "&7> &cName: &f%{clan::%{_uuid}%}%"
+                    send "&7> &cOwner: &f%{clan::owner::%{clan::%{_uuid}%}%}%"
+                    send ""
+                    send "&7> &cMembers: &f%{clan::members::%{clan::%{_uuid}%}%}%"
+                    send "&7> &cPoints: &f%{clan::points::%{clan::%{_uuid}%}%}%"
+                else:
+                    send "&6%{_player}%&f is not in a clan."
+        else if arg-1 is "delete":
+            if {clan::%executor's uuid%} is set:
+                if {clan::owner::%{clan::%executor's uuid%}%} = executor:
+                    send "Clan &6%{clan::%executor's uuid%}%&f deleted."
+                    remove {clan::%executor's uuid%} from {clan::names::*}
+                    delete {clan::owner::%{clan::%player's uuid%}%}
+                    delete {clan::points::%{clan::%player's uuid%}%}
+                    delete {clan::admins::%{clan::%player's uuid%}%::*}
+                    delete {clan::members::%{clan::%player's uuid%}%}
+                    loop {clan::memberlist::%{clan::%player's uuid%}%::*}:
+                        set {_player} to loop-value parsed as player
+                        set {_uuid} to {_player}'s uuid
+                        delete {clan::memberlist::%{clan::%player's uuid%}%::*}
+                        wait 3 ticks
+                        delete {clan::%{_uuid}%}
+                else:
+                    send "Only the clan owner can delete the clan."
+            else:
+                send "You are not in a clan."
+        else if arg-1 is "invite":
+            if {clan::%player's uuid%} is set:
+                if {clan::admins::%{clan::%player's uuid%}%::*} contains executor:
+                    set {_player} to (arg-2 parsed as player)
+                    set {_uuid} to {_player}'s uuid
+                    if arg-2 is set:
+                        if {clan::memberlist::%{clan::%player's uuid%}%::*} does not contain {_player}:
+                            set {clans::request::%{_uuid}%} to {clan::%executor's uuid%}
+                            send "Invited &6%arg-2%&f to the clan." to executor
+                            send "You have been invited to join &6%{clan::%executor's uuid%}%&f by &6%executor%&f." to {_player}
+                            loop {clan::memberlist::%{clan::%executor's uuid%}%::*}:
+                                send "&6%arg-2%&f has been invited to join the clan by &6%executor%&f." to loop-value parsed as player
+                        else:
+                            send "This player is already in your clan."
+                    else:
+                        send "Enter a player."
+                else:
+                    send "Only admins can invite players to a clan."
+            else:
+                send "You are not in a clan."
+        else if arg-1 is "join":
+            if {clan::%executor's uuid%} is not set:
+                if {clans::request::%executor's uuid%} is set:
+                    set {clan::%executor's uuid%} to {clans::request::%executor's uuid%}
+                    add 1 to {clan::members::%{clan::%executor's uuid%}%}
+                    add "%executor%" to {clan::memberlist::%{clans::request::%executor's uuid%}%::*}
+                    send "You have joined &6%{clans::request::%executor's uuid%}%&f."
+                    set the player's tab list name to "&d%{level::%player's uuid%}%♦ &7%player's name% &e[%{clan::%player's uuid%}%]"
+                    loop {clan::memberlist::%{clan::%executor's uuid%}%::*}:
+                        send "&6%executor%&f has joined the clan." to loop-value parsed as player
+                    wait 3 ticks
+                    delete {clans::request::%executor's uuid%}
+                else:
+                    send "You have no pending requests."
+            else:
+                send "You are already in a clan."
+        else if arg-1 is "promote":
+            if {clan::%executor's uuid%} is set:
+                if {clan::admins::%{clan::%player's uuid%}%::*} contains executor:
+                    set {_player} to (arg-2 parsed as player)
+                    set {_uuid} to {_player}'s uuid
+                    if {clan::admins::%{clan::%player's uuid%}%::*} does not contain {_player}:
+                        if arg-2 is set:
+                            add "%{_player}%" to {clan::admins::%{clan::%executor's uuid%}%::*}
+                            loop {clan::memberlist::%{clan::%executor's uuid%}%::*}:
+                                send "&6%{_player}%&f has been made an admin in the clan." to loop-value parsed as player
+                        else:
+                            send "Enter a player."
+                    else:
+                        send "This player is already an admin."
+        else if arg-1 is "demote":
+            if {clan::%executor's uuid%} is set:
+                if arg-2 is set:
+                    if {clan::admins::%{clan::%player's uuid%}%::*} contains executor:
+                        set {_player} to (arg-2 parsed as player)
+                        set {_uuid} to {_player}'s uuid
+                        if {clan::owner::%{clan::%player's uuid%}%} is not {_player}:
+                            if {clan::admins::%{clan::%player's uuid%}%::*} contains {_player}:
+                                remove "%{_player}%" from {clan::admins::%{clan::%executor's uuid%}%::*}
+                                loop {clan::memberlist::%{clan::%executor's uuid%}%::*}:
+                                    send "&6%{_player}%&f has been demoted in the clan." to loop-value parsed as player
+                            else:
+                                send "This player is not an admin."
+                        else:
+                            send "You can not demote the owner."
+                    else:
+                        send "Only admins can make another player admin."
+                else:
+                    send "Enter a player."
+            else:
+                send "You're not in a clan."
+        else if arg-1 is "kick":
+            if {clan::%executor's uuid%} is set:
+                if arg-2 is set:
+                    if {clan::admins::%{clan::%player's uuid%}%::*} contains executor:
+                        set {_player} to (arg-2 parsed as offline player)
+                        set {_uuid} to {_player}'s uuid
+                        if {clan::memberlist::%{clan::%player's uuid%}%::*} contains {_player}:
+                            loop {clan::memberlist::%{clan::%executor's uuid%}%::*}:
+                                send "&6%{_player}%&f has been kicked from the clan." to loop-value parsed as player
+                            remove "%{_player}%" from {clan::admins::%{clan::%executor's uuid%}%::*}
+                            remove "%{_player}%" from {clan::memberlist::%{clan::%executor's uuid%}%::*}
+                            remove 1 from {clan::members::%{clan::%player's uuid%}%}
+                            delete {clan::%{_uuid}%}
+                        else:
+                            send "This user is not in the clan"
+                    else:
+                        send "Only admins can kick members."
+                else:
+                    send "Enter a player."
+            else:
+                send "You're not in a clan."
+        else if arg-1 is "leave":
+            if {clan::%executor's uuid%} is set:
+                loop {clan::memberlist::%{clan::%executor's uuid%}%::*}:
+                    send "&6%executor%&f has left the clan." to loop-value parsed as player
+                send "&fYou have left the clan." to player
+                wait 3 ticks
+                remove "%executor%" from {clan::memberlist::%{clan::%executor's uuid%}%::*}
+                remove 1 from {clan::members::%{clan::%player's uuid%}%}
+                remove "%executor%" from {clan::admins::%{clan::%executor's uuid%}%::*}
+                delete {clan::%executor's uuid%}
+            else:
+                send "You're not in a clan."
+        else if arg-1 is "chat":
+            if {clan::%executor's uuid%} is set:
+                if {clan::chat::%player's uuid%} is not set:
+                    set {clan::chat::%player's uuid%} to true
+                    send "Clan chat &aenabled&f."
+                else:
+                    delete {clan::chat::%player's uuid%}
+                    send "Clan chat &cdisabled&f."
+            else:
+                send "You're not in a clan."
+        else if arg-1 is "admin":
+            if player has permission "clans.admin":
+                if arg-2 is "delete":
+                    if arg-3 is set:
+                        loop {clan::memberlist::%arg-3%::*}:
+                            set {_player} to loop-value parsed as player
+                            set {_uuid} to {_player}'s uuid
+                            delete {clan::%{_uuid}%}
+                        remove arg-3 from {clan::names::*}
+                        delete {clan::owner::%arg-3%}
+                        delete {clan::points::%arg-3%}
+                        delete {clan::admins::%arg-3%::*}
+                        delete {clan::members::%arg-3%}
+                        delete {clan::memberlist::%arg-3%::*}
+                        send "Clan &6%arg-3%&f deleted."
+                        delete {clan::%arg-3%}
+                    else:
+                        send "Enter a clan name to delete."
+                else if arg-2 is "add":
+                    if arg-3 is set:
+                        add arg-3 to {clan::names::*}
+                        send "Added &6%arg-3%&f to the name filter."
+                    else:
+                        send "Enter a name to add from the name filter."
+                else if arg-2 is "remove":
+                    if arg-3 is set:
+                        remove arg-3 from {clan::names::*}
+                        send "Removed &6%arg-3%&f from the name filter."
+                    else:
+                        send "Enter a name to remove from the name filter."
+                else:
+                    send ""
+                    send "&7>&c /clan admin arguments"
+                    send "&7>&c (required)&7, &c[optional]"
+                    send ""
+                    send "&7>&f filter (add|remove) (name) &7&O- Add or remove a name from the name filter."
+                    send "&7>&f delete (clan name) &7&O- Delete a clan."
+            else:
+                send "You are lacking the permission ""clans.admin""."
+        else:
+            send ""
+            send "&7>&c /clan arguments"
+            send "&7>&c (required)&7, &c[optional]"
+            send "&7>&c Version: v%{@Version}%"
+            send ""
+            send "&7>&f create (name) &7&O- Create your clan."
+            send "&7>&f delete &7&O- Delete your clan."
+            send "&7>&f info [name]&7&O- Your or another player's clan info."
+            send "&7>&f join &7&O- Accept an invitation."
+            send "&7>&f leave &7&O- Leave your current clan."
+            send ""
+            send "&cAdmin Commands &7You must have admin role in your clan."
+            send ""
+            send "&7>&f invite (player) &7&O- Invite a player."
+            send "&7>&f kick (player) &7&O- Kick a player from the clan."
+            send "&7>&f promote (player) &7&O- Promote a player to admin."
+            send "&7>&f demote (player) &7&O- Revoke an admin rank."
+            send ""
+            send "&cClan Admin Control &7You must have the permission ""clans.admin""."
+            send ""
+            send "&7>&f For all commands, &6/clan admin&f."
+
+
+command /clandelete [<player>]:
+	trigger:
+		delete {clan::%arg-1's uuid%}
+
+on chat:
+    if {clan::chat::%player's uuid%} is true:
+        cancel event
+        loop {clan::memberlist::%{clan::%executor's uuid%}%::*}:
+            send "&b&lCLAN> &7%event-player%&f: %message%" to loop-value parsed as player
+
+on damage:
+    if {clan::memberlist::%{clan::%attacker's uuid%}%::*} contains victim:
+        if victim is not attacker:
+            cancel event
+            send "&cYou can't attack a clan member!" to attacker

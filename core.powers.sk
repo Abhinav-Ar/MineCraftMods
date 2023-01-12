@@ -1,0 +1,1272 @@
+options: #Damage Values/Cooldowns for gods
+	zeus1: ({zeussuper::%attacker's uuid%} / 2) #0.5-10
+	zeus1cooldown: 5
+	zeus2: (2 + {zeusultimate::%player's uuid%} / 4) #1-10 x 5 in a radius of 5
+	zeus2cooldown: 40
+	zeus3: (2 + {zeusultra::%player's uuid%} / 2) #1-10 x 7
+	zeus3cooldown: 120
+
+	hera1: {herasuper::%player's uuid%} #1-10
+	hera1cooldown: 7
+	hera2: ({heraultimate::%player's uuid%} * 2) #Heal amount
+	hera2cooldown: 60
+	hera3: (8 + {heraultra::%player's uuid%}) #speed pushing away
+	hera33: (4 + 0.8 * {heraultra::%player's uuid%}) #speed pushing downwards
+	hera3cooldown: 120
+
+	poseidon1: (4 + {poseidonsuper::%player's uuid%}) #push player forwards tginhy
+	poseidon11: ({poseidonsuper::%player's uuid%} / 5) #regen given
+	poseidon1cooldown: 5
+	poseidon2: (0.5 * {poseidonultimate::%player's uuid%}) #damage x 10
+	poseidon2cooldown: 45
+	poseidon3: (1 + {poseidonultra::%player's uuid%} / 2) #speed pushing away
+	poseidon3cooldown: 190
+
+	demeter1: ({demetersuper::%attacker's uuid%} / 2) #1-10 added
+	demeter1cooldown: 5
+	demeter2: ({demeterultimate::%player's uuid%} / 2) #amount of regen and strength given
+	demeter2cooldown: 45
+	demeter3: {demeterultra::%player's uuid%} #amount of poison, blindness, and damage
+	demeter3cooldown: 120
+
+	ares1: (1 + {aressuper::%attacker's uuid%} / 2) #1-10 added
+	ares1cooldown: 5
+	ares2: (3 + {aresultimate::%player's uuid%} / 4) #explosion force
+	ares2cooldown: 30
+	ares3: N/A
+	ares3cooldown: 120
+
+	athena1: (1 + {athenasuper::%player's uuid%} / 4) #1-10, but can do up to 5 times, AOE
+	#NONE LOl
+	athena2: (1 + {athenaultimate::%player's uuid%} / 2) #amount of regen, absorbtion, and slowness and weakness after
+	athena22: (1 + {athenaultimate::%player's uuid%} / 4) #amount of resistance given
+	athena2cooldown: 45
+	athena3: ({athenaultra::%attacker's uuid%} / 6) #explosion force, every hit
+	athena3cooldown: 120
+
+	apollo1: (3 + {apollosuper::%player's uuid%} / 2.5) #speed of arrow
+	apollo1cooldown: 10 #time between shots in TICKS
+	apollo2: ({apolloultimate::%shooter's uuid%} / 2) #explosion force
+	apollo2cooldown: 45
+	apollo3: ({apolloultra::%player's uuid%} * 2) #amount healed
+	apollo33: (2 + {apolloultra::%player's uuid%} / 2) #speed of arrow with terminator
+	apollo3cooldown: 120
+
+	artemis1: (3 + {artemissuper::%player's uuid%} / 2.5)
+	artemis1cooldown: 7 #time in TICKS
+	artemis2: (3 + {artemisultimate::%player's uuid%} / 2) #speed
+	artemis2cooldown: 15
+	artemis3: {artemisultra::%player's uuid%} #amount of wolves
+	artemis33: ({artemisultra::%player's uuid%} / 2) #potion effects for da wolves
+	artemis3cooldown: 120
+
+	hephaestus1: ({hephaestussuper::%attacker's uuid%} / 2) #damage
+	hephaestus1cooldown: 5
+	hephaestus2: {hephaestusultimate::%player's uuid%} #BRO THIS IS ULTIMATE
+	hephaestus22: ({hephaestusultimate::%player's uuid%} * 200)
+	hephaestus2cooldown: 45
+	hephaestus3: (50 + {hephaestusultra::%player's uuid%} * 2) #times that it loops
+	hephaestus3cooldown: 120
+
+	aphrodite1: (-1 - 0.5 * {aphroditesuper::%player's uuid%}) #speed pulling guy twords u
+	aphrodite1cooldown: 5
+	aphrodite2: (-1 - 0.5 * {aphroditeultimate::%player's uuid%}) #speed pulling everyone around u twoards
+	aphrodite2cooldown: 45
+	aphrodite3: N/A#parased as timespan, the time that you are invincible for
+	aphrodite3cooldown: 120
+
+	hermes1: (5 + 0.5 * {hermesultimate::%player's uuid%}) #speed applied, from speed 5.5-speed 10
+	hermes1cooldown: 15
+	hermes2: ({hermessuper::%player's uuid%} / 2) #speed ur pushed forward by
+	hermes22: (4 + {hermessuper::%player's uuid%} / 2) #damage taken by hearts
+	hermes2cooldown: 10 #time per charge, this and athena are NOT FUNCTIONAL LOL
+	hermes3: (20 - {hermesultra::%player's uuid%}) #time takes to instakill
+	hermes3cooldown: 120
+
+	dionysus1: (0.5 * {super::%attacker's uuid%}) #damage delt, as well as the nausea and poison applied
+	dionysus1cooldown: 5
+	dionysus2: {dionysusultimate::%player's uuid%} #nausea and poison applied to people around
+	dionysus2cooldown: 45
+	dionysus3: {dionysusultra::%player's uuid%} #jump and speed applied
+	dionysus3cooldown: 120
+
+	hades1: (2 + {hadessuper::%attacker's uuid%} / 2) #0.5-10
+	hades1cooldown: 5
+	hades2: (2 * {hadesultimate::%player's uuid%} - 1) #1-10 x 5 in a radius of 5
+	hades2cooldown: 60
+	hades3: (1 + {hadesultra::%attacker's uuid%} / 2) #1-10 x 7
+	hades33: (10 + {hadesultra::%player's uuid%})
+	hades3cooldown: 200
+
+
+
+Function SuperCooldown(p: player, l: timespan) :: boolean:
+  set {_} to difference between {-Cooldown1::%{_p}'s uuid%::super} and now
+  if {_} is less than {_l}:
+    return false
+  else:
+    set {-Cooldown1::%{_p}'s uuid%::super} to now
+    return true
+
+Function UltimateCooldown(p: player, l: timespan) :: boolean:
+  set {_} to difference between {-Cooldown2::%{_p}'s uuid%::ultimate} and now
+  if {_} is less than {_l}:
+    send action bar "&c%difference between {_l} and {_}% for &lUltimate ★" to {_p}
+    play sound "block.note_block.bass" with volume 3 and pitch 0.5 to {_p}
+    return false
+  else:
+    set {-Cooldown2::%{_p}'s uuid%::ultimate} to now
+    return true
+
+Function UltraCooldown(p: player, l: timespan) :: boolean:
+  set {_} to difference between {-Cooldown3::%{_p}'s uuid%::ultra} and now
+  if {_} is less than {_l}:
+    send action bar "&c%difference between {_l} and {_}% for &lUltra ☀" to {_p}
+    play sound "block.note_block.bass" with volume 3 and pitch 0.5 to {_p}
+    return false
+  else:
+    set {-Cooldown3::%{_p}'s uuid%::ultra} to now
+    return true
+
+on damage:
+	if damage cause is fall:
+		if metadata value "fall" of victim is true:
+			cancel event
+			clear metadata value "fall" of victim
+
+on damage:
+	attacker is sneaking
+	damage cause is attack
+	attacker's tool is sword
+	if {super::%attacker's uuid%} = "Hades":
+		set {_cooldown} to SuperCooldown(attacker, {@hades1cooldown} second)
+		if {_cooldown} = true:
+			make 10 of soul at location above location of victim with extra 0.07
+			draw 10 of soul_fire_flame at location above location of victim with extra 0.1
+			add {@hades1} to damage
+			play sound "entity.warden.attack_impact" with volume 2 to attacker
+			play sound "block.sculk_catalyst.bloom" with volume 2 to attacker
+			play sound "entity.warden.attack_impact" with volume 2 to victim
+			play sound "block.sculk_catalyst.bloom" with volume 2 to victim
+			send action bar "&aUsed <##41CAFF>&lLife Drain ☄" to attacker
+			apply darkness to the victim for 5 seconds
+			heal attacker by ({@hades1} / 2) hearts
+
+on damage:
+	attacker is sneaking
+	damage cause is attack
+	attacker's tool is sword
+	if {super::%attacker's uuid%} = "Zeus":
+		set {_cooldown} to SuperCooldown(attacker, {@zeus1cooldown} second)
+		if {_cooldown} = true:
+			add {@zeus1} to damage
+			send action bar "&aUsed &b&lBolt Smash ☄" to attacker
+			strike lightning effect at the victim
+			add {zeussuper::%attacker's uuid%} to damage
+
+on damage:
+	attacker is sneaking
+	damage cause is attack
+	attacker's tool is sword
+	if {super::%attacker's uuid%} = "Demeter":
+		set {_cooldown} to SuperCooldown(attacker, {@demeter1cooldown} second)
+		if {_cooldown} = true:
+			add (0.5 * {demetersuper::%attacker's uuid%}) to damage
+			send action bar "&aUsed &2&lWithering Life ☄" to attacker
+			draw 10 of dust using dustOption(lime, 2) at location above location of victim with offset vector(0.5, 0.5, 0.5)
+			play sound "entity.wither.hurt" with volume 2 and pitch 1.5 to attacker
+			play sound "entity.wither.hurt" with volume 2 and pitch 1.5 to victim
+			apply potion of wither of tier (1 + 0.5 * {power::%attacker's uuid%}) to the victim for 3 seconds
+			apply potion of slowness of tier (1 + 0.5 * {power::%attacker's uuid%}) to the victim for 3 seconds
+
+
+on damage:
+	attacker is sneaking
+	damage cause is attack
+	attacker's tool is sword
+	if {super::%attacker's uuid%} = "Ares":
+		set {_cooldown} to SuperCooldown(attacker, {@ares1cooldown} second)
+		if {_cooldown} = true:
+			add {@ares1} to damage
+			make 10 of block particle using redstone block at location above location of victim with offset vector(0.5, 0.5, 0.5) with extra 0.08
+			push victim down at speed (0 + 0.5 * {aressuper::%attacker's uuid%})
+			play sound "block.anvil.place" with volume 2 and pitch 0.3 to attacker
+			play sound "block.anvil.place" with volume 2 and pitch 0.3 to victim
+			send action bar "&aUsed &c&lCurse of Ares ☄" to attacker
+
+
+on damage:
+	attacker is sneaking
+	damage cause is attack
+	attacker's tool is sword
+	if {super::%attacker's uuid%} = "Hephaestus":
+		set {_cooldown} to SuperCooldown(attacker, {@hephaestus1cooldown} second)
+		if {_cooldown} = true:
+			ignite the victim
+			draw 10 of flame at location above location of victim with extra 0.8
+			play sound "entity.player.hurt_on_fire" with volume 2 to attacker
+			play sound "entity.player.hurt_on_fire" with volume 2 to victim
+			add (0.5 * {hephaestussuper::%attacker's uuid%}) to damage
+			send action bar "&aUsed &6&lSearing Onslaught ☄" to attacker
+
+
+on damage:
+	attacker is sneaking
+	damage cause is attack
+	attacker's tool is sword
+	if {super::%attacker's uuid%} = "Dionysus":
+		set {_cooldown} to SuperCooldown(attacker, {@dionysus1cooldown} second)
+		if {_cooldown} = true:
+			play sound "entity.squid.squirt" with volume 2 to attacker
+			play sound "entity.squid.squirt" with volume 2 to victim
+			send action bar "&aUsed &1&lNauseating Curse ☄" to attacker
+			push victim in direction of attacker at speed 2
+			apply potion of nausea of tier (1 + 0.5 * {dionysussuper::%attacker's uuid%}) to the victim for 5 seconds
+			apply potion of poison of tier (1 + 0.5 * {dionysussuper::%attacker's uuid%}) to the victim for 3 seconds
+			add (0.5 * {super::%attacker's uuid%}) to damage
+
+
+
+# Setup Supercharges
+every 10 seconds:
+	loop all players:
+		if {supercharges::%loop-player%} < 5:
+			add 1 to {supercharges::%loop-player%}
+		if {hermescharges::%loop-player%} < 2:
+			add 1 to {hermescharges::%loop-player%}
+
+# Clearlag Arrow Stuff
+on projectile hit:
+	event-projectile is arrow
+	delete event-projectile
+
+
+on left click with a sword:
+	player is sneaking
+	if {super::%player's uuid%} = "Hera":
+		set {_cooldown} to SuperCooldown(player, {@hera1cooldown} second)
+		if {_cooldown} = true:
+			if player's target is set:
+				loop blocks from the block at the player to the location above player's target's location:
+					draw 2 of dust using dustOption(light purple, 10) at loop-block
+					play sound "entity.arrow.hit_player" with volume 1 and pitch 0.3 to player
+			else:
+				loop blocks from the block at the player to the targeted block:
+					draw 1 of dust using dustOption(light purple, 10) at loop-block
+			play sound "entity.illusioner.cast_spell" with volume 2 to player
+			send action bar "&aUsed &d&LCurse of the Queen ☄" to player
+			damage player's target by {herasuper::%player's uuid%} hearts
+			apply potion of blindness of tier 1 to player's target for 5 seconds
+
+	if {super::%player's uuid%} = "Poseidon":
+		block under player is water
+		set {_cooldown} to SuperCooldown(player, {@poseidon1cooldown} second)
+		if {_cooldown} = true:
+			send action bar "&aUsed &3&lWave Cutter ☄" to player
+			play sound "ambient.underwater.enter" with volume 1 to player
+			apply potion of regeneration of tier {@poseidon11} to player for 10 second
+			push player forwards at speed {@poseidon1}
+			loop 15 times:
+				draw 6 of bubble at player with offset vector(0.5, 0.5, 0.5) with extra 0.001
+				wait 1 tick
+	if {super::%player's uuid%} = "Athena":
+		if {supercharges::%player%} is greater than 0:
+			subtract 1 from {supercharges::%player%}
+			send action bar "&aUsed &7&lHyperion ☄ &8[&e%{supercharges::%player%}%&e/5&8]" to player
+			play sound "entity.generic.explode" with volume 1 to player
+			draw 20 of explosion at player with offset vector(4, 0, 4)
+			loop all entities within 8 blocks of player:
+				loop-value is not player:
+					damage loop-entity by ({athenasuper::%player's uuid%} * 0.5) hearts
+					play sound "entity.generic.explode" with volume 1 to loop-entity
+		else:
+			send action bar "&c&lOUT OF CHARGES!" to player
+			play sound "block.note_block.bass" with volume 2 and pitch 0.5 to player
+	if {super::%player's uuid%} = "Apollo":
+		set {_cooldown} to SuperCooldown(player, {@apollo1cooldown} tick)
+		if {_cooldown} = true:
+			if {activatedterminator::%player%} = 1:
+				play sound "item.crossbow.shoot" with volume 2 to player
+				shoot an arrow at speed (2 + {apolloultra::%player's uuid%} / 2)
+				ignite last shot arrow
+				push last shot arrow right at speed 0.5
+				shoot an arrow at speed (2 + {apolloultra::%player's uuid%} / 2)
+				ignite last shot arrow
+				shoot an arrow at speed (2 + {apolloultra::%player's uuid%} / 2)
+				ignite last shot arrow
+				push last shot arrow left at speed 0.5
+				wait 9 ticks
+			else:
+				shoot an arrow at speed (2 + {apollosuper::%player's uuid%} / 2.5)
+				ignite last shot arrow
+				play sound "entity.arrow.shoot" with volume 0.7 to player
+				send action bar "&aUsed &e&lFlaming Shot ☄" to player
+				set {_arrow} to last shot arrow
+				add "{pickup:0b}" to the nbt of {_arrow}
+	if {super::%player's uuid%} = "Artemis":
+		set {_cooldown} to SuperCooldown(player, {@artemis1cooldown} tick)
+		if {_cooldown} = true:
+			shoot an arrow at speed (2 + {artemissuper::%player's uuid%} / 2.5)
+			play sound "entity.arrow.shoot" with volume 0.7 to player
+			send action bar "&aUsed &9&lHunter's Shot ☄" to player
+			set {_arrow} to last shot arrow
+			add "{pickup:0b}" to the nbt of {_arrow}
+
+#hephaeusts is up above
+	if {super::%player's uuid%} = "Aphrodite":
+		set {_cooldown} to SuperCooldown(player, {@aphrodite1cooldown} second)
+		if {_cooldown} = true:
+			player is not within bound with id "spawn"
+			send action bar "&aUsed &5&lGuiding Breeze ☄" to player
+			push player's target entity in direction of player at speed (-1 - 0.5 * {aphroditesuper::%player's uuid%})
+			set {_bob} to player's target
+			play sound "entity.wither.shoot" with volume 0.1 and pitch 1.5 to player
+			loop 15 times:
+				draw 1 of dust using dustOption(magenta, 10) at location of {_bob}
+				wait 1 tick
+
+	if {super::%player's uuid%} = "Hermes":
+		if {hermescharges::%player%} is greater than 0:
+			subtract 1 from {hermescharges::%player%}
+			push player forwards at speed {@hermes2}
+			send action bar "&aUsed &f&lWind Cycle ☄ &f[&e%{hermescharges::%player%}%&e/2&f]" to player
+			play sound "entity.firework_rocket.launch" with volume 2 to the player
+			play sound "entity.goat.long_jump" with volume 3 to the player
+			set metadata value "fall" of player to true
+			loop all entities within 4 blocks of player:
+				if loop-entity is not player:
+					damage loop-entity by {@hermes22} hearts
+			loop 20 times:
+				draw 2 of dust using dustOption(white, 10) at player
+				wait 1 tick
+		else:
+			send action bar "&C&LOUT OF CHARGES" to player
+			play sound "block.note_block.bass" with volume 3 and pitch 0.5 to player
+
+#dionoysus is up above and hades tool
+
+
+
+#		█░█ █░░ ▀█▀ █ █▀▄▀█ ▄▀█ ▀█▀ █▀▀   ▄▀█ █▄▄ █ █░░ █ ▀█▀ █ █▀▀ █▀
+#		█▄█ █▄▄ ░█░ █ █░▀░█ █▀█ ░█░ ██▄   █▀█ █▄█ █ █▄▄ █ ░█░ █ ██▄ ▄█
+
+on projectile hit: # for Undivided Heart (Apollo's Ultimate)
+	if metadata value "bounce" of event-projectile is true:
+		set projectile bounce mode of event-projectile to false
+		create safe explosion of force (0.5 * {apolloultimate::%shooter's uuid%}) at projectile
+		clear metadata value "bounce" of event-projectile
+
+on right click on an entity with a sword:
+	player is sneaking
+	if {ultimate::%player's uuid%} = "Hera":
+		set {_cooldown} to UltimateCooldown(player, {@hera2cooldown} second)
+		if {_cooldown} = true:
+			send action bar "&aUsed &d&lGlorious Renewal ★" to player
+			play sound "block.beacon.power_select" with volume 1 to event-entity
+			play sound "block.beacon.power_select" with volume 1 to player
+			heal player by {@hera2} hearts
+			heal event-entity by {@hera2} hearts
+
+
+on right click with a sword:
+	player is sneaking
+	if {ultimate::%player's uuid%} = "Zeus":
+		set {_cooldown} to UltimateCooldown(player, {@zeus2cooldown} second)
+		if {_cooldown} = true:
+			send action bar "&aUsed &b&lLightning Aura ★" to player
+			register new team "zeusulimate" #boob
+			set {_team} to team named "zeusultimate"
+			set team color of {_team} to light blue
+			add player to team entries of {_team}
+			play sound "entity.evoker.cast_spell" with volume 3 with pitch 0.5 to player
+			apply glowing to the player for 5 seconds
+			loop 5 times:
+				loop blocks in radius 6 around the player:
+					if rounded y-coordinate of loop-value-2 is equal to rounded y-coordinate of player:
+						if distance between loop-value-2 and player is greater than 5:
+							draw 7 of dust using dustOption(light blue, 4) at block above loop-value-2
+				loop all entities within 6 blocks of player:
+					if loop-entity is not player:
+						strike lightning effect at loop-entity
+						damage loop-entity by {zeusultimate::%player's uuid%} hearts
+				wait 1 second
+			remove player from team entries of {_team}
+
+	if {ultimate::%player's uuid%} = "Poseidon":
+		set {_cooldown} to UltimateCooldown(player, {@poseidon2cooldown} second)
+		if {_cooldown} = true:
+			send action bar "&aUsed &3&lOceanic Smash ★" to player
+			apply levitation to player's target for 3 seconds
+			loop 10 times:
+				if player's target is set:
+					loop blocks from the block at the player to the location above player's target's location:
+						draw 1 of dust_color_transition using dustTransition(blue, aqua, 3) at loop-block
+				else:
+					loop blocks from the block at the player to the targeted block:
+						draw 1 of dust_color_transition using dustTransition(aqua, blue, 3) at loop-block
+				play sound "entity.generic.splash" with volume 4 to player
+				play sound "entity.generic.splash" with volume 4 to player's target
+				push player's target in direction of player at speed 1
+				damage player's target by {@poseidon2} hearts
+				wait 0.3 seconds
+
+	if {ultimate::%player's uuid%} = "Demeter":
+		set {_cooldown} to UltimateCooldown(player, {@demeter2cooldown} second)
+		if {_cooldown} = true:
+			send action bar "&aUsed &2&lBlessing of the Harvest ★" to player
+			play sound "block.beacon.power_select" with volume 2 and pitch 0.7 to player
+			set {ultimatecooldown::%player%} to 0
+			loop blocks in radius 10 around the player:
+				if rounded y-coordinate of loop-value is equal to rounded y-coordinate of player:
+					draw 3 of happy_villager at loop-value with offset vector(1, 1, 1)
+			loop all entities within 10 blocks of player:
+				apply potion of regeneration of tier {@demeter2} to loop-value for 10 seconds
+				apply potion of haste of tier {@demeter2} to loop-value for 10 seconds
+				apply potion of strength of tier {@demeter2} to loop-value for 10 seconds
+			loop all blocks in radius 10 of player:
+				if loop-block is wheat:
+					set loop-block to wheat[age=7]
+				if loop-block is beetroot plant:
+					set loop-block to beetroots[age=3]
+				if loop-block is carrot plant:
+					set loop-block to carrots[age=7]
+				if loop-block is potato plant:
+					set loop-block to potatoes[age=7]
+				if loop-block is nether wart:
+					set loop-block to nether wart[age=3]
+
+	if {ultimate::%player's uuid%} = "Hades":
+		set {_cooldown} to UltimateCooldown(player, {@hades2cooldown} second)
+		if {_cooldown} = true:
+			send action bar "&aUsed <##41CAFF>&lDark Contract ★" to player
+			play sound "block.sculk_shrieker.shriek" to player
+			loop blocks in radius 4 around the player:
+				if rounded y-coordinate of loop-value is equal to rounded y-coordinate of player:
+					draw 6 of soul at location above loop-value with extra 0.1
+			loop all entities within 4 blocks of player:
+				if loop-value is not player:
+					apply potion of slowness of tier {hadesultra::%player's uuid%} to loop-value for 10 seconds
+					damage loop-value by {@hades2} hearts
+
+
+	if {ultimate::%player's uuid%} = "Ares":
+		set {_cooldown} to UltimateCooldown(player, {@ares2cooldown} second)
+		if {_cooldown} = true:
+			player is not within bound with id "spawn"
+			send action bar "&aUsed &c&lDestruction ★" to player
+			play sound "entity.illusioner.prepare_blindness" with volume 5 to player
+			loop blocks in radius 6 around the player:
+				if rounded y-coordinate of loop-value is equal to rounded y-coordinate of player:
+					if distance between loop-value and player is greater than 5:
+						draw 7 of dust using dustOption(red, 4) at block above loop-value with extra 0.9
+			push player upwards at speed 4
+			apply potion of levitation of tier 1 without any particles to the player for 1 second
+			apply potion of resistance of tier 5 without any particles to the player for 2 seconds
+			wait 1 second
+			push player downwards at speed 4
+			wait 0.35 seconds
+			create safe explosion of force {@ares2} at the player
+			push player downwards at speed 2
+
+	if {ultimate::%player's uuid%} = "Athena":
+		set {_cooldown} to UltimateCooldown(player, {@athena2cooldown} second)
+		if {_cooldown} = true:
+			play sound "block.beacon.activate" with volume 2 to player
+			apply potion of regeneration of tier {@athena2} to the player for 10 seconds
+			apply potion of absorption of tier {@athena2} to the player for 10 seconds
+			apply potion of resistance of tier {@athena22} to the player for 10 seconds
+			send action bar "&aUsed &7&lProtection of the Ageis ★" to player
+
+			wait 10 seconds
+			play sound "block.beacon.deactivate" with volume 1 to player
+			apply potion of slowness of tier {@athena2} without particles to the player for 3 seconds
+			apply potion of weakness of tier {@athena2} without particles to the player for 3 seconds
+
+
+	if {ultimate::%player's uuid%} = "Apollo":
+		set {_cooldown} to UltimateCooldown(player, {@apollo2cooldown} second)
+		if {_cooldown} = true:
+			shoot an arrow at speed 6
+			set metadata value "bounce" of last shot arrow to true
+			play sound "entity.ender_dragon.shoot" with volume 2 to player
+			send action bar "&aUsed &e&lUndivided Heart ★" to player
+
+	if {ultimate::%player's uuid%} = "Artemis":
+		set {_cooldown} to UltimateCooldown(player, {@artemis2cooldown} second)
+		if {_cooldown} = true:
+			#player is on ground
+			play sound "entity.firework_rocket.launch" with volume 2 to the player
+			push player forwards at speed {@artemis2}
+			apply potion of slow falling of tier 1 to the player for 5 seconds
+			send action bar "&aUsed &9&lHunter's Glide ★" to player
+			loop 30 times:
+				draw 1 of dust using dustOption(blue, 10) at player
+				wait 1 tick
+
+	if {ultimate::%player's uuid%} = "Hephaestus":
+		set {_cooldown} to UltimateCooldown(player, {@hephaestus2cooldown} second)
+		if {_cooldown} = true:
+			send action bar "&aUsed &6&lSet Your Heart Ablaze ★" to player
+			play sound "entity.firework_rocket.twinkle" with volume 5 to player
+			loop blocks in radius 10 around the player:
+				if rounded y-coordinate of loop-value is equal to rounded y-coordinate of player:
+					draw 3 of flame at loop-value
+			loop all entities within 10 blocks of player:
+				loop-value is not player:
+					damage loop-entities by {@hephaestus2} hearts
+					ignite loop-entities
+			loop all items in the inventory of player:
+				repair loop-item by {@hephaestus22}
+
+	if {ultimate::%player's uuid%} = "Aphrodite":
+		set {_cooldown} to UltimateCooldown(player, {@aphrodite2cooldown} second)
+		if {_cooldown} = true:
+			player is not within bound with id "spawn"
+			send action bar "&aUsed &5&lRadiating Disgust ★" to player
+			play sound "entity.evoker.prepare_summon" with volume 0.5 and pitch 2 to player
+			apply potion of levitation 2 to player for 1 seconds
+			apply potion of slow falling 1 to player for 3 seconds
+			loop all entities within 15 blocks of player:
+				loop-value is not player:
+					push loop-entity in the direction of player at speed ({@aphrodite2} * -1)
+					push loop-entity upwards at speed ({@aphrodite2} * -1)
+
+
+	if {ultimate::%player's uuid%} = "Hermes":
+		set {_cooldown} to UltimateCooldown(player, {@hermes1cooldown} second)
+		if {_cooldown} = true:
+			apply potion of speed of tier (5 + 0.5 * {hermesultimate::%player's uuid%}) to the player for 10 seconds
+
+			play sound "block.beacon.activate" with volume 1 to player
+			send action bar "&aUsed &f&lMach Rush ★" to player
+			wait 10 seconds
+			remove speed from the player
+			play sound "block.beacon.deactivate" with volume 1 to player
+
+	if {ultimate::%player's uuid%} = "Dionysus":
+		set {_cooldown} to UltimateCooldown(player, {@dionysus2cooldown} second)
+		if {_cooldown} = true:
+			send action bar "&aUsed &1&lBlackout ★" to player
+			loop blocks in radius 5 around the player:
+				draw 1 of dust using dustOption(black, 10) at loop-value
+			loop all entities within 10 blocks of player:
+				if loop-value is not player:
+					apply potion of nausea of tier {@dionysus2} to loop-value for 10 seconds
+					apply potion of poison of tier {@dionysus2} to loop-value for 10 seconds
+			set {_x} to random number between (player's x-coord - 100) and (player's x-coord + 100)
+			set {_z} to random number between (player's z-coord - 100) and (player's z-coord + 100)
+			set {_loc} to highest block at location ({_x}, 0, {_z})
+			apply potion of blindness of tier 1 to the player for 3 seconds
+			apply potion of nausea of tier 1 to the player for 3 seconds
+			play sound "entity.ender_dragon.flap" with volume 2 and pitch 0.5 to the player
+			wait 1 second
+			teleport player to block above {_loc}
+			play sound "entity.ender_dragon.flap" with volume 2 and pitch 0.5 to the player
+
+
+
+
+
+#			█░█ █░░ ▀█▀ █▀█ ▄▀█   ▄▀█ █▄▄ █ █░░ █ ▀█▀ █ █▀▀ █▀
+#			█▄█ █▄▄ ░█░ █▀▄ █▀█   █▀█ █▄█ █ █▄▄ █ ░█░ █ ██▄ ▄█
+
+on left click: # for Glorious Banishment (Hera's Ultra)
+	if {activatedbanishment::%player%} is 1:
+		if player's target is set:
+			if {godlycasting::%player's target%} is 1:
+				push player's target in direction of player at speed {@hera3}
+				push player's target downwards at speed {@hera33}
+				set {godlycasting::%player's target%} to 0
+				remove levitation from player's target
+				draw 1 of dust using dustOption(light purple, 10) at location of player's target
+				play sound "entity.illusioner.prepare_mirror" with volume 2 to the player
+				play sound "entity.illusioner.prepare_mirror" with volume 2 to the player's target
+
+on damage:
+	if {activatedbloodlust::%attacker%} = 1: # for Bloodlust (Ares's Ultra)
+		add 1 to {chain::%attacker%}
+		if {chain::%attacker%} is greater than 2:
+			remove strength from the attacker
+			apply potion of strength of tier {chain::%attacker%} to the attacker for 5 seconds
+			play sound "entity.iron_golem.damage" with volume 1 to attacker
+		if {chain::%attacker%} is greater than 10:
+			set {chain::%attacker%} to 10
+	if {activatedsuffering::%attacker%} = 1: # for Aura of all Suffering (Athena's Ultra)
+		create a safe explosion of force {@athena3} at the victim
+	if {activatedbeauty::%victim%} = 1: # for Beauty (Afrodite's Ultra)
+		cancel event
+		play sound "item.shield.block" with volume 1 and pitch 2 to victim
+	if {doubledmg::%attacker%} = 1:
+		add damage to damage
+
+on death:
+	if name of victim contains "Minion":
+		clear drops
+
+command /failedhermes [<player>]:
+	trigger:
+		wait 120 seconds
+		set {ultracooldown::%player%} to 1
+
+on right click with axe:
+	player is sneaking
+	if {ultra::%player's uuid%} = "Zeus":
+		set {_cooldown} to UltraCooldown(player, {@zeus3cooldown} second)
+		if {_cooldown} = true:
+			send action bar "&aUsed: &b&lElectro Ascension ☀" to player
+			push player upwards at speed 5
+			apply potion of levitation of tier 1 without any particles to the player for 5 seconds
+			play sound "entity.evoker.prepare_summon" with volume 1 to player
+			strike lightning effect at the player
+			apply potion of glowing of tier 1 without any particles to the player for 5 seconds
+			loop 7 times:
+				strike lightning at targeted block
+				damage player's target by {@zeus3} hearts
+				wait 10 ticks
+			apply potion of resistance of tier 5 to the player for 1 second
+			push player downwards at speed 5
+
+	if {ultra::%player's uuid%} = "Hera":
+		set {_cooldown} to UltraCooldown(player, {@hera3cooldown} second)
+		if {_cooldown} = true:
+			send action bar "&aUsed: &d&lElegant Banishment ☀" to player
+			loop all entities within 10 blocks of player:
+				push loop-entity upwards at speed (2 + {heraultra::%player's uuid%})
+				apply potion of levitation of tier 1 without any particles to the loop-entity for 5 seconds
+				play sound "entity.evoker.prepare_summon" with volume 1 to loop-entity
+				set {godlycasting::%loop-entity%} to 1
+			set {activatedbanishment::%player%} to 1
+			wait 5 seconds
+			set {activatedbanishment::%player%} to 0
+			loop all entities within 10 blocks of player:
+				if {godlycasting::%loop-entity%} = 1:
+					play sound "entity.evoker.prepare_summon" with volume 1 and pitch 0.2 to player
+					apply potion of resistance of tier {heraultra::%player's uuid%} to the loop-entity for 5 seconds
+					apply potion of instant health of tier {heraultra::%player's uuid%} to the loop-entity for 5 seconds
+					wait 1 tick
+					push loop-value downwards at speed 10
+					delete {godlycasting::%loop-entity%}
+			wait {@hera3cooldown} seconds
+			set {ultracooldown::%player%} to 1
+	if {ultra::%player's uuid%} = "Poseidon":
+		set {_cooldown} to UltraCooldown(player, {@poseidon3cooldown} second)
+		if {_cooldown} = true:
+			send action bar "&aUsed &3&lEarthshaker ☀" to player
+			loop 5 times:
+				loop blocks in radius 10 around the player:
+					if rounded y-coordinate of loop-block is equal to rounded y-coordinate of player:
+						draw 1 of explosion at loop-block
+				loop entities in radius 10 around the player:
+					play sound "entity.generic.explode" with volume 1 and pitch 0.5 to loop-entity
+					if loop-entity is not player:
+						damage loop-entity by {@poseidon3} hearts
+						apply slowness 2 to loop-entity for 1 second
+						draw 4 of dust_color_transition using dustTransition(blue, aqua, 3) at location above loop-entities's location
+				wait 1 second
+
+	if {ultra::%player's uuid%} = "Demeter":
+		set {_cooldown} to UltraCooldown(player, {@demeter3cooldown} second)
+		if {_cooldown} = true:
+			player's target is set
+			play sound "entity.wither.break_block" with volume 1 and pitch 2 to player
+			send action bar "&aUsed &a&lEarthly Smash ☀" to player
+			set player's target's location to {_place}
+			set player's target's food level to 0
+			apply potion of poison of tier {@demeter3} without particles to player's target for 20 seconds
+			apply potion of blindness of tier {@demeter3} without particles to player's target for 20 seconds
+			damage player's target by {@demeter3} hearts
+
+	if {ultra::%player's uuid%} = "Ares":
+		set {_cooldown} to UltraCooldown(player, {@ares3cooldown} second)
+		if {_cooldown} = true:
+			set {activatedbloodlust::%player%} to 1
+			set {chain::%player%} to 1
+			set {_duration} to "%(5 + {aresultra::%player's uuid%})% seconds" parsed as timespan
+			register new team "aresultimate" #boob
+			set {_team} to team named "aresultimate"
+			set team color of {_team} to red
+			add player to team entries of {_team}
+			apply glowing to the player for {_duration}
+			play sound "entity.iron_golem.repair" with volume 1 to player
+			send action bar "&aUsed &c&lBloodlust ☀" to player
+			wait {_duration}
+			set {activatedbloodlust::%player%} to 0
+			send "&7Your &c&lBloodlust &7has ran out!" to player
+			remove strength from player
+			play sound "entity.iron_golem.death" with volume 1 to player
+			remove player from team entries of {_team}
+	if {ultra::%player's uuid%} = "Athena":
+		set {_cooldown} to UltraCooldown(player, {@athena3cooldown} second)
+		if {_cooldown} = true:
+			play sound "entity.evoker.prepare_summon" with volume 1 to player
+			send action bar "&aUsed &7&lAura of all Suffering ☀" to player
+			apply glowing to the player for 10 seconds
+			register new team "athenaultra" #boob
+			set {_team} to team named "athenaultra"
+			set team color of {_team} to gray
+			add player to team entries of {_team}
+			set {activatedsuffering::%player%} to 1
+			wait 10 seconds
+			set {activatedsuffering::%player%} to 0
+			play sound "entity.evoker.prepare_attack" with volume 1 to player
+			send "&7Your &7&lAura of all Suffering &7has ran out!" to player
+			remove player from team entries of {_team}
+
+	if {ultra::%player's uuid%} = "Apollo":
+		set {_cooldown} to UltraCooldown(player, {@apollo3cooldown} second)
+		if {_cooldown} = true:
+			set {ultracooldown::%player%} to 0
+			send action bar "&aUsed &e&lSolar Array ☀" to player
+			push player upwards at speed 2
+			register new team "apolloultra" #boob
+			set {_team} to team named "apolloultra"
+			set team color of {_team} to yellow
+			add player to team entries of {_team}
+			apply glowing to the player for 20 seconds
+			apply potion of resistance 5 to the player for 3 seconds
+			play sound "block.beacon.power_select" with volume 5 to player
+			play sound "block.beacon.ambient" with volume 2 to player
+			heal the player by ({apolloultra::%player's uuid%} * 2)
+
+			set {activatedterminator::%player%} to 1
+			wait 20 seconds
+			stop sound "block.beacon.ambient" for the player
+			play sound "block.beacon.deactivate" with volume 1 to player
+			set {activatedterminator::%player%} to 0
+			send "&7Your &e&lSolar Array &7has ran out!" to player
+			remove player from team entries of {_team}
+	if {ultra::%player's uuid%} = "Artemis":
+		set {_cooldown} to UltraCooldown(player, {@artemis3cooldown} second)
+		if {_cooldown} = true:
+			send action bar "&aUsed &9&lCall of the Hunt ☀" to player
+			play sound "entity.evoker.prepare_summon" with volume 1 to player
+			play sound "entity.wolf.howl" with volume 1 to player
+			loop {@artemis3} times:
+				spawn a wolf at location of player
+				set owner of last spawned wolf to player
+				add spawned entity to {pets.%player%::*}
+				set the display name of the last spawned wolf to "<##6969fa>&l%player%&9's Minion"
+				apply potion of strength of tier {@artemis33} to last spawned wolf for 20 seconds
+				apply potion of regeneration of tier {@artemis33} to last spawned wolf for 20 seconds
+				apply potion of speed of tier {@artemis33} to last spawned wolf for 20 seconds
+				wait 1 tick
+			wait 20 seconds
+			play sound "entity.evoker.prepare_attack" with volume 1 to player
+			loop {pets.%player%::*}:
+				teleport loop-value to block 50 meters above loop-value's location
+				delete owner of loop-value
+				kill loop-value
+			send "&7Your &9&lCall of the Hunt&7 has ran out, and your companions have been dismissed."
+
+	if {ultra::%player's uuid%} = "Hephaestus":
+		set {_cooldown} to UltraCooldown(player, {@hephaestus3cooldown} second)
+		if {_cooldown} = true:
+			send action bar "&aUsed &6&lThe God of Fire ☀" to player
+			apply potion of fire resistance of tier 1 to the player for 60 seconds
+			apply potion of speed of tier 1 to the player for 10 seconds
+			set {doubledmg::%player's uuid%} to 1
+			play sound "block.beacon.activate" with volume 2 to player
+			loop {@hephaestus3} times:
+				set {_block} to player's location
+				set block at {_block} to "fire" parsed as itemtype
+				add location of {_block} to {block.player::*}
+				wait 3 ticks
+			set {doubledmg::%player's uuid%} to 0
+			send "&7Your &6&lThe God of Fire &7has ran out!" to player
+			loop {block.player::*}:
+				draw 3 of flame at location of loop-value
+				set the block at loop-value to air
+			play sound "entity.firework_rocket.twinkle" with volume 2 to the player
+			play sound "block.fire.extinguish" with volume 1 to the player
+			play sound "block.beacon.deactivate" with volume 1 to player
+			delete {block.player::*}
+
+	if {ultra::%player's uuid%} = "Aphrodite":
+		set {_cooldown} to UltraCooldown(player, {@aphrodite3cooldown} second)
+		if {_cooldown} = true:
+			play sound "block.beacon.power_select" with volume 2 and pitch 1.5 to player
+			send action bar "&aUsed &5&lRadiating Beauty ☀" to player
+			register new team "aphroditeultra" #boob
+			set {_team} to team named "aphroditeultra"
+			set team color of {_team} to dark purple
+			add player to team entries of {_team}
+			set {_duration} to "%({aphroditeultra::%player's uuid%} + 5)% seconds" parsed as timespan
+			apply glowing to the player for {_duration}
+			heal player by ({aphroditeultra::%player's uuid%} * 2) hearts
+			set {activatedbeauty::%player%} to 1
+			wait {_duration}
+			play sound "block.beacon.deactivate" with volume 1 and pitch 2 to player
+			send "&7Your &5&LRadiating Beauty &7has ran out! You are no longer invincible!" to player
+			set {activatedbeauty::%player%} to 0
+			remove player from team entries of {_team}
+
+	if {ultra::%player's uuid%} = "Hermes":
+		set {_cooldown} to UltraCooldown(player, {@hermes3cooldown} second)
+		if {_cooldown} = true:
+			player's target is set
+			send action bar "&aUsed &f&lJourney to the Underworld ☀" to player
+			set {soul::%player's uuid%} to player's target
+			loop {@hermes3} times:
+				if player's target is not equal to {soul::%player's uuid%}:
+					send "&7Your &f&lJourney to the Underworld&7 failed! You stopped looking at yout victim!" to player
+					play sound "block.note_block.bass" with volume 1 and pitch 0.5 to player
+					stop
+				else:
+					play sound "block.note_block.harp" with volume 1 to player
+					play sound "block.note_block.harp" with volume 1 to player's target
+					draw 3 of dust using dustOption(white, 10) at location above player's target's location
+					wait 15 ticks
+			play sound "block.note_block.harp" with volume 1 and pitch 5 to player
+			delete {soul::%player's uuid%}
+			if player's target is not in bound with id "spawn":
+				kill player's target
+	if {ultra::%player's uuid%} = "Dionysus":
+		set {_cooldown} to UltraCooldown(player, {@dionysus3cooldown} second)
+		if {_cooldown} = true:
+			send action bar "&aUsed &1&lMadness ☀" to player
+			play sound "entity.evoker.prepare_wololo" with volume 1 to player
+			wait 3 ticks
+			play sound "block.beacon.activate" with volume 1 and pitch 0.7 to player
+			set {doubledmg::%player's uuid%} to 1
+			apply potion of jump {@dionysus3} to player for 20 seconds
+			apply potion of speed {@dionysus3} to player for 20 seconds
+			wait 20 seconds
+			set {doubledmg::%player's uuid%} to 0
+			send "&7Your &1&lMadness &7has ran out! You no longer deal double damage." to player
+			play sound "block.beacon.deactivate" with volume 1 and pitch 0.7 to player
+	if {ultra::%player's uuid%} = "Hades":
+		set {_cooldown} to UltraCooldown(player, {@hades3cooldown} second)
+		if {_cooldown} = true:
+			set {_duration} to "%({hadesultra::%player's uuid%} + 10)% seconds" parsed as timespan
+			send action bar "&aUsed <##41CAFF>&lShadows of the Dead ☀" to player
+			play sound "entity.illusioner.prepare_blindness" with pitch 0.7 to player
+			play sound "entity.illusioner.prepare_mirror" with pitch 0.7 to player
+			apply potion of invisibility of tier 1 without particles to the player for {_duration}
+			wait 5 ticks
+			set {shadows::%player's uuid%} to 1
+			wait {_duration}
+			send "&7Your <##41CAFF>&lShadows of the Dead &7has ran out!" to player
+			delete {shadows::%player's uuid%}
+
+
+on damage:
+	if {shadows::%attacker's uuid%} = 1:
+		add {@hades3} to damage
+		make 6 of soul_fire_flame at location above location of victim with extra 0.1
+
+on death:
+	if {shadows::%victim's uuid%} = 1:
+		cancel event
+		heal the victim
+		send "&7You were saved from death and you <##41CAFF>&lShadows of the Dead &7has ran out!" to victim
+		delete {shadows::%victim's uuid%}
+		play sound "block.beacon.power_select" with pitch 0.5 to the victim
+
+on right click:
+	if {shadows::%player's uuid%} = 1:
+		set {_loc} to location of target block
+		add 2 to y-coord of {_loc}
+		set yaw of {_loc} to player's yaw
+		set pitch of {_loc} to player's pitch
+		loop blocks from the block at the player to the target block:
+			draw 3 of soul_fire_flame at loop-block with extra 0.1
+			#draw 1 of dust using dustOption(rgb(79, 190, 178), 3) at loop-block
+		teleport player to {_loc}
+		play sound "entity.blaze.shoot" with pitch 0.7 to player
+		play sound "entity.illusioner.mirror_move" to player
+
+
+
+command /menu:powers:
+	trigger:
+		set {_gui} to a new chest inventory with 6 row with name "Your Powers &k&r"
+		set slot (all integers between 0 and 53) of {_gui} to black stained glass pane named " "
+		set slot 4 of {_gui} to diamond sword of mending named "&9&lYour Powers" with lore "&7View, upgrade, and unlock" and "&7your powers and abilities!" with all flags hidden
+		set slot (all integers between 12 and 15) of {_gui} to red stained glass pane named "&cEmpty Power Slot" with lore "&cReach the next level milestone!"
+		set slot 11 of {_gui} to yellow stained glass pane named "&eFirst Power Slot" with lore "&ePower: &b%{power1::%player's uuid%}%" and " " and "&eClick to view!"
+		if {selectedslot::%player%} is not set:
+			set {selectedslot::%player%} to 1
+		if {powernumber::%player's uuid%} > 1:
+			set slot 12 of {_gui} to yellow stained glass pane named "&eSecond Power Slot" with lore "&ePower: &b%{power2::%player's uuid%}%" and " " and "&eClick to view!"
+			if {powernumber::%player's uuid%} > 2:
+				set slot 13 of {_gui} to yellow stained glass pane named "&eThird Power Slot" with lore "&ePower: &b%{power3::%player's uuid%}%" and " " and "&eClick to view!"
+				if {powernumber::%player's uuid%} > 3:
+					set slot 14 of {_gui} to yellow stained glass pane named "&eFourth Power Slot" with lore "&ePower: &b%{power4::%player's uuid%}%" and " " and "&eClick to view!"
+					if {powernumber::%player's uuid%} > 4:
+						set slot 15 of {_gui} to yellow stained glass pane named "&eFifth Power Slot" with lore "&ePower: &b%{power5::%player's uuid%}%" and " " and "&eClick to view!"
+		if {selectedslot::%player%} = 1:
+			set slot 11 of {_gui} to lime stained glass pane of mending named "&aFirst Power Slot" with lore "&ePower: &f%{power1::%player's uuid%}%" and " " and "&aCurrently Viewing" with all flags hidden
+		if {selectedslot::%player%} = 2:
+			set slot 12 of {_gui} to lime stained glass pane of mending named "&aSecond Power Slot" with lore "&ePower: &f%{power2::%player's uuid%}%" and " " and "&aCurrently Viewing" with all flags hidden
+		if {selectedslot::%player%} = 3:
+			set slot 13 of {_gui} to lime stained glass pane of mending named "&aThird Power Slot" with lore "&ePower: &f%{power3::%player's uuid%}%" and " " and "&aCurrently Viewing" with all flags hidden
+		if {selectedslot::%player%} = 4:
+			set slot 14 of {_gui} to lime stained glass pane of mending named "&aFourth Power Slot" with lore "&ePower: &f%{power4::%player's uuid%}%" and " " and "&aCurrently Viewing" with all flags hidden
+		if {selectedslot::%player%} = 5:
+			set slot 15 of {_gui} to lime stained glass pane of mending named "&aFifth Power Slot" with lore "&ePower: &f%{power4::%player's uuid%}%" and " " and "&aCurrently Viewing" with all flags hidden
+		set slot 23 of {_gui} to air
+		set slot 21 of {_gui} to air
+
+
+		if {power%{selectedslot::%player%}%::%player's uuid%} is "Zeus":
+			set slot 20 of {_gui} to blaze powder of mending named "&b&lBolt Smash ☄" with lore "&7Ability Tier %{zeussuper::%player's uuid%}%" and " " and "&b&e&lSHIFT DAMAGE WITH SWORD" and "&7Strikes the victim with lightning" and "adding &c%(0.5 * {zeussuper::%player's uuid%})%❤ &7of damage to your" and "&7hit." and "&8Cooldown: {@zeus1cooldown} seconds" and " " and "&b&lSUPER ABILITY" with all flags hidden
+			set slot 22 of {_gui} to blaze rod of mending named "&b&lLightning Aura ★" with lore "&7Ability Tier %{zeusultimate::%player's uuid%}%" and " " and "&b&e&lSHIFT RIGHT CLICK WITH SWORD" and "&7Generates an aura around you for" and "&75 seconds, striking everything that" and "&7enters it for &c%{@zeus2}%❤&7." and "&8Cooldown: {@zeus2cooldown} seconds" and " " and "&b&lULTIMATE ABILITY" with all flags hidden
+			set slot 24 of {_gui} to lightning rod of mending named "&b&lElectro Ascension ☀" with lore "&7Ability Tier %{zeusultra::%player's uuid%}%" and " " and "&b&e&lSHIFT RIGHT CLICK WITH AXE" and "&7Launches you up into the air," and "&7allowing you to strike &710 bolts of" and "&7lightning, dealing &c%{@zeus3}%❤ &7per strike." and "&8Cooldown: {@zeus3cooldown} seconds" and " " and "&b&lULTRA ABILITY" with all flags hidden
+		if {power%{selectedslot::%player%}%::%player's uuid%} is "Hera":
+			set slot 20 of {_gui} to medium amethyst bud of mending named "&d&lCurse of the Queen ☄" with lore "&7Ability Tier %{herasuper::%player's uuid%}%" and " " and "&d&e&lSHIFT LEFT CLICK WITH SWORD" and "&7Casts a beam of magic, inflicting" and "&7anything in it with &cBlindness 1&7 and" and "&7dealing &c%{@hera1}%❤ &7of damage." and "&8Cooldown: {@hera1cooldown} seconds" and " " and "&d&lSUPER ABILITY" with all flags hidden
+			set slot 22 of {_gui} to large amethyst bud of mending named "&d&lGlorious Renewal ★" with lore "&7Ability Tier %{heraultimate::%player's uuid%}%" and " " and "&d&e&lSHIFT RIGHT CLICK WITH SWORD" and "&7Heals you and the person you clicked" and "&7on for &a%{@hera2}% ❤&7." and "&8Cooldown: {@hera2cooldown} seconds" and " " and "&d&lULTIMATE ABILITY" with all flags hidden
+			set slot 24 of {_gui} to amethyst cluster of mending named "&d&lElegant Banishment ☀" with lore "&7Ability Tier %{heraultra::%player's uuid%}%" and " " and "&d&e&lSHIFT RIGHT CLICK WITH AXE" and "&7Launches everyone within 10 blocks" and "&7of you upwards, and then applys the" and "&dBanishment &7effect on everyone" and "&7launched up. This allows you to launch" and "&7them away at &cforce %{@hera3}%&7. After" and "&a5 seconds&7, everyone who is still" and "&7remaining will be &7granted &aResistance %{heraultra::%player's uuid%}% " and "&7and &aInstant Health %{heraultra::%player's uuid%}%&7." and "&8Cooldown: {@hera3cooldown} seconds" and " " and "&d&lULTRA ABILITY" with all flags hidden
+		if {power%{selectedslot::%player%}%::%player's uuid%} is "Poseidon":
+			set slot 20 of {_gui} to prismarine crystals of mending named "&3&lWave Cutter ☄" with lore "&7Ability Tier %{poseidonsuper::%player's uuid%}%" and " " and "&3&e&lSHIFT LEFT CLICK WITH SWORD" and "&7If you are underwater, grants" and "&7you &aRegeneration 2 &7and launches" and "&7you forward at &cforce %{@poseidon1}%&7." and "&8Cooldown: {@poseidon1cooldown} seconds" and " " and "&3&lSUPER ABILITY" with all flags hidden
+			set slot 22 of {_gui} to prismarine shard of mending named "&3&lOceanic Smash ★" with lore "&7Ability Tier %{poseidonultimate::%player's uuid%}%" and " " and "&3&e&lSHIFT RIGHT CLICK WITH SWORD" and "&7Shoots a constant stream of water" and "&7for 3 seconds, knocking your target" and "&7back and constantly damaging them" and "&7by &c%{@poseidon2}%❤ &7hearts." and "&8Cooldown: {@poseidon2cooldown} seconds" and " " and "&3&lULTIMATE ABILITY" with all flags hidden
+			set slot 24 of {_gui} to trident of mending named "&3&lEarthshaker ☀" with lore "&7Ability Tier %{poseidonultra::%player's uuid%}%" and " " and "&3&e&lSHIFT RIGHT CLICK WITH AXE" and "&7Creates an &2Earthquake&7 10 blocks" and "&7around you for 5 seconds, dealing" and "&c%{@poseidon3}%❤ &7every second and inflicting" and "&7everyone in it with &cSlowness 2." and "&8Cooldown: {@poseidon3cooldown} seconds" and " " and "&3&lULTRA ABILITY" with all flags hidden
+		if {power%{selectedslot::%player%}%::%player's uuid%} is "Demeter":
+			set slot 20 of {_gui} to wither rose of mending named "&2&lWithering Life ☄" with lore "&7Ability Tier %{demetersuper::%player's uuid%}%" and " " and "&2&e&lSHIFT DAMAGE WITH SWORD" and "&7Inflicts your victim with &cWither 1" and "&7and &cSlowness 1 &7for 3 seconds" and "&7and adds &c%({demetersuper::%player's uuid%} / 2)%❤ &7 to your damage." and "&8Cooldown: {@demeter1cooldown} seconds" and " " and "&2&lSUPER ABILITY" with all flags hidden
+			set slot 22 of {_gui} to bone meal of mending named "&2&lBlessing of the Harvest ★" with lore "&7Ability Tier %{demeterultimate::%player's uuid%}%" and " " and "&2&e&lSHIFT RIGHT CLICK WITH SWORD" and "&7Applies &aHaste %{@demeter2}%&7, &aRegeneration %{@demeter2}%&7," and "&7and &aStrength %{@demeter2}% &7to everyone within" and "&710 blocks of you, as well as" and "&7instantly growing all crops." and "&8Cooldown: {@demeter2cooldown} seconds" and " " and "&2&lULTIMATE ABILITY" with all flags hidden
+			set slot 24 of {_gui} to jungle sapling of mending named "&2&lEarthly Smash ☀" with lore "&7Ability Tier %{demeterultra::%player's uuid%}%" and " " and "&2&e&lSHIFT RIGHT CLICK WITH AXE" and "&7Removes all of your victim's hunger," and "&7dealing &c%{@demeter3}%❤ as well as inflicting" and "&7them with &cBlindness %{@demeter3}%&7 and" and "&cPosion %{@demeter3}%&7." and "&8Cooldown: {@demeter3cooldown} seconds" and " " and "&2&lULTRA ABILITY" with all flags hidden
+		if {power%{selectedslot::%player%}%::%player's uuid%} is "Ares":
+			set slot 20 of {_gui} to crimson fungus of mending named "&c&lCurse of Ares ☄" with lore "&7Ability Tier %{aressuper::%player's uuid%}%" and " " and "&c&e&lSHIFT DAMAGE WITH SWORD" and "&7Adds &c%(1 + {aressuper::%player's uuid%} / 2)%❤ &7of damage to your hit." and "&8Cooldown: {@ares1cooldown} seconds" and " " and "&c&lSUPER ABILITY" with all flags hidden
+			set slot 22 of {_gui} to firework rocket of mending named "&c&lDestruction ★" with lore "&7Ability Tier %{aresultimate::%player's uuid%}%" and " " and "&cTo Activate: &e&lRIGHT CLICK WITH SWORD" and "&7Launches you up and down, generating" and "&7a giant &c%{@ares2}% force&7 explosion&7." and "&8Cooldown: {@ares2cooldown} seconds" and " " and "&c&lULTIMATE ABILITY" with all flags hidden
+			set slot 24 of {_gui} to red dye of mending named "&c&lBloodlust ☀" with lore "&7Ability Tier %{aresultra::%player's uuid%}%" and " " and "&cTo Activate: &e&lRIGHT CLICK WITH AXE" and "&7For &c%(5 + {aresultra::%player's uuid%})% seconds&7, every hit of your" and "&7weapon will add 1 more level of strength." and "&7(Maximum Strength 10)" and "&8Cooldown: {@ares3cooldown} seconds" and " " and "&c&lULTRA ABILITY" with all flags hidden
+		if {power%{selectedslot::%player%}%::%player's uuid%} is "Athena":
+			set slot 20 of {_gui} to book and quill of mending named "&7&lHyperion ☄" with lore "&7Ability Tier %{athenasuper::%player's uuid%}%" and " " and "&7&e&lSHIFT LEFT CLICK WITH SWORD" and "&7Consumes 1 charge, and damages" and "&7everyone within 8 blocks of" and "you by &c%{@athena2}%❤&7." and "&8Charges: &e5&7/&a10s" and " " and "&7&lSUPER ABILITY" with all flags hidden
+			set slot 22 of {_gui} to shield of mending named "&7&lProtection of the Aegis ★" with lore "&7Ability Tier %{athenaultimate::%player's uuid%}%" and " " and "&7&e&lSHIFT RIGHT CLICK WITH SWORD" and "&7Grants you &aRegeneration %{@athena2}%," and "&aAbsorbtion %{@athena2}% &7and &aResistance %{@athena22}%" and "&7for 10 seconds. After 10 seconds," and "&7you are inflicted with &cSlowness %{@athena2}%" and "&cWeakness %{@athena2}% &7for 3 seconds." and "&8Cooldown: {@athena2cooldown}" and " " and "&7&lULTIMATE ABILITY" with all flags hidden
+			set slot 24 of {_gui} to firework star of mending named "&7&lAura of all Suffering ☀" with lore "&7Ability Tier %{athenaultra::%player's uuid%}%" and " " and "&7&e&lSHIFT RIGHT CLICK WITH AXE" and "&7For 10 seconds, every hit generates" and "&7a &c%({athenaultra::%player's uuid%} / 4)% force explosion&7." and "&8Cooldown: {@athena3cooldown}" and " " and "&7&lULTRA" with all flags hidden
+		if {power%{selectedslot::%player%}%::%player's uuid%} is "Apollo":
+			set slot 20 of {_gui} to spectral arrow of mending named "&e&lFlaming Shot ☄" with lore "&7Ability Tier %{apollosuper::%player's uuid%}%" and " " and "&e&e&lSHIFT LEFT CLICK WITH SWORD" and "&7Shoots a flaming arrow dealing &c%{@apollo1}%❤&7." and "&8Cooldown: {@apollo1cooldown} seconds" and " " and "&e&lSUPER ABILITY" with all flags hidden
+			set slot 22 of {_gui} to tipped arrow of mending named "&e&lUndivided Heart ★" with lore "&7Ability Tier %{apolloultimate::%player's uuid%}%" and " " and "&e&e&lSHIFT RIGHT CLICK WITH SWORD" and "&7Shoots an arrow that ignites on" and "&7impact, creating a &c%{apolloultimate::%player's uuid%} / 2% force explosion&7." and "&8Cooldown: {@apollo2cooldown} seconds" and " " and "&e&lULTIMATE ABILITY" with all flags hidden
+			set slot 24 of {_gui} to sunflower of mending named "&e&lSolar Array ☀" with lore "&7Ability Tier %{apolloultra::%player's uuid%}%" and " " and "&e&e&lSHIFT RIGHT CLICK WITH AXE" and "&7Launches you up into the air, healing" and "&7you by &a%{@apollo3}%❤&7, and applies the &eTerminator" and "&7 effect on you, making you shoot" and "&73 arrows at once that &7deal &c%{@apollo33}%❤" and "&7for 20 seconds." and "&8Cooldown: {@apollo3cooldown} seconds" and " " and "&e&lULTRA ABILITY" with all flags hidden
+		if {power%{selectedslot::%player%}%::%player's uuid%} is "Artemis":
+			set slot 20 of {_gui} to arrow of mending named "&9&lHunter's Shot ☄" with lore "&7Ability Tier %{artemissuper::%player's uuid%}%" and " " and "&9&e&lSHIFT LEFT CLICK WITH SWORD" and "&7Shoots an arrow dealing &c%{@artemis1}%❤&7." and "&8Cooldown: {@artemis1cooldown} seconds" and " " and "&9&lSUPER ABILITY" with all flags hidden
+			set slot 22 of {_gui} to blue dye of mending named "&9&lHunter's Glide ★" with lore "&7Ability Tier %{artemisultimate::%player's uuid%}%" and " " and "&9&e&lSHIFT RIGHT CLICK WITH SWORD" and "&7Launches you forward at &cspeed %{@artemis2}%&7." and "&8Cooldown: {@artemis2cooldown} seconds" and " " and "&9&lULTIMATE ABILITY" with all flags hidden
+			set slot 24 of {_gui} to bone of mending named "&9&lCall of the Hunt ☀" with lore "&7Ability Tier %{artemisultra::%player's uuid%}%" and " " and "&9&e&lSHIFT RIGHT CLICK WITH AXE" and "&7Summons an army of &a%{@artemis3}% dogs who each" and "&7have &aStrength %{@artemis33}%&7, &aRegeneration %{@artemis33}%&7," and "&7and &aSpeed %{@artemis33}%&7. The dogs are" and "&7un-summoned after 20 seconds." and "&8Cooldown: {@artemis3cooldown} seconds" and " " and "&9&lULTRA ABILITY" with all flags hidden
+		if {power%{selectedslot::%player%}%::%player's uuid%} is "Hephaestus":
+			set slot 20 of {_gui} to flint and steel of mending named "&6&lSearing Onslaught ☄" with lore "&7Ability Tier %{hephaestussuper::%player's uuid%}%" and " " and "&6&e&lSHIFT DAMAGE WITH SWORD" and "&7Ignites the victim on fire dealing" and "&c%({hephaestussuper::%player's uuid%} / 2)%❤ &7damage over time" and "&8Cooldown: {@hephaestus1cooldown} seconds" and " " and "&6&lSUPER ABILITY" with all flags hidden
+			set slot 22 of {_gui} to anvil of mending named "&6&lSet Your Heart Ablaze ★" with lore "&7Ability Tier %{hephaestusultimate::%player's uuid%}%" and " " and "&6&e&lSHIFT RIGHT CLICK WITH SWORD" and "&7Ignites the everyone within 10 blocks" and "&7around you, dealing &c%{@hephaestus2}%❤&7, and reparing" and "&7all your tools and armor by %{@hephaestus22}%" and "&7durrability." and "&8Cooldown: {@hephaestus2cooldown} seconds" and " " and "&6&lULTIMATE ABILITY" with all flags hidden
+			set slot 24 of {_gui} to orange dye of mending named "&6&lThe God of Fire ☀" with lore "&7Ability Tier %{hephaestusultra::%player's uuid%}%" and " " and "&6&e&lSHIFT RIGHT CLICK WITH AXE" and "&7Gives you the &6Fire God&7 effect for" and "&a%({@hephaestus3} * 0.15)% seconds&7, where you deal double" and "&7damage." and "&8Cooldown: {@hephaestus3cooldown} seconds" and " " and "&6&lULTRA ABILITY" with all flags hidden
+		if {power%{selectedslot::%player%}%::%player's uuid%} is "Aphrodite":
+			set slot 20 of {_gui} to peony of mending named "&5&lGuiding Breeze ☄" with lore "&7Ability Tier %{aphroditesuper::%player's uuid%}%" and " " and "&5&e&lSHIFT LEFT CLICK WITH SWORD" and "&7Pulls an entity towards the player" and "&7at &c%{@aphrodite1}% &7speed." and "&8Cooldown: {@aphrodite1cooldown} seconds" and " " and "&5&lSUPER ABILITY" with all flags hidden
+			set slot 22 of {_gui} to popped chorus fruit of mending named "&5&lRadiating Disgust ★" with lore "&7Ability Tier %{aphroditeultimate::%player's uuid%}%" and " " and "&5&e&lSHIFT RIGHT CLICK WITH SWORD" and "&7Pulls all entities within 15 blocks" and "&7away from you at &c%{@aphrodite2}% &7speed." and "&8Cooldown: {@aphrodite2cooldown} seconds" and " " and "&5&lULTIMATE ABILITY" with all flags hidden
+			set slot 24 of {_gui} to pink dye of mending named "&5&lRadiating Beauty ☀" with lore "&7Ability Tier %{aphroditeultra::%player's uuid%}%" and " " and "&5&e&lSHIFT RIGHT CLICK WITH AXE" and "&7Heals you by &a%({aphroditeultra::%player's uuid%} * 2)%❤&7, as well as granting" and "&7you invincibility for &a%({aphroditeultra::%player's uuid%} + 5)% seconds&7." and "&8Cooldown: {@aphrodite3cooldown} seconds" and " " and "&5&lULTRA ABILITY" with all flags hidden
+		if {power%{selectedslot::%player%}%::%player's uuid%} is "Hermes":
+			set slot 20 of {_gui} to feather of mending named "&f&lWind Cycle ☄" with lore "&7Ability Tier %{hermesultimate::%player's uuid%}%" and " " and "&f&e&lSHIFT RIGHT CLICK WITH SWORD" and "&7Consumes 1 charge, and damages everything" and "&7within 4 blocks of you by &c%{@hermes22}%❤&7, as well as" and "&7launching you forward at &cspeed %{@hermes2}%&7." and "&8Cooldown: 1 charge per 10 seconds (Max 2)" and " " and "&F&lSUPER ABILITY" with all flags hidden
+			set slot 22 of {_gui} to sugar of mending named "&f&lMach Rush ★" with lore "&7Ability Tier %{hermessuper::%player's uuid%}%" and " " and "&f&e&lSHIFT LEFT CLICK WITH SWORD" and "&7Grants you &aSpeed %{@hermes1}% &7for 10" and "&7seconds." and "&8Cooldown: {@hermes1cooldown} seconds" and " " and "&f&lULTIMATE ABILITY" with all flags hidden
+			set slot 24 of {_gui} to dead bush of mending named "&f&lJourney to the Underworld ☀" with lore "&7Ability Tier %{hermesultra::%player's uuid%}%" and " " and "&f&e&lSHIFT RIGHT CLICK WITH AXE" and "&7If you look at someone constantly" and "&7for %({@hermes3} * 0.75)% seconds, they instantly die." and "&8Cooldown: {@hermes3cooldown} seconds" and " " and "&F&lULTRA ABILITY" with all flags hidden
+		if {power%{selectedslot::%player%}%::%player's uuid%} is "Dionysus":
+			set slot 20 of {_gui} to poisonous potato of mending named "&1&lNauseating Curse ☄" with lore "&7Ability Tier %{dionysussuper::%player's uuid%}%" and " " and "&f&e&lSHIFT LEFT CLICK WITH SWORD" and "&7Inflicts your victim with &cNausea 1" and "&7and &cPoison 1 &7for 3 seconds, dealing" and "&c%({dionysussuper::%player's uuid%} / 2)%❤ &7, and knocking them back with" and "&72 force." and "&8Cooldown: {@dionysus1cooldown} seconds" and " " and "&1&lSUPER ABILITY" with all flags hidden
+			set slot 22 of {_gui} to feather of mending named "&1&lBlackout ★" with lore "&7Ability Tier %{dionysusultimate::%player's uuid%}%" and " " and "&f&e&lSHIFT RIGHT CLICK WITH SWORD" and "&7Inflicts all entities within 8 blocks" and "&7of you with Nausea %{@dionysus2}% and Poison %{@dionysus2}%" and "&7 for 10 seconds, and teleports you to a" and "&7random location within 50 blocks." and "&8Cooldown: {@dionysus2cooldown} seconds" and " " and "&1&lULTIMATE ABILITY" with all flags hidden
+			set slot 24 of {_gui} to dead bush of mending named "&1&lMadness ☀" with lore "&7Ability Tier %{dionysusultra::%player's uuid%}%" and " " and "&f&e&lSHIFT RIGHT CLICK WITH AXE" and "&7Gain &aJump Boost %{@dionysus3}%&7 and &aSpeed %{@dionysus3}%&7 as well" and "&7as double damage for 20 seconds." and "&8Cooldown: {@dionysus3cooldown} seconds" and " " and "&1&lULTRA ABILITY" with all flags hidden
+		if {power%{selectedslot::%player%}%::%player's uuid%} is "Hades":
+			set slot 20 of {_gui} to soul campfire of mending named "<##41CAFF>&lLife Drain ☄" with lore "&7Ability Tier %{hadessuper::%player's uuid%}%" and " " and "&f&e&lSHIFT LEFT CLICK WITH SWORD" and "&7Inflicts your victim with &cDarkness 1" and "&7for 3 seconds, dealing &c%(2 + {hadessuper::%player's uuid%} / 2)%❤&7, as well" and "&7as healing you for &a%({hadessuper::%player's uuid%} / 2)%❤&7." and "&8Cooldown: {@hades1cooldown} seconds" and " " and "<##41CAFF>&lSUPER ABILITY" with all flags hidden
+			set slot 22 of {_gui} to soul lantern of mending named "<##41CAFF>&lDark Contract ★" with lore "&7Ability Tier %{hadesultimate::%player's uuid%}%" and " " and "&f&e&lSHIFT RIGHT CLICK WITH SWORD" and "&7Inflicts all entities within 4 blocks" and "&7of you with &cNausea %{hadesultimate::%player's uuid%}%&7 for 10 seconds," and "&7dealing &c%{@hades2}%❤&7 to each entity." and "&8Cooldown: {@hades2cooldown} seconds" and " " and "<##41CAFF>&lULTIMATE ABILITY" with all flags hidden
+			set slot 24 of {_gui} to nether star of mending named "<##41CAFF>&lShadows of the Dead ☀" with lore "&7Ability Tier %{hadesultra::%player's uuid%}%" and " " and "&f&e&lSHIFT RIGHT CLICK WITH AXE" and "&7Activates the <##41CAFF>Shadow Phase &7for &a%{@hades33}%" and "&aseconds&7. When you are in the <##41CAFF>Shadow" and "<##41CAFF>Phase&7, you deal an increased &c%(1 + {hadesultra::%player's uuid%} / 2)%❤ &7per" and "&7hit, have &fTrue Invisibility&7, and are" and "&7able to teleport forward with &e&lRIGHT" and "&e&lCLICK&7. If you die during the <##41CAFF>Shadow" and "<##41CAFF>Phase&7, you will be saved from death" and "&7and the <##41CAFF>Shadow Phase &7will end." and "&8Cooldown: {@hades3cooldown} seconds" and " " and "<##41CAFF>&lULTRA ABILITY" with all flags hidden
+		set slot 39 of {_gui} to {selecteditem::%player's uuid%}
+		set slot 40 of {_gui} to {selecteditem2::%player's uuid%}
+		set slot 41 of {_gui} to {selecteditem3::%player's uuid%}
+		add " " to lore of slot 20 of {_gui}
+		add " " to lore of slot 22 of {_gui}
+		add " " to lore of slot 24 of {_gui}
+		if (1 + {%{power%{selectedslot::%player%}%::%player's uuid%}%super::%player's uuid%}) is greater than 10:
+			if {super::%player's uuid%} is not {power%{selectedslot::%player%}%::%player's uuid%}:
+				add "&eLeft Click to select!" to lore of slot 20 of {_gui}
+			else:
+				add "&a&lSELECTED" to lore of slot 20 of {_gui}
+			add "&b&lMAX LEVEL" to lore of slot 20 of {_gui}
+		else:
+			add "&aUpgrade to Tier %(1 + {%{power%{selectedslot::%player%}%::%player's uuid%}%super::%player's uuid%})%" to lore of slot 20 of {_gui}
+			add "&6%(500 * (1 + {%{power%{selectedslot::%player%}%::%player's uuid%}%super::%player's uuid%}) ^ 2)% Gold" to lore of slot 20 of {_gui}
+			add " " to lore of slot 20 of {_gui}
+			add "&eRight Click to upgrade!" to lore of slot 20 of {_gui}
+			if {super::%player's uuid%} is not {power%{selectedslot::%player%}%::%player's uuid%}:
+				add "&eLeft Click to select!" to lore of slot 20 of {_gui}
+			else:
+				add "&a&lSELECTED" to lore of slot 20 of {_gui}
+
+		if (1 + {%{power%{selectedslot::%player%}%::%player's uuid%}%ultimate::%player's uuid%}) is greater than 10:
+			if {ultimate::%player's uuid%} is not {power%{selectedslot::%player%}%::%player's uuid%}:
+				add "&eLeft Click to select!" to lore of slot 22 of {_gui}
+			else:
+				add "&a&lSELECTED" to lore of slot 22 of {_gui}
+			add "&b&lMAX LEVEL" to lore of slot 22 of {_gui}
+		else:
+			add "&aUpgrade to Tier %(1 + {%{power%{selectedslot::%player%}%::%player's uuid%}%ultimate::%player's uuid%})%" to lore of slot 22 of {_gui}
+			add "&6%(1000 * (1 + {%{power%{selectedslot::%player%}%::%player's uuid%}%ultimate::%player's uuid%}) ^ 2)% Gold" to lore of slot 22 of {_gui}
+			add " " to lore of slot 22 of {_gui}
+			add "&eRight Click to upgrade!" to lore of slot 22 of {_gui}
+			if {ultimate::%player's uuid%} is not {power%{selectedslot::%player%}%::%player's uuid%}:
+				add "&eLeft Click to select!" to lore of slot 22 of {_gui}
+			else:
+				add "&a&lSELECTED" to lore of slot 22 of {_gui}
+
+		if (1 + {%{power%{selectedslot::%player%}%::%player's uuid%}%ultra::%player's uuid%}) is greater than 10:
+			if {ultra::%player's uuid%} is not {power%{selectedslot::%player%}%::%player's uuid%}:
+				add "&eLeft Click to select!" to lore of slot 24 of {_gui}
+			else:
+				add "&a&lSELECTED" to lore of slot 24 of {_gui}
+			add "&b&lMAX LEVEL" to lore of slot 24 of {_gui}
+		else:
+			add "&aUpgrade to Tier %(1 + {%{power%{selectedslot::%player%}%::%player's uuid%}%ultra::%player's uuid%})%" to lore of slot 24 of {_gui}
+			add "&6%(2500 * (1 + {%{power%{selectedslot::%player%}%::%player's uuid%}%ultra::%player's uuid%}) ^ 2)% Gold" to lore of slot 24 of {_gui}
+			add " " to lore of slot 24 of {_gui}
+			add "&eRight Click to upgrade!" to lore of slot 24 of {_gui}
+			if {ultra::%player's uuid%} is not {power%{selectedslot::%player%}%::%player's uuid%}:
+				add "&eLeft Click to select!" to lore of slot 24 of {_gui}
+			else:
+				add "&a&lSELECTED" to lore of slot 24 of {_gui}
+		set slot 46 of {_gui} to barrier named "&c&lClose Menu" with all flags hidden
+		set slot 45 of {_gui} to arrow named "&e&lGo Back" with all flags hidden
+		open {_gui} to player
+
+on right click on armor stand:
+	if name of event-entity contains "Orb":
+		cancel event
+		if {mainquest::%player's uuid%} is "&fChoose a &lPower Orb" or "&fChoose your second &lPower Orb" or "&fChoose your third &lPower Orb" or "&fChoose your fourth &lPower Orb" or "&fChoose your fifth &lPower Orb":
+			set {_god} to name of event-entity's helmet
+			set {_god} to subtext of {_god} from character 12 to the length of {_god}
+			set {_gui} to a new chest inventory with 5 row with name "%{_god}% Overview"
+			set slot (all integers between 0 and 44) of {_gui} to black stained glass pane named " "
+			set slot 4 of {_gui} to the event-entity's helmet
+			if {_god} is "&b&lZeus":
+				set slot 20 of {_gui} to blaze powder of mending named "&b&lBolt Smash ☄" with lore "&7Ability Tier %{zeussuper::%player's uuid%}%" and " " and "&b&e&lSHIFT DAMAGE WITH SWORD" and "&7Strikes the victim with lightning" and "adding &c%(0.5 * {zeussuper::%player's uuid%})%❤ &7of damage to your" and "&7hit." and "&8Cooldown: {@zeus1cooldown} seconds" and " " and "&b&lSUPER ABILITY" with all flags hidden
+				set slot 22 of {_gui} to blaze rod of mending named "&b&lLightning Aura ★" with lore "&7Ability Tier %{zeusultimate::%player's uuid%}%" and " " and "&b&e&lSHIFT RIGHT CLICK WITH SWORD" and "&7Generates an aura around you for" and "&75 seconds, striking everything that" and "&7enters it for &c%{@zeus2}%❤&7." and "&8Cooldown: {@zeus2cooldown} seconds" and " " and "&b&lULTIMATE ABILITY" with all flags hidden
+				set slot 24 of {_gui} to lightning rod of mending named "&b&lElectro Ascension ☀" with lore "&7Ability Tier %{zeusultra::%player's uuid%}%" and " " and "&b&e&lSHIFT RIGHT CLICK WITH AXE" and "&7Launches you up into the air," and "&7allowing you to strike &710 bolts of" and "&7lightning, dealing &c%{@zeus3}%❤ &7per strike." and "&8Cooldown: {@zeus3cooldown} seconds" and " " and "&b&lULTRA ABILITY" with all flags hidden
+			if {_god} is "&d&lHera":
+				set slot 20 of {_gui} to medium amethyst bud of mending named "&d&lCurse of the Queen ☄" with lore "&7Ability Tier %{herasuper::%player's uuid%}%" and " " and "&d&e&lSHIFT LEFT CLICK WITH SWORD" and "&7Casts a beam of magic, inflicting" and "&7anything in it with &cBlindness 1&7 and" and "&7dealing &c%{@hera1}%❤ &7of damage." and "&8Cooldown: {@hera1cooldown} seconds" and " " and "&d&lSUPER ABILITY" with all flags hidden
+				set slot 22 of {_gui} to large amethyst bud of mending named "&d&lGlorious Renewal ★" with lore "&7Ability Tier %{heraultimate::%player's uuid%}%" and " " and "&d&e&lSHIFT RIGHT CLICK WITH SWORD" and "&7Heals you and the person you clicked" and "&7on for &a%{@hera2}% ❤&7." and "&8Cooldown: {@hera2cooldown} seconds" and " " and "&d&lULTIMATE ABILITY" with all flags hidden
+				set slot 24 of {_gui} to amethyst cluster of mending named "&d&lElegant Banishment ☀" with lore "&7Ability Tier %{heraultra::%player's uuid%}%" and " " and "&d&e&lSHIFT RIGHT CLICK WITH AXE" and "&7Launches everyone within 10 blocks" and "&7of you upwards, and then applys the" and "&dBanishment &7effect on everyone" and "&7launched up. This allows you to launch" and "&7them away at &cforce %{@hera3}%&7. After" and "&a5 seconds&7, everyone who is still" and "&7remaining will be &7granted &aResistance %{heraultra::%player's uuid%}% " and "&7and &aInstant Health %{heraultra::%player's uuid%}%&7." and "&8Cooldown: {@hera3cooldown} seconds" and " " and "&d&lULTRA ABILITY" with all flags hidden
+			if {_god} is "&3&lPoseidon":
+				set slot 20 of {_gui} to prismarine crystals of mending named "&3&lWave Cutter ☄" with lore "&7Ability Tier %{poseidonsuper::%player's uuid%}%" and " " and "&3&e&lSHIFT LEFT CLICK WITH SWORD" and "&7If you are underwater, grants" and "&7you &aRegeneration 2 &7and launches" and "&7you forward at &cforce %{@poseidon1}%&7." and "&8Cooldown: {@poseidon1cooldown} seconds" and " " and "&3&lSUPER ABILITY" with all flags hidden
+				set slot 22 of {_gui} to prismarine shard of mending named "&3&lOceanic Smash ★" with lore "&7Ability Tier %{poseidonultimate::%player's uuid%}%" and " " and "&3&e&lSHIFT RIGHT CLICK WITH SWORD" and "&7Shoots a constant stream of water" and "&7for 3 seconds, knocking your target" and "&7back and constantly damaging them" and "&7by &c%{@poseidon2}%❤ &7hearts." and "&8Cooldown: {@poseidon2cooldown} seconds" and " " and "&3&lULTIMATE ABILITY" with all flags hidden
+				set slot 24 of {_gui} to trident of mending named "&3&lEarthshaker ☀" with lore "&7Ability Tier %{poseidonultra::%player's uuid%}%" and " " and "&3&e&lSHIFT RIGHT CLICK WITH AXE" and "&7Creates an &2Earthquake&7 10 blocks" and "&7around you for 5 seconds, dealing" and "&c%{@poseidon3}%❤ &7every second and inflicting" and "&7everyone in it with &cSlowness 2." and "&8Cooldown: {@poseidon3cooldown} seconds" and " " and "&3&lULTRA ABILITY" with all flags hidden
+			if {_god} is "&2&lDemeter":
+				set slot 20 of {_gui} to wither rose of mending named "&2&lWithering Life ☄" with lore "&7Ability Tier %{demetersuper::%player's uuid%}%" and " " and "&2&e&lSHIFT DAMAGE WITH SWORD" and "&7Inflicts your victim with &cWither 1" and "&7and &cSlowness 1 &7for 3 seconds" and "&7and adds &c%({demetersuper::%player's uuid%} / 2)%❤ &7 to your damage." and "&8Cooldown: {@demeter1cooldown} seconds" and " " and "&2&lSUPER ABILITY" with all flags hidden
+				set slot 22 of {_gui} to bone meal of mending named "&2&lBlessing of the Harvest ★" with lore "&7Ability Tier %{demeterultimate::%player's uuid%}%" and " " and "&2&e&lSHIFT RIGHT CLICK WITH SWORD" and "&7Applies &aHaste %{@demeter2}%&7, &aRegeneration %{@demeter2}%&7," and "&7and &aStrength %{@demeter2}% &7to everyone within" and "&710 blocks of you, as well as" and "&7instantly growing all crops." and "&8Cooldown: {@demeter2cooldown} seconds" and " " and "&2&lULTIMATE ABILITY" with all flags hidden
+				set slot 24 of {_gui} to jungle sapling of mending named "&2&lEarthly Smash ☀" with lore "&7Ability Tier %{demeterultra::%player's uuid%}%" and " " and "&2&e&lSHIFT RIGHT CLICK WITH AXE" and "&7Removes all of your victim's hunger," and "&7dealing &c%{@demeter3}%❤ as well as inflicting" and "&7them with &cBlindness %{@demeter3}%&7 and" and "&cPosion %{@demeter3}%&7." and "&8Cooldown: {@demeter3cooldown} seconds" and " " and "&2&lULTRA ABILITY" with all flags hidden
+			if {_god} is "&c&lAres":
+				set slot 20 of {_gui} to crimson fungus of mending named "&c&lCurse of Ares ☄" with lore "&7Ability Tier %{aressuper::%player's uuid%}%" and " " and "&c&e&lSHIFT DAMAGE WITH SWORD" and "&7Adds &c%(1 + {aressuper::%player's uuid%} / 2)%❤ &7of damage to your hit." and "&8Cooldown: {@ares1cooldown} seconds" and " " and "&c&lSUPER ABILITY" with all flags hidden
+				set slot 22 of {_gui} to firework rocket of mending named "&c&lDestruction ★" with lore "&7Ability Tier %{aresultimate::%player's uuid%}%" and " " and "&cTo Activate: &e&lRIGHT CLICK WITH SWORD" and "&7Launches you up and down, generating" and "&7a giant &c%{@ares2}% force&7 explosion&7." and "&8Cooldown: {@ares2cooldown} seconds" and " " and "&c&lULTIMATE ABILITY" with all flags hidden
+				set slot 24 of {_gui} to red dye of mending named "&c&lBloodlust ☀" with lore "&7Ability Tier %{aresultra::%player's uuid%}%" and " " and "&cTo Activate: &e&lRIGHT CLICK WITH AXE" and "&7For &c%(5 + {aresultra::%player's uuid%})% seconds&7, every hit of your" and "&7weapon will add 1 more level of strength." and "&7(Maximum Strength 10)" and "&8Cooldown: {@ares3cooldown} seconds" and " " and "&c&lULTRA ABILITY" with all flags hidden
+			if {_god} is "&7&lAthena":
+				set slot 20 of {_gui} to book and quill of mending named "&7&lHyperion ☄" with lore "&7Ability Tier %{athenasuper::%player's uuid%}%" and " " and "&7&e&lSHIFT LEFT CLICK WITH SWORD" and "&7Consumes 1 charge, and damages" and "&7everyone within 8 blocks of" and "you by &c%{@athena2}%❤&7." and "&8Charges: &e5&7/&a10s" and " " and "&7&lSUPER ABILITY" with all flags hidden
+				set slot 22 of {_gui} to shield of mending named "&7&lProtection of the Aegis ★" with lore "&7Ability Tier %{athenaultimate::%player's uuid%}%" and " " and "&7&e&lSHIFT RIGHT CLICK WITH SWORD" and "&7Grants you &aRegeneration %{@athena2}%," and "&aAbsorbtion %{@athena2}% &7and &aResistance %{@athena22}%" and "&7for 10 seconds. After 10 seconds," and "&7you are inflicted with &cSlowness %{@athena2}%" and "&cWeakness %{@athena2}% &7for 3 seconds." and "&8Cooldown: {@athena2cooldown}" and " " and "&7&lULTIMATE ABILITY" with all flags hidden
+				set slot 24 of {_gui} to firework star of mending named "&7&lAura of all Suffering ☀" with lore "&7Ability Tier %{athenaultra::%player's uuid%}%" and " " and "&7&e&lSHIFT RIGHT CLICK WITH AXE" and "&7For 10 seconds, every hit generates" and "&7a &c%({athenaultra::%player's uuid%} / 4)% force explosion&7." and "&8Cooldown: {@athena3cooldown}" and " " and "&7&lULTRA" with all flags hidden
+			if {_god} is "&e&lApollo":
+				set slot 20 of {_gui} to spectral arrow of mending named "&e&lFlaming Shot ☄" with lore "&7Ability Tier %{apollosuper::%player's uuid%}%" and " " and "&e&e&lSHIFT LEFT CLICK WITH SWORD" and "&7Shoots a flaming arrow dealing &c%{@apollo1}%❤&7." and "&8Cooldown: {@apollo1cooldown} seconds" and " " and "&e&lSUPER ABILITY" with all flags hidden
+				set slot 22 of {_gui} to tipped arrow of mending named "&e&lUndivided Heart ★" with lore "&7Ability Tier %{apolloultimate::%player's uuid%}%" and " " and "&e&e&lSHIFT RIGHT CLICK WITH SWORD" and "&7Shoots an arrow that ignites on" and "&7impact, creating a &c%{apolloultimate::%player's uuid%} / 2% force explosion&7." and "&8Cooldown: {@apollo2cooldown} seconds" and " " and "&e&lULTIMATE ABILITY" with all flags hidden
+				set slot 24 of {_gui} to sunflower of mending named "&e&lSolar Array ☀" with lore "&7Ability Tier %{apolloultra::%player's uuid%}%" and " " and "&e&e&lSHIFT RIGHT CLICK WITH AXE" and "&7Launches you up into the air, healing" and "&7you by &a%{@apollo3}%❤&7, and applies the &eTerminator" and "&7 effect on you, making you shoot" and "&73 arrows at once that &7deal &c%{@apollo33}%❤" and "&7for 20 seconds." and "&8Cooldown: {@apollo3cooldown} seconds" and " " and "&e&lULTRA ABILITY" with all flags hidden
+			if {_god} is "&9&lArtemis":
+				set slot 20 of {_gui} to arrow of mending named "&9&lHunter's Shot ☄" with lore "&7Ability Tier %{artemissuper::%player's uuid%}%" and " " and "&9&e&lSHIFT LEFT CLICK WITH SWORD" and "&7Shoots an arrow dealing &c%{@artemis1}%❤&7." and "&8Cooldown: {@artemis1cooldown} seconds" and " " and "&9&lSUPER ABILITY" with all flags hidden
+				set slot 22 of {_gui} to blue dye of mending named "&9&lHunter's Glide ★" with lore "&7Ability Tier %{artemisultimate::%player's uuid%}%" and " " and "&9&e&lSHIFT RIGHT CLICK WITH SWORD" and "&7Launches you forward at &cspeed %{@artemis2}%&7." and "&8Cooldown: {@artemis2cooldown} seconds" and " " and "&9&lULTIMATE ABILITY" with all flags hidden
+				set slot 24 of {_gui} to bone of mending named "&9&lCall of the Hunt ☀" with lore "&7Ability Tier %{artemisultra::%player's uuid%}%" and " " and "&9&e&lSHIFT RIGHT CLICK WITH AXE" and "&7Summons an army of &a%{@artemis3}% dogs who each" and "&7have &aStrength %{@artemis33}%&7, &aRegeneration %{@artemis33}%&7," and "&7and &aSpeed %{@artemis33}%&7. The dogs are" and "&7un-summoned after 20 seconds." and "&8Cooldown: {@artemis3cooldown} seconds" and " " and "&9&lULTRA ABILITY" with all flags hidden
+			if {_god} is "&6&lHephaestus":
+				set slot 20 of {_gui} to flint and steel of mending named "&6&lSearing Onslaught ☄" with lore "&7Ability Tier %{hephaestussuper::%player's uuid%}%" and " " and "&6&e&lSHIFT DAMAGE WITH SWORD" and "&7Ignites the victim on fire dealing" and "&c%({hephaestussuper::%player's uuid%} / 2)%❤ &7damage over time" and "&8Cooldown: {@hephaestus1cooldown} seconds" and " " and "&6&lSUPER ABILITY" with all flags hidden
+				set slot 22 of {_gui} to anvil of mending named "&6&lSet Your Heart Ablaze ★" with lore "&7Ability Tier %{hephaestusultimate::%player's uuid%}%" and " " and "&6&e&lSHIFT RIGHT CLICK WITH SWORD" and "&7Ignites the everyone within 10 blocks" and "&7around you, dealing &c%{@hephaestus2}%❤&7, and reparing" and "&7all your tools and armor by %{@hephaestus22}%" and "&7durrability." and "&8Cooldown: {@hephaestus2cooldown} seconds" and " " and "&6&lULTIMATE ABILITY" with all flags hidden
+				set slot 24 of {_gui} to orange dye of mending named "&6&lThe God of Fire ☀" with lore "&7Ability Tier %{hephaestusultra::%player's uuid%}%" and " " and "&6&e&lSHIFT RIGHT CLICK WITH AXE" and "&7Gives you the &6Fire God&7 effect for" and "&a%({@hephaestus3} * 0.15)% seconds&7, where you deal double" and "&7damage." and "&8Cooldown: {@hephaestus3cooldown} seconds" and " " and "&6&lULTRA ABILITY" with all flags hidden
+			if {_god} is "&5&lAphrodite":
+				set slot 20 of {_gui} to peony of mending named "&5&lGuiding Breeze ☄" with lore "&7Ability Tier %{aphroditesuper::%player's uuid%}%" and " " and "&5&e&lSHIFT LEFT CLICK WITH SWORD" and "&7Pulls an entity towards the player" and "&7at &c%{@aphrodite1}% &7speed." and "&8Cooldown: {@aphrodite1cooldown} seconds" and " " and "&5&lSUPER ABILITY" with all flags hidden
+				set slot 22 of {_gui} to popped chorus fruit of mending named "&5&lRadiating Disgust ★" with lore "&7Ability Tier %{aphroditeultimate::%player's uuid%}%" and " " and "&5&e&lSHIFT RIGHT CLICK WITH SWORD" and "&7Pulls all entities within 15 blocks" and "&7away from you at &c%{@aphrodite2}% &7speed." and "&8Cooldown: {@aphrodite2cooldown} seconds" and " " and "&5&lULTIMATE ABILITY" with all flags hidden
+				set slot 24 of {_gui} to pink dye of mending named "&5&lRadiating Beauty ☀" with lore "&7Ability Tier %{aphroditeultra::%player's uuid%}%" and " " and "&5&e&lSHIFT RIGHT CLICK WITH AXE" and "&7Heals you by &a%({aphroditeultra::%player's uuid%} * 2)%❤&7, as well as granting" and "&7you invincibility for &a%({aphroditeultra::%player's uuid%} + 5)% seconds&7." and "&8Cooldown: {@aphrodite3cooldown} seconds" and " " and "&5&lULTRA ABILITY" with all flags hidden
+			if {_god} is "&f&lHermes":
+				set slot 20 of {_gui} to feather of mending named "&f&lWind Cycle ☄" with lore "&7Ability Tier %{hermessuper::%player's uuid%}%" and " " and "&f&e&lSHIFT RIGHT CLICK WITH SWORD" and "&7Consumes 1 charge, and damages everything" and "&7within 4 blocks of you by &c%{@hermes22}%❤&7, as well as" and "&7launching you forward at &cspeed %{@hermes2}%&7." and "&8Cooldown: 1 charge per 10 seconds (Max 2)" and " " and "&F&lSUPER ABILITY" with all flags hidden
+				set slot 22 of {_gui} to sugar of mending named "&f&lMach Rush ★" with lore "&7Ability Tier %{hermesultimate::%player's uuid%}%" and " " and "&f&e&lSHIFT LEFT CLICK WITH SWORD" and "&7Grants you &aSpeed %{@hermes1}% &7for 10" and "&7seconds." and "&8Cooldown: {@hermes1cooldown} seconds" and " " and "&f&lULTIMATE ABILITY" with all flags hidden
+				set slot 24 of {_gui} to dead bush of mending named "&f&lJourney to the Underworld ☀" with lore "&7Ability Tier %{hermesultra::%player's uuid%}%" and " " and "&f&e&lSHIFT RIGHT CLICK WITH AXE" and "&7If you look at someone constantly" and "&7for %({@hermes3} * 0.75)% seconds, they instantly die." and "&8Cooldown: {@hermes3cooldown} seconds" and " " and "&F&lULTRA ABILITY" with all flags hidden
+			if {_god} is "&1&lDionysus":
+				set slot 20 of {_gui} to poisonous potato of mending named "&1&lNauseating Curse ☄" with lore "&7Ability Tier %{dionysussuper::%player's uuid%}%" and " " and "&f&e&lSHIFT LEFT CLICK WITH SWORD" and "&7Inflicts your victim with &cNausea 1" and "&7and &cPoison 1 &7for 3 seconds, dealing" and "&c%({dionysussuper::%player's uuid%} / 2)%❤ &7, and knocking them back with" and "&72 force." and "&8Cooldown: {@dionysus1cooldown} seconds" and " " and "&1&lSUPER ABILITY" with all flags hidden
+				set slot 22 of {_gui} to feather of mending named "&1&lBlackout ★" with lore "&7Ability Tier %{dionysusultimate::%player's uuid%}%" and " " and "&f&e&lSHIFT RIGHT CLICK WITH SWORD" and "&7Inflicts all entities within 8 blocks" and "&7of you with Nausea %{@dionysus2}% and Poison %{@dionysus2}%" and "&7 for 10 seconds, and teleports you to a" and "&7random location within 50 blocks." and "&8Cooldown: {@dionysus2cooldown} seconds" and " " and "&1&lULTIMATE ABILITY" with all flags hidden
+				set slot 24 of {_gui} to dead bush of mending named "&1&lMadness ☀" with lore "&7Ability Tier %{dionysusultra::%player's uuid%}%" and " " and "&f&e&lSHIFT RIGHT CLICK WITH AXE" and "&7Gain &aJump Boost %{@dionysus3}%&7 and &aSpeed %{@dionysus3}%&7 as well" and "&7as double damage for 20 seconds." and "&8Cooldown: {@dionysus3cooldown} seconds" and " " and "&1&lULTRA ABILITY" with all flags hidden
+			if {_god} is "&0&lHades":
+				set slot 20 of {_gui} to soul campfire of mending named "<##41CAFF>&lLife Drain ☄" with lore "&7Ability Tier %{hadessuper::%player's uuid%}%" and " " and "&f&e&lSHIFT LEFT CLICK WITH SWORD" and "&7Inflicts your victim with &cDarkness 1" and "&7for 3 seconds, dealing &c%(2 + {hadessuper::%player's uuid%} / 2)%❤&7, as well" and "&7as healing you for &a%({hadessuper::%player's uuid%} / 2)%❤&7." and "&8Cooldown: {@hades1cooldown} seconds" and " " and "<##41CAFF>&lSUPER ABILITY" with all flags hidden
+				set slot 22 of {_gui} to soul lantern of mending named "<##41CAFF>&lDark Contract ★" with lore "&7Ability Tier %{hadesultimate::%player's uuid%}%" and " " and "&f&e&lSHIFT RIGHT CLICK WITH SWORD" and "&7Inflicts all entities within 4 blocks" and "&7of you with &cNausea %{hadesultimate::%player's uuid%}%&7 for 10 seconds," and "&7dealing &c%{@hades2}%❤&7 to each entity." and "&8Cooldown: {@hades2cooldown} seconds" and " " and "<##41CAFF>&lULTIMATE ABILITY" with all flags hidden
+				set slot 24 of {_gui} to nether star of mending named "<##41CAFF>&lShadows of the Dead ☀" with lore "&7Ability Tier %{hadesultra::%player's uuid%}%" and " " and "&f&e&lSHIFT RIGHT CLICK WITH AXE" and "&7Activates the <##41CAFF>Shadow Phase &7for &a%{@hades33}%" and "&aseconds&7. When you are in the <##41CAFF>Shadow" and "<##41CAFF>Phase&7, you deal an increased &c%(1 + {hadesultra::%player's uuid%} / 2)%❤ &7per" and "&7hit, have &fTrue Invisibility&7, and are" and "&7able to teleport forward with &e&lRIGHT" and "&e&lCLICK&7. If you die during the <##41CAFF>Shadow" and "<##41CAFF>Phase&7, you will be saved from death" and "&7and the <##41CAFF>Shadow Phase &7will end." and "&8Cooldown: {@hades3cooldown} seconds" and " " and "<##41CAFF>&lULTRA ABILITY" with all flags hidden
+			set slot 40 of {_gui} to barrier named "&c&lClose Menu" with all flags hidden
+			open {_gui} to player
+
+on inventory click:
+	if name of event-inventory contains "Overview":
+		cancel event
+		if name of event-item is "&c&lClose Menu":
+			close the inventory for the player
+		if name of event-item contains "Orb of":
+			if {mainquest::%player's uuid%} is "&fChoose your fifth &lPower Orb":
+				set {_god} to name of event-item
+				set {_god} to subtext of {_god} from character 12 to the length of {_god}
+				send "&aYou have selected the power of %{_god}% &ato be your last power." to player
+				set {_god} to subtext of {_god} from character 5 to the length of {_god}
+				set {power5::%player's uuid%} to {_god}
+				play sound "ambient.cave" at volume 0.5 at pitch 1 to the player
+				setObjective(player, {finished}, {finishedquestbar})
+				add 1 to {powernumber::%player's uuid%}
+				play sound "entity.player.levelup" at volume 1 to the player
+				close the inventory for the player
+				stop
+			if {mainquest::%player's uuid%} is "&fChoose your fourth &lPower Orb":
+				set {_god} to name of event-item
+				set {_god} to subtext of {_god} from character 12 to the length of {_god}
+				send "&aYou have selected the power of %{_god}% &ato be your fourth." to player
+				set {_god} to subtext of {_god} from character 5 to the length of {_god}
+				set {power4::%player's uuid%} to {_god}
+				play sound "ambient.cave" at volume 0.5 at pitch 1 to the player
+				set {mainquest::%player's uuid%} to "&fReach &dDivine Level 100"
+				send "&6New Objective: %{mainquest::%player's uuid%}%" to player
+				remove player from bar players of {bar::orb4}
+				add player to bar players of {bar::lvl100}
+				add 1 to {powernumber::%player's uuid%}
+				play sound "entity.player.levelup" at volume 1 to the player
+				close the inventory for the player
+				stop
+			if {mainquest::%player's uuid%} is "&fChoose your third &lPower Orb":
+				set {_god} to name of event-item
+				set {_god} to subtext of {_god} from character 12 to the length of {_god}
+				send "&aYou have selected the power of %{_god}% &ato be your third." to player
+				set {_god} to subtext of {_god} from character 5 to the length of {_god}
+				set {power3::%player's uuid%} to {_god}
+				play sound "ambient.cave" at volume 0.5 at pitch 1 to the player
+				set {mainquest::%player's uuid%} to "&fReach &dDivine Level 75"
+				send "&6New Objective: %{mainquest::%player's uuid%}%" to player
+				remove player from bar players of {bar::orb3}
+				add player to bar players of {bar::lvl75}
+				add 1 to {powernumber::%player's uuid%}
+				play sound "entity.player.levelup" at volume 1 to the player
+				close the inventory for the player
+				stop
+			if {mainquest::%player's uuid%} is "&fChoose your second &lPower Orb":
+				set {_god} to name of event-item
+				set {_god} to subtext of {_god} from character 12 to the length of {_god}
+				send "&aYou have selected the power of %{_god}% &ato be your second." to player
+				set {_god} to subtext of {_god} from character 5 to the length of {_god}
+				set {power2::%player's uuid%} to {_god}
+				play sound "ambient.cave" at volume 0.5 at pitch 1 to the player
+				setObjective(player, {speakagain}, {speakagainquestbar})
+				add 1 to {powernumber::%player's uuid%}
+				play sound "entity.player.levelup" at volume 1 to the player
+				close the inventory for the player
+				stop
+			if {mainquest::%player's uuid%} is "&fChoose a &lPower Orb":
+				set {_god} to name of event-item
+				set {_god} to subtext of {_god} from character 12 to the length of {_god}
+				send "&aYou have selected the power of %{_god}% &ato be your first." to player
+				set {_god} to subtext of {_god} from character 5 to the length of {_god}
+				set {power1::%player's uuid%} to {_god}
+				play sound "ambient.cave" at volume 0.5 at pitch 1 to the player
+				set {mainquest::%player's uuid%} to "&fListen to &e&lHercules"
+				send "&6New Objective: %{mainquest::%player's uuid%}%" to player
+				add player to bar players of {bar::lvl5}
+				make player execute command "/npc:hercules:leaving"
+				play sound "entity.player.levelup" at volume 1 to the player
+				close the inventory for the player
+
+	if name of event-inventory is "Your Powers &k&r":
+		cancel event
+		if name of event-item is "&c&lClose Menu":
+			close the inventory for the player
+		if name of event-item is "&e&lGo Back":
+			make player execute command "menu"
+		if index of event-slot = 11:
+			set {selectedslot::%player%} to 1
+			make player execute command "menu:powers"
+		if index of event-slot = 12:
+			if {power2::%player's uuid%} is set:
+				set {selectedslot::%player%} to 2
+				make player execute command "menu:powers"
+			else:
+				send "&cYou do not have your second power slot unlocked! Reach &dDivine Level 25&c to unlock it! " to player
+		if index of event-slot = 13:
+			if {power3::%player's uuid%} is set:
+				set {selectedslot::%player%} to 3
+				make player execute command "menu:powers"
+			else:
+				send "&cYou do not have your third power slot unlocked! Reach &dDivine Level 50&c to unlock it! " to player
+		if index of event-slot = 14:
+			if {power4::%player's uuid%} is set:
+				set {selectedslot::%player%} to 4
+				make player execute command "menu:powers"
+			else:
+				send "&cYou do not have your fourth power slot unlocked! Reach &dDivine Level 75&c to unlock it! " to player
+		if index of event-slot = 15:
+			if {power5::%player's uuid%} is set:
+				set {selectedslot::%player%} to 5
+				make player execute command "menu:powers"
+			else:
+				send "&cYou do not have your fifth power slot unlocked! Reach &dDivine Level 100&c to unlock it! " to player
+
+		if click action is left mouse button:
+			if index of event-slot = 20:
+				set {super::%player's uuid%} to {power%{selectedslot::%player%}%::%player's uuid%}
+				play sound "block.note_block.pling" with volume 1 and pitch 3 to player
+				send "&aYou selected %{super::%player's uuid%}% as your Super Ability!"
+				make player execute command "menu:powers"
+				set {selecteditem::%player's uuid%} to event-item
+				set {_m} to 5
+				loop 6 times:
+					set {_e} to size of lore of {selecteditem::%player's uuid%} - {_m}
+					clear line {_e} of lore of {selecteditem::%player's uuid%}
+					subtract 1 from {_m}
+				make player execute command "menu:powers"
+#removing lore power equip
+			if index of event-slot = 22:
+				set {ultimate::%player's uuid%} to {power%{selectedslot::%player%}%::%player's uuid%}
+				play sound "block.note_block.pling" with volume 1 and pitch 3 to player
+				send "&aYou selected %{ultimate::%player's uuid%}% as your Ultimate Ability!"
+				make player execute command "menu:powers"
+				set {selecteditem2::%player's uuid%} to event-item
+				set {_m} to 5
+				loop 6 times:
+					set {_e} to size of lore of {selecteditem2::%player's uuid%} - {_m}
+					clear line {_e} of lore of {selecteditem2::%player's uuid%}
+					subtract 1 from {_m}
+				make player execute command "menu:powers"
+			if index of event-slot = 24:
+				set {ultra::%player's uuid%} to {power%{selectedslot::%player%}%::%player's uuid%}
+				play sound "block.note_block.pling" with volume 1 and pitch 3 to player
+				send "&aYou selected %{ultra::%player's uuid%}% as your Ultra Ability!"
+				make player execute command "menu:powers"
+				set {selecteditem3::%player's uuid%} to event-item
+				set {_m} to 5
+				loop 6 times:
+					set {_e} to size of lore of {selecteditem3::%player's uuid%} - {_m}
+					clear line {_e} of lore of {selecteditem3::%player's uuid%}
+					subtract 1 from {_m}
+				make player execute command "menu:powers"
+		if click action is right mouse button:
+			if index of event-slot = 20:
+				if {%{power%{selectedslot::%player%}%::%player's uuid%}%super::%player's uuid%} is not 10:
+					if {gold::%player's uuid%} is less than or equal to (500 * (1 + {%{power%{selectedslot::%player%}%::%player's uuid%}%super::%player's uuid%}) ^ 2):
+						send "&cYou do not have enough gold!"
+						play sound "block.note_block.pling" with volume 1 and pitch 0.5 to player
+					else:
+						subtract (500 * (1 + {%{power%{selectedslot::%player%}%::%player's uuid%}%super::%player's uuid%}) ^ 2) from {gold::%player's uuid%}
+						play sound "block.note_block.pling" with volume 1 and pitch 4 to player
+						add 1 to {%{power%{selectedslot::%player%}%::%player's uuid%}%super::%player's uuid%}
+						send "&aYou upgraded your super ability tier to %{%{power%{selectedslot::%player%}%::%player's uuid%}%super::%player's uuid%}%! &5+50 EXP"
+						AddExp(player, 50, 0)
+						make player execute command "menu:powers"
+			if index of event-slot = 22:
+				if {%{power%{selectedslot::%player%}%::%player's uuid%}%ultimate::%player's uuid%} is not 10:
+					if {gold::%player's uuid%} is less than or equal to (1000 * (1 + {%{power%{selectedslot::%player%}%::%player's uuid%}%ultimate::%player's uuid%}) ^ 2):
+						send "&cYou do not have enough gold!"
+						play sound "block.note_block.pling" with volume 1 and pitch 0.5 to player
+					else:
+						subtract (1000 * (1 + {%{power%{selectedslot::%player%}%::%player's uuid%}%ultimate::%player's uuid%}) ^ 2) from {gold::%player's uuid%}
+						play sound "block.note_block.pling" with volume 1 and pitch 4 to player
+						add 1 to {%{power%{selectedslot::%player%}%::%player's uuid%}%ultimate::%player's uuid%}
+						send "&aYou upgraded your ultra ability tier to %{%{power%{selectedslot::%player%}%::%player's uuid%}%ultimate::%player's uuid%}%! &5+100 EXP"
+						AddExp(player, 100, 0)
+						make player execute command "menu:powers"
+			if index of event-slot = 24:
+				if {%{power%{selectedslot::%player%}%::%player's uuid%}%ultra::%player's uuid%} is not 10:
+					if {gold::%player's uuid%} is less than or equal to (2500 * (1 + {%{power%{selectedslot::%player%}%::%player's uuid%}%ultra::%player's uuid%}) ^ 2):
+						send "&cYou do not have enough gold!"
+						play sound "block.note_block.pling" with volume 1 and pitch 0.5 to player
+					else:
+						subtract (2500 * (1 + {%{power%{selectedslot::%player%}%::%player's uuid%}%ultra::%player's uuid%}) ^ 2) from {gold::%player's uuid%}
+						play sound "block.note_block.pling" with volume 1 and pitch 4 to player
+						add 1 to {%{power%{selectedslot::%player%}%::%player's uuid%}%ultra::%player's uuid%}
+						send "&aYou upgraded your ultra ability tier to %{%{power%{selectedslot::%player%}%::%player's uuid%}%ultra::%player's uuid%}%! &5+250 EXP"
+						AddExp(player, 250, 0)
+						make player execute command "menu:powers"
+
+
+
+
+#			█▀ █░█ █▀█ █▀▀ █▀█   ▄▀█ █▄▄ █ █░░ █ ▀█▀ █ █▀▀ █▀
+#			▄█ █▄█ █▀▀ ██▄ █▀▄   █▀█ █▄█ █ █▄▄ █ ░█░ █ ██▄ ▄█
